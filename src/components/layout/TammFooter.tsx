@@ -1,5 +1,5 @@
 import { Facebook, Twitter, Instagram, Youtube, Phone } from 'lucide-react';
-import { t, formatNumber, Language } from '../translations';
+import { t, formatNumber, type Language } from '@/i18n/translations';
 
 interface TammFooterProps {
   language?: Language;
@@ -7,7 +7,7 @@ interface TammFooterProps {
 
 export function TammFooter({ language = 'en' }: TammFooterProps) {
   const isRTL = language === 'ar';
-  
+
   return (
     <footer className="bg-[#3A3D4A] text-white mt-auto">
       {/* Emergency Numbers */}

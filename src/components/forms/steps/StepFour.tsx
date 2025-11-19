@@ -1,7 +1,7 @@
-import { Button } from '../ui/button';
+import { Button } from '@/components/ui/button';
 import { Edit } from 'lucide-react';
-import { ApplicationData } from '../../App';
-import { t, formatNumber, Language } from '../../translations';
+import type { ApplicationData } from '@/App';
+import { t, formatNumber, type Language } from '@/i18n/translations';
 
 interface StepFourProps {
   data: ApplicationData;
@@ -11,10 +11,8 @@ interface StepFourProps {
 }
 
 export function StepFour({ data, onEdit, stepNumber, language = 'en' }: StepFourProps) {
-  const isRTL = language === 'ar';
-
   // Helper function to get translated values
-  const getTranslatedValue = (key: string, value: string): string => {
+  const getTranslatedValue = (_key: string, value: string): string => {
     if (!value) return '-';
 
     // Map of English values to translation keys

@@ -1,8 +1,8 @@
-import { Button } from './ui/button';
-import { TammHeader } from './TammHeader';
-import { TammFooter } from './TammFooter';
+import { Button } from '@/components/ui/button';
+import { TammHeader } from '@/components/layout/TammHeader';
+import { TammFooter } from '@/components/layout/TammFooter';
 import { Shield, Clock, FileCheck, Users, ArrowRight, ArrowLeft } from 'lucide-react';
-import { t, formatNumber, Language } from '../translations';
+import { t, formatNumber, type Language } from '@/i18n/translations';
 
 interface LandingPageProps {
   onStartApplication: () => void;
@@ -12,7 +12,7 @@ interface LandingPageProps {
 
 export function LandingPage({ onStartApplication, language = 'en', onLanguageToggle }: LandingPageProps) {
   const isRTL = language === 'ar';
-  
+
   return (
     <div className="min-h-screen flex flex-col" dir={isRTL ? 'rtl' : 'ltr'} lang={language}>
       <TammHeader language={language} onLanguageToggle={onLanguageToggle} />

@@ -1,8 +1,8 @@
 import { CheckCircle2, Download, Mail, Home } from 'lucide-react';
-import { Button } from './ui/button';
-import { TammHeader } from './TammHeader';
-import { TammFooter } from './TammFooter';
-import { t, formatNumber, Language } from '../translations';
+import { Button } from '@/components/ui/button';
+import { TammHeader } from '@/components/layout/TammHeader';
+import { TammFooter } from '@/components/layout/TammFooter';
+import { t, formatNumber, type Language } from '@/i18n/translations';
 
 interface SuccessConfirmationProps {
   referenceNumber: string;

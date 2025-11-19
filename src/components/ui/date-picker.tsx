@@ -2,8 +2,8 @@ import { forwardRef } from 'react';
 import ReactDatePicker, { registerLocale } from 'react-datepicker';
 import { arSA } from 'date-fns/locale';
 import 'react-datepicker/dist/react-datepicker.css';
-import { cn } from './utils';
-import { formatNumber } from '../../translations';
+import { cn } from '@/lib/utils';
+import { formatNumber } from '@/i18n/translations';
 
 // Register Arabic locale
 registerLocale('ar', arSA);

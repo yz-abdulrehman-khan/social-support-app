@@ -1,6 +1,6 @@
-import { Button } from './ui/button';
-import { Checkbox } from './ui/checkbox';
-import { ApplicationData } from '../App';
+import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
+import type { ApplicationData } from '@/App';
 import { Edit2, ArrowLeft } from 'lucide-react';
 import { useState } from 'react';
 

@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { LandingPage } from './components/LandingPage';
-import { FormWizard } from './components/FormWizard';
-import { SuccessConfirmation } from './components/SuccessConfirmation';
-import { Toaster } from './components/ui/sonner';
+import { LandingPage } from '@/pages/LandingPage';
+import { FormWizard } from '@/components/forms/FormWizard';
+import { SuccessConfirmation } from '@/components/feedback/SuccessConfirmation';
+import { Toaster } from '@/components/ui/sonner';
 
 export type ApplicationData = {
   // Step 1: Personal Information

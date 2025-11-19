@@ -1,15 +1,15 @@
 import { useState, useEffect } from 'react';
-import { Button } from './ui/button';
-import { TammHeader } from './TammHeader';
-import { TammFooter } from './TammFooter';
-import { StepOne } from './steps/StepOne';
-import { StepTwo } from './steps/StepTwo';
-import { StepThree } from './steps/StepThree';
-import { StepFour } from './steps/StepFour';
-import { ApplicationData } from '../App';
+import { Button } from '@/components/ui/button';
+import { TammHeader } from '@/components/layout/TammHeader';
+import { TammFooter } from '@/components/layout/TammFooter';
+import { StepOne } from '@/components/forms/steps/StepOne';
+import { StepTwo } from '@/components/forms/steps/StepTwo';
+import { StepThree } from '@/components/forms/steps/StepThree';
+import { StepFour } from '@/components/forms/steps/StepFour';
+import type { ApplicationData } from '@/App';
 import { ArrowLeft, ArrowRight, Check } from 'lucide-react';
-import { toast } from 'sonner@2.0.3';
-import { t, formatNumber, Language } from '../translations';
+import { toast } from 'sonner';
+import { t, formatNumber, type Language } from '@/i18n/translations';
 
 interface FormWizardProps {
   initialData: ApplicationData;
@@ -22,7 +22,6 @@ interface FormWizardProps {
 export function FormWizard({ initialData, onSubmit, language = 'en', onLanguageToggle, onBreadcrumbHome }: FormWizardProps) {
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState<ApplicationData>(initialData);
-  const [lastSaved, setLastSaved] = useState<Date | null>(null);
 
   const totalSteps = 4;
   const isRTL = language === 'ar';
@@ -38,7 +37,6 @@ export function FormWizard({ initialData, onSubmit, language = 'en', onLanguageT
   useEffect(() => {
     const autoSave = setInterval(() => {
       localStorage.setItem('financialAssistanceApplication', JSON.stringify(formData));
-      setLastSaved(new Date());
     }, 30000);
 
     return () => clearInterval(autoSave);

@@ -1,8 +1,8 @@
-import { Input } from '../ui/input';
-import { Label } from '../ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
-import { ApplicationData } from '../../App';
-import { t, formatNumber, Language } from '../../translations';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import type { ApplicationData } from '@/App';
+import { t, formatNumber, type Language } from '@/i18n/translations';
 
 interface StepTwoProps {
   data: ApplicationData;
@@ -12,8 +12,6 @@ interface StepTwoProps {
 }
 
 export function StepTwo({ data, onChange, stepNumber, language = 'en' }: StepTwoProps) {
-  const isRTL = language === 'ar';
-  
   return (
     <div className="space-y-8">
       {/* Question Number and Title */}

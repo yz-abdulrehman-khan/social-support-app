@@ -1,9 +1,9 @@
-import { Input } from '../ui/input';
-import { Label } from '../ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
-import { DatePicker } from '../ui/date-picker';
-import { ApplicationData } from '../../App';
-import { t, formatNumber, Language } from '../../translations';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { DatePicker } from '@/components/ui/date-picker';
+import type { ApplicationData } from '@/App';
+import { t, formatNumber, type Language } from '@/i18n/translations';
 
 interface StepOneProps {
   data: ApplicationData;
@@ -13,8 +13,6 @@ interface StepOneProps {
 }
 
 export function StepOne({ data, onChange, stepNumber, language = 'en' }: StepOneProps) {
-  const isRTL = language === 'ar';
-  
   return (
     <div className="space-y-8 w-full">
       {/* Question Number and Title */}

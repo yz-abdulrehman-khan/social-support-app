@@ -1,10 +1,9 @@
-import { useState } from 'react';
-import { Textarea } from '../ui/textarea';
-import { Label } from '../ui/label';
-import { Button } from '../ui/button';
-import { ApplicationData } from '../../App';
+import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
+import type { ApplicationData } from '@/App';
 import { Sparkles } from 'lucide-react';
-import { t, formatNumber, Language } from '../../translations';
+import { t, formatNumber, type Language } from '@/i18n/translations';
 
 interface StepThreeProps {
   data: ApplicationData;
@@ -14,15 +13,13 @@ interface StepThreeProps {
 }
 
 export function StepThree({ data, onChange, stepNumber, language = 'en' }: StepThreeProps) {
-  const [activeAssistant, setActiveAssistant] = useState<string | null>(null);
   const isRTL = language === 'ar';
 
   const handleAIInsert = (field: keyof ApplicationData) => {
-    const sampleText = language === 'en' 
+    const sampleText = language === 'en'
       ? "I am currently facing financial difficulties due to unexpected medical expenses and temporary unemployment. My family depends on me for support, and I am actively seeking assistance to help us through this challenging period."
       : "أواجه حاليًا صعوبات مالية بسبب نفقات طبية غير متوقعة والبطالة المؤقتة. تعتمد عليّ عائلتي للحصول على الدعم، وأبحث بنشاط عن المساعدة لمساعدتنا خلال هذه الفترة الصعبة.";
     onChange({ [field]: sampleText });
-    setActiveAssistant(null);
   };
 
   return (

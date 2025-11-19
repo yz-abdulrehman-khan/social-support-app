@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from './ui/dialog';
-import { Button } from './ui/button';
-import { Textarea } from './ui/textarea';
-import { Label } from './ui/label';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
 import { Sparkles, RotateCw, Check, X, Edit3, Loader2 } from 'lucide-react';
 
 interface AIWritingAssistantProps {
@@ -41,7 +41,6 @@ const fieldPrompts: Record<string, { title: string; examples: string[] }> = {
 
 export function AIWritingAssistant({
   fieldName,
-  currentValue,
   onInsert,
   onClose,
 }: AIWritingAssistantProps) {

@@ -1,6 +1,6 @@
 import { Globe } from 'lucide-react';
-import { Button } from './ui/button';
-import { Language } from '../translations';
+import { Button } from '@/components/ui/button';
+import type { Language } from '@/i18n/translations';
 
 interface TammHeaderProps {
   language?: Language;
@@ -9,7 +9,7 @@ interface TammHeaderProps {
 
 export function TammHeader({ language = 'en', onLanguageToggle }: TammHeaderProps) {
   const isRTL = language === 'ar';
-  
+
   return (
     <header className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
       <div className="container mx-auto px-4 md:px-6">
