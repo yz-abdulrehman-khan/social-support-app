@@ -1,8 +1,16 @@
 import { useState } from 'react';
+import { IntlProvider } from 'react-intl';
 import { LandingPage } from '@/pages/LandingPage';
 import { FormWizard } from '@/components/forms/FormWizard';
 import { SuccessConfirmation } from '@/components/feedback/SuccessConfirmation';
 import { Toaster } from '@/components/ui/sonner';
+import enMessages from '@/locales/en.json';
+import arMessages from '@/locales/ar.json';
+
+const messages = {
+  en: enMessages,
+  ar: arMessages,
+};
 
 export type ApplicationData = {
   // Step 1: Personal Information
@@ -109,42 +117,44 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen" dir={language === 'ar' ? 'rtl' : 'ltr'}>
-      <Toaster
-        position="top-center"
-        dir={language === 'ar' ? 'rtl' : 'ltr'}
-        toastOptions={{
-          style: {
-            background: '#fff',
-            color: '#3F3E45',
-            border: '1px solid #E0E0E1',
-          },
-        }}
-      />
-      {appState === 'landing' && (
-        <LandingPage 
-          onStartApplication={handleStartApplication}
-          language={language}
-          onLanguageToggle={toggleLanguage}
+    <IntlProvider locale={language} messages={messages[language]} defaultLocale="en">
+      <div className="min-h-screen" dir={language === 'ar' ? 'rtl' : 'ltr'}>
+        <Toaster
+          position="top-center"
+          dir={language === 'ar' ? 'rtl' : 'ltr'}
+          toastOptions={{
+            style: {
+              background: '#fff',
+              color: '#3F3E45',
+              border: '1px solid #E0E0E1',
+            },
+          }}
         />
-      )}
-      {appState === 'form' && (
-        <FormWizard 
-          initialData={applicationData}
-          onSubmit={handleFormSubmit}
-          language={language}
-          onLanguageToggle={toggleLanguage}
-          onBreadcrumbHome={handleBreadcrumbHome}
-        />
-      )}
-      {appState === 'success' && (
-        <SuccessConfirmation 
-          referenceNumber={referenceNumber}
-          onStartNew={handleStartNew}
-          language={language}
-          onLanguageToggle={toggleLanguage}
-        />
-      )}
-    </div>
+        {appState === 'landing' && (
+          <LandingPage
+            onStartApplication={handleStartApplication}
+            language={language}
+            onLanguageToggle={toggleLanguage}
+          />
+        )}
+        {appState === 'form' && (
+          <FormWizard
+            initialData={applicationData}
+            onSubmit={handleFormSubmit}
+            language={language}
+            onLanguageToggle={toggleLanguage}
+            onBreadcrumbHome={handleBreadcrumbHome}
+          />
+        )}
+        {appState === 'success' && (
+          <SuccessConfirmation
+            referenceNumber={referenceNumber}
+            onStartNew={handleStartNew}
+            language={language}
+            onLanguageToggle={toggleLanguage}
+          />
+        )}
+      </div>
+    </IntlProvider>
   );
 }

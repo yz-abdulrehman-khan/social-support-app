@@ -19,7 +19,7 @@ const translations = {
     
     // Landing Page
     heroTitle: "Financial Assistance Application Portal",
-    heroSubtitle: "Apply for government social support programs with ease and dignity. Our secure platform helps you access the financial assistance you need during challenging times.",
+    heroSubtitle: "Access government financial support securely and with dignity.",
     startApplication: "Start Your Application",
     
     // Features
@@ -208,7 +208,7 @@ const translations = {
     
     // Landing Page
     heroTitle: "بوابة طلب المساعدة المالية",
-    heroSubtitle: "تقدم بطلب للحصول على برامج الدعم الاجتماعي الحكومي بسهولة وكرامة. منصتنا الآمنة تساعدك في الوصول إلى المساعدة المالية التي تحتاجها خلال الأوقات الصعبة.",
+    heroSubtitle: "احصل على الدعم المالي الحكومي بأمان وكرامة.",
     startApplication: "ابدأ طلبك",
     
     // Features

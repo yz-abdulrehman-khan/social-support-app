@@ -31,7 +31,7 @@ export function LandingPage({ onStartApplication, language = 'en', onLanguageTog
               alt="TAMM Avatar"
               className="mx-auto mb-4 w-12 h-12 lg:w-16 lg:h-16"
             />
-            <h1 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-semibold text-white mb-3 md:mb-4">
+            <h1 className="text-[22px] md:text-[28px] lg:text-[34px] xl:text-[46px] font-semibold text-white mb-3 md:mb-4">
               {t('heroTitle', language)}
             </h1>
             <p className="text-sm md:text-base lg:text-lg text-white/90 mb-5 md:mb-6 leading-relaxed">
@@ -197,7 +197,7 @@ export function LandingPage({ onStartApplication, language = 'en', onLanguageTog
             <div className="flex gap-4 items-start bg-white rounded-lg p-5 border border-border">
               {isRTL ? (
                 <>
-                  <div className="w-10 h-10 bg-success-light text-white rounded-full flex items-center justify-center shrink-0 font-semibold">
+                  <div className="w-10 h-10 bg-accent text-white rounded-full flex items-center justify-center shrink-0 font-semibold">
                     {formatNumber(3, language)}
                   </div>
                   <div className="flex-1 text-right">
@@ -211,7 +211,7 @@ export function LandingPage({ onStartApplication, language = 'en', onLanguageTog
                 </>
               ) : (
                 <>
-                  <div className="w-10 h-10 bg-success-light text-white rounded-full flex items-center justify-center shrink-0 font-semibold">
+                  <div className="w-10 h-10 bg-accent text-white rounded-full flex items-center justify-center shrink-0 font-semibold">
                     {formatNumber(3, language)}
                   </div>
                   <div className="flex-1">

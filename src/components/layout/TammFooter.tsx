@@ -32,19 +32,19 @@ export function TammFooter({ language = 'en' }: TammFooterProps) {
             <div className={`flex gap-8 md:gap-10 ${isRTL ? 'flex-row-reverse' : ''}`}>
               <div className="text-center">
                 <div className="text-xs md:text-sm text-gray-400 mb-1">{t('police', language)}</div>
-                <a href="tel:999" className="text-xl md:text-2xl lg:text-3xl font-semibold text-success-light hover:text-success transition-colors block">
+                <a href="tel:999" className="text-xl md:text-2xl lg:text-3xl font-semibold text-primary hover:text-primary-hover transition-colors block">
                   {formatNumber(999, language)}
                 </a>
               </div>
               <div className="text-center">
                 <div className="text-xs md:text-sm text-gray-400 mb-1">{t('ambulance', language)}</div>
-                <a href="tel:998" className="text-xl md:text-2xl lg:text-3xl font-semibold text-success-light hover:text-success transition-colors block">
+                <a href="tel:998" className="text-xl md:text-2xl lg:text-3xl font-semibold text-primary hover:text-primary-hover transition-colors block">
                   {formatNumber(998, language)}
                 </a>
               </div>
               <div className="text-center">
                 <div className="text-xs md:text-sm text-gray-400 mb-1">{t('civilDefence', language)}</div>
-                <a href="tel:997" className="text-xl md:text-2xl lg:text-3xl font-semibold text-success-light hover:text-success transition-colors block">
+                <a href="tel:997" className="text-xl md:text-2xl lg:text-3xl font-semibold text-primary hover:text-primary-hover transition-colors block">
                   {formatNumber(997, language)}
                 </a>
               </div>
@@ -57,7 +57,7 @@ export function TammFooter({ language = 'en' }: TammFooterProps) {
       <div className="py-8">
         <div className="container mx-auto px-4 md:px-6">
           {/* Logo */}
-          <div className="flex justify-center lg:justify-start mb-6">
+          <div className="flex justify-center mb-6">
             <img
               src="https://www.tamm.abudhabi/questionnaire/assets/tamm-white-cf1d3a86.svg"
               alt="TAMM Abu Dhabi"
@@ -67,7 +67,7 @@ export function TammFooter({ language = 'en' }: TammFooterProps) {
 
           {/* Social Media & Copyright */}
           <div className={`border-t border-gray-700 pt-6 flex flex-col md:flex-row items-center justify-between gap-4 ${isRTL ? 'md:flex-row-reverse' : ''}`}>
-            <div className={`flex gap-3 ${isRTL ? 'flex-row-reverse' : ''}`}>
+            <div className={`flex gap-3 justify-center ${isRTL ? 'flex-row-reverse' : ''}`}>
               <a href="#" className="w-8 h-8 bg-white/10 rounded flex items-center justify-center hover:bg-white/20 transition-colors">
                 <Youtube className="w-4 h-4 text-white" />
               </a>
