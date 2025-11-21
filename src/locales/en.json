@@ -5,6 +5,7 @@
   "heroSubtitle": "Access government financial support securely and with dignity.",
   "startApplication": "Start Your Application",
   "featuresTitle": "Why Apply Through Our Portal",
+  "featuresSubtitle": "Our platform makes it easy to apply for financial assistance with complete privacy and dignity.",
   "feature1Title": "Secure & Confidential",
   "feature1Desc": "Your personal information is protected with government-grade security.",
   "feature2Title": "Fast Processing",
@@ -23,6 +24,7 @@
   "eligibilityCriteria.5": "Affected by natural disaster or unforeseen circumstances",
   "eligibilityNote": "Don't worry if you're unsure - our team will review all applications fairly and compassionately.",
   "processTitle": "How It Works",
+  "processSubtitle": "Three simple steps to submit your application",
   "step1": "Fill Application",
   "step1Desc": "Complete the secure online form with your details",
   "step2": "Review & Submit",
@@ -156,5 +158,10 @@
   "checkEmail": "Check your email regularly for updates on your application status",
   "trackApplication": "You can track your application status using your reference number",
   "additionalDocuments": "If you need to provide additional documents, you will be contacted directly",
-  "urgentInquiries": "For urgent inquiries, contact our support center at 800-TAMM (8266)"
+  "urgentInquiries": "For urgent inquiries, contact our support center at 800-TAMM (8266)",
+  "previousDataRestored": "Previous application data restored",
+  "fillRequiredFields": "Please fill in all required fields",
+  "enterValidEmail": "Please enter a valid email address",
+  "enterValidPhone": "Please enter a valid phone number",
+  "provideDetailedDescription": "Please provide a detailed description (minimum 50 characters)"
 }

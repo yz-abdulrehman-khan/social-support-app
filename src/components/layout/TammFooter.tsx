@@ -1,11 +1,14 @@
 import { Facebook, Twitter, Instagram, Youtube, Phone } from 'lucide-react';
-import { t, formatNumber, type Language } from '@/i18n/translations';
+import { useIntl } from 'react-intl';
+
+type Language = 'en' | 'ar';
 
 interface TammFooterProps {
   language?: Language;
 }
 
 export function TammFooter({ language = 'en' }: TammFooterProps) {
+  const intl = useIntl();
   const isRTL = language === 'ar';
 
   return (
@@ -19,33 +22,33 @@ export function TammFooter({ language = 'en' }: TammFooterProps) {
                 <Phone className="w-5 h-5 text-white" />
               </div>
               <div className={`flex flex-col ${isRTL ? 'items-end' : ''}`}>
-                <h3 className="text-xs md:text-sm font-medium text-white mb-1">{t('emergencyNumbers', language)}</h3>
+                <h3 className="text-xs md:text-sm font-medium text-white mb-1">{intl.formatMessage({ id: 'emergencyNumbers' })}</h3>
                 <a
                   href="#"
                   className="text-xs md:text-sm text-accent hover:underline inline-flex items-center gap-1"
                   onClick={(e) => e.preventDefault()}
                 >
-                  {t('viewAllNumbers', language)} {isRTL ? '←' : '→'}
+                  {intl.formatMessage({ id: 'viewAllNumbers' })} {isRTL ? '←' : '→'}
                 </a>
               </div>
             </div>
             <div className={`flex gap-8 md:gap-10 ${isRTL ? 'flex-row-reverse' : ''}`}>
               <div className="text-center">
-                <div className="text-xs md:text-sm text-gray-400 mb-1">{t('police', language)}</div>
+                <div className="text-xs md:text-sm text-gray-400 mb-1">{intl.formatMessage({ id: 'police' })}</div>
                 <a href="tel:999" className="text-xl md:text-2xl lg:text-3xl font-semibold text-primary hover:text-primary-hover transition-colors block">
-                  {formatNumber(999, language)}
+                  {intl.formatNumber(999)}
                 </a>
               </div>
               <div className="text-center">
-                <div className="text-xs md:text-sm text-gray-400 mb-1">{t('ambulance', language)}</div>
+                <div className="text-xs md:text-sm text-gray-400 mb-1">{intl.formatMessage({ id: 'ambulance' })}</div>
                 <a href="tel:998" className="text-xl md:text-2xl lg:text-3xl font-semibold text-primary hover:text-primary-hover transition-colors block">
-                  {formatNumber(998, language)}
+                  {intl.formatNumber(998)}
                 </a>
               </div>
               <div className="text-center">
-                <div className="text-xs md:text-sm text-gray-400 mb-1">{t('civilDefence', language)}</div>
+                <div className="text-xs md:text-sm text-gray-400 mb-1">{intl.formatMessage({ id: 'civilDefence' })}</div>
                 <a href="tel:997" className="text-xl md:text-2xl lg:text-3xl font-semibold text-primary hover:text-primary-hover transition-colors block">
-                  {formatNumber(997, language)}
+                  {intl.formatNumber(997)}
                 </a>
               </div>
             </div>
@@ -82,9 +85,7 @@ export function TammFooter({ language = 'en' }: TammFooterProps) {
               </a>
             </div>
             <p className="text-xs md:text-sm text-white/60">
-              {language === 'en' 
-                ? '© 2025 Abu Dhabi Government. All rights reserved.' 
-                : '© ٢٠٢٥ حكومة أبوظبي. جميع الحقوق محفوظة.'}
+              {intl.formatMessage({ id: 'copyright' })}
             </p>
           </div>
         </div>

@@ -9,7 +9,9 @@ import { StepFour } from '@/components/forms/steps/StepFour';
 import type { ApplicationData } from '@/App';
 import { ArrowLeft, ArrowRight, Check } from 'lucide-react';
 import { toast } from 'sonner';
-import { t, formatNumber, type Language } from '@/i18n/translations';
+import { useIntl } from 'react-intl';
+
+type Language = 'en' | 'ar';
 
 interface FormWizardProps {
   initialData: ApplicationData;
@@ -20,6 +22,7 @@ interface FormWizardProps {
 }
 
 export function FormWizard({ initialData, onSubmit, language = 'en', onLanguageToggle, onBreadcrumbHome }: FormWizardProps) {
+  const intl = useIntl();
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState<ApplicationData>(initialData);
 
@@ -27,10 +30,10 @@ export function FormWizard({ initialData, onSubmit, language = 'en', onLanguageT
   const isRTL = language === 'ar';
 
   const steps = [
-    { number: 1, label: t('step1Title', language), completed: currentStep > 1 },
-    { number: 2, label: t('step2Title', language), completed: currentStep > 2 },
-    { number: 3, label: t('step3Title', language), completed: currentStep > 3 },
-    { number: 4, label: t('step4Title', language), completed: currentStep > 4 },
+    { number: 1, label: intl.formatMessage({ id: 'step1Title' }), completed: currentStep > 1 },
+    { number: 2, label: intl.formatMessage({ id: 'step2Title' }), completed: currentStep > 2 },
+    { number: 3, label: intl.formatMessage({ id: 'step3Title' }), completed: currentStep > 3 },
+    { number: 4, label: intl.formatMessage({ id: 'step4Title' }), completed: currentStep > 4 },
   ];
 
   // Auto-save functionality
@@ -49,7 +52,7 @@ export function FormWizard({ initialData, onSubmit, language = 'en', onLanguageT
       try {
         const parsed = JSON.parse(savedData);
         setFormData(parsed);
-        toast.success(language === 'en' ? 'Previous application data restored' : 'تم استعادة بيانات الطلب السابق');
+        toast.success(intl.formatMessage({ id: 'previousDataRestored' }));
       } catch (e) {
         console.error('Failed to load saved data', e);
       }
@@ -60,35 +63,35 @@ export function FormWizard({ initialData, onSubmit, language = 'en', onLanguageT
   const validateStep = (step: number): boolean => {
     switch (step) {
       case 1:
-        if (!formData.fullNameEnglish || !formData.fullNameArabic || !formData.nationalId || 
-            !formData.dateOfBirth || !formData.gender || !formData.street || !formData.city || 
+        if (!formData.fullNameEnglish || !formData.fullNameArabic || !formData.nationalId ||
+            !formData.dateOfBirth || !formData.gender || !formData.street || !formData.city ||
             !formData.emirate || !formData.phoneNumber || !formData.email) {
-          toast.error(language === 'en' ? 'Please fill in all required fields' : 'يرجى ملء جميع الحقول المطلوبة');
+          toast.error(intl.formatMessage({ id: 'fillRequiredFields' }));
           return false;
         }
         // Email validation
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(formData.email)) {
-          toast.error(language === 'en' ? 'Please enter a valid email address' : 'يرجى إدخال بريد إلكتروني صالح');
+          toast.error(intl.formatMessage({ id: 'enterValidEmail' }));
           return false;
         }
         // Phone validation (basic)
         if (formData.phoneNumber.length < 9) {
-          toast.error(language === 'en' ? 'Please enter a valid phone number' : 'يرجى إدخال رقم هاتف صالح');
+          toast.error(intl.formatMessage({ id: 'enterValidPhone' }));
           return false;
         }
         return true;
 
       case 2:
         if (!formData.maritalStatus || !formData.employmentStatus || !formData.housingStatus) {
-          toast.error(language === 'en' ? 'Please fill in all required fields' : 'يرجى ملء جميع الحقول المطلوبة');
+          toast.error(intl.formatMessage({ id: 'fillRequiredFields' }));
           return false;
         }
         return true;
 
       case 3:
         if (!formData.financialSituation || formData.financialSituation.length < 50) {
-          toast.error(language === 'en' ? 'Please provide a detailed description (minimum 50 characters)' : 'يرجى تقديم وصف مفصل (٥٠ حرفًا على الأقل)');
+          toast.error(intl.formatMessage({ id: 'provideDetailedDescription' }));
           return false;
         }
         return true;
@@ -132,14 +135,14 @@ export function FormWizard({ initialData, onSubmit, language = 'en', onLanguageT
         <div className="container mx-auto px-4 sm:px-6 py-6 max-w-7xl">
           {/* Breadcrumb */}
           <nav className={`flex items-center gap-2 text-xs md:text-sm mb-5 ${isRTL ? 'flex-row-reverse justify-end' : ''}`}>
-            <a href="#" className="text-accent hover:underline" onClick={onBreadcrumbHome}>{t('home', language)}</a>
+            <a href="#" className="text-accent hover:underline" onClick={onBreadcrumbHome}>{intl.formatMessage({ id: 'home' })}</a>
             <span className="text-gray-400">/</span>
-            <span className="text-gray-600">{t('financialAssistance', language)}</span>
+            <span className="text-gray-600">{intl.formatMessage({ id: 'financialAssistance' })}</span>
           </nav>
 
           {/* Page Title */}
           <h1 className={`text-2xl md:text-3xl lg:text-4xl font-semibold text-foreground-dark mb-8 ${isRTL ? 'text-right' : ''}`}>
-            {t('financialAssistance', language)}
+            {intl.formatMessage({ id: 'financialAssistance' })}
           </h1>
 
           {/* Two Column Layout - Sidebar and Content */}
@@ -149,7 +152,7 @@ export function FormWizard({ initialData, onSubmit, language = 'en', onLanguageT
               <div className="sticky top-6">
                 <div className="bg-surface-light rounded-lg p-6">
                   <h2 className="text-xs md:text-sm font-semibold text-foreground-dark mb-6">
-                    {t('questions', language)}
+                    {intl.formatMessage({ id: 'questions' })}
                   </h2>
                   <nav className="relative">
                     {/* Connecting Line */}
@@ -183,7 +186,7 @@ export function FormWizard({ initialData, onSubmit, language = 'en', onLanguageT
                               {isCompleted ? (
                                 <Check className="w-3 h-3" strokeWidth={3} />
                               ) : (
-                                formatNumber(step.number, language)
+                                intl.formatNumber(step.number)
                               )}
                             </div>
                             {/* Step Label */}
@@ -251,13 +254,13 @@ export function FormWizard({ initialData, onSubmit, language = 'en', onLanguageT
                     >
                       {isRTL ? (
                         <>
-                          <span>{t('previous', language)}</span>
+                          <span>{intl.formatMessage({ id: 'previous' })}</span>
                           <ArrowRight className="w-4 h-4" />
                         </>
                       ) : (
                         <>
                           <ArrowLeft className="w-4 h-4" />
-                          <span>{t('previous', language)}</span>
+                          <span>{intl.formatMessage({ id: 'previous' })}</span>
                         </>
                       )}
                     </Button>
@@ -270,10 +273,10 @@ export function FormWizard({ initialData, onSubmit, language = 'en', onLanguageT
                       <>
                         <span>
                           {currentStep === totalSteps
-                            ? t('submitApplication', language)
+                            ? intl.formatMessage({ id: 'submitApplication' })
                             : currentStep === 3
-                            ? t('reviewSubmit', language)
-                            : t('next', language)}
+                            ? intl.formatMessage({ id: 'reviewSubmit' })
+                            : intl.formatMessage({ id: 'next' })}
                         </span>
                         <ArrowLeft className="w-4 h-4" />
                       </>
@@ -281,10 +284,10 @@ export function FormWizard({ initialData, onSubmit, language = 'en', onLanguageT
                       <>
                         <span>
                           {currentStep === totalSteps
-                            ? t('submitApplication', language)
+                            ? intl.formatMessage({ id: 'submitApplication' })
                             : currentStep === 3
-                            ? t('reviewSubmit', language)
-                            : t('next', language)}
+                            ? intl.formatMessage({ id: 'reviewSubmit' })
+                            : intl.formatMessage({ id: 'next' })}
                         </span>
                         <ArrowRight className="w-4 h-4" />
                       </>
@@ -297,7 +300,7 @@ export function FormWizard({ initialData, onSubmit, language = 'en', onLanguageT
                   onClick={() => currentStep === 1 && onBreadcrumbHome ? onBreadcrumbHome() : window.history.back()}
                   className="rounded-full px-6 h-10 bg-gray-light hover:bg-gray-light-hover text-foreground border-0 font-normal"
                 >
-                  {t('cancel', language)}
+                  {intl.formatMessage({ id: 'cancel' })}
                 </Button>
               </div>
             </main>

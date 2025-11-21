@@ -1,6 +1,7 @@
 import { Globe } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import type { Language } from '@/i18n/translations';
+
+type Language = 'en' | 'ar';
 
 interface TammHeaderProps {
   language?: Language;
