@@ -1,6 +1,3 @@
-import { useState, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { TammHeader } from '@/components/layout/TammHeader';
@@ -11,12 +8,9 @@ import { StepThree } from '@/components/forms/steps/StepThree';
 import { StepFour } from '@/components/forms/steps/StepFour';
 import type { ApplicationData } from '@/features/application-form/types';
 import { ArrowLeft, ArrowRight, Check } from 'lucide-react';
-import { toast } from 'sonner';
 import { useIntl } from 'react-intl';
 import { toArabicNumerals } from '@/lib/i18n-utils';
-import { completeFormSchema, stepOneSchema, stepTwoSchema, stepThreeSchema } from '@/lib/form-validation';
-import { z } from 'zod';
-import { makeZodI18nMap } from '@/lib/zod-i18n';
+import { useFormWizard } from '@/features/application-form/hooks/useFormWizard';
 
 type Language = 'en' | 'ar';
 
@@ -30,21 +24,13 @@ interface FormWizardProps {
 
 export function FormWizard({ initialData, onSubmit, language = 'en', onLanguageToggle, onBreadcrumbHome }: FormWizardProps) {
   const intl = useIntl();
-  const [currentStep, setCurrentStep] = useState(1);
-
   const totalSteps = 4;
   const isRTL = language === 'ar';
 
-  useEffect(() => {
-    const errorMap = makeZodI18nMap(intl);
-    z.setErrorMap(errorMap);
-  }, [intl]);
-
-  const form = useForm<ApplicationData>({
-    resolver: zodResolver(completeFormSchema),
-    defaultValues: initialData,
-    mode: 'onBlur',
-    reValidateMode: 'onBlur',
+  const { form, currentStep, handleNext, handlePrevious, handleEditStep } = useFormWizard({
+    initialData,
+    onSubmit,
+    totalSteps,
   });
 
   const steps = [
@@ -54,94 +40,10 @@ export function FormWizard({ initialData, onSubmit, language = 'en', onLanguageT
     { number: 4, label: intl.formatMessage({ id: 'form.steps.review.title' }), completed: currentStep > 4 },
   ];
 
-  useEffect(() => {
-    const subscription = form.watch((formData) => {
-      const autoSave = setInterval(() => {
-        localStorage.setItem('financialAssistanceApplication', JSON.stringify(formData));
-      }, 30000);
-
-      return () => clearInterval(autoSave);
-    });
-
-    return () => subscription.unsubscribe();
-  }, [form]);
-
-  useEffect(() => {
-    const savedData = localStorage.getItem('financialAssistanceApplication');
-    if (savedData) {
-      try {
-        const parsed = JSON.parse(savedData);
-        form.reset(parsed);
-        toast.success(intl.formatMessage({ id: 'toast.previousDataRestored' }));
-      } catch (e) {
-        console.error('Failed to load saved data', e);
-      }
-    }
-  }, [form, intl]);
-
-  const validateStep = async (step: number): Promise<boolean> => {
-    let fieldsToValidate: (keyof ApplicationData)[] = [];
-
-    switch (step) {
-      case 1:
-        fieldsToValidate = Object.keys(stepOneSchema.shape) as (keyof ApplicationData)[];
-        break;
-      case 2:
-        fieldsToValidate = Object.keys(stepTwoSchema.shape) as (keyof ApplicationData)[];
-        break;
-      case 3:
-        fieldsToValidate = Object.keys(stepThreeSchema.shape) as (keyof ApplicationData)[];
-        break;
-      default:
-        return true;
-    }
-
-    const result = await form.trigger(fieldsToValidate);
-
-    if (!result) {
-      const errors = form.formState.errors;
-      const firstError = fieldsToValidate.find((field) => errors[field]);
-
-      if (firstError && errors[firstError]) {
-        const errorMessage = errors[firstError]?.message;
-        if (errorMessage) {
-          toast.error(intl.formatMessage({ id: errorMessage }));
-        }
-      }
-    }
-
-    return result;
-  };
-
-  const handleNext = async () => {
-    const isValid = await validateStep(currentStep);
-
-    if (isValid) {
-      if (currentStep === totalSteps) {
-        const formData = form.getValues();
-        onSubmit(formData);
-        localStorage.removeItem('financialAssistanceApplication');
-      } else {
-        setCurrentStep((prev) => Math.min(prev + 1, totalSteps));
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-    }
-  };
-
-  const handlePrevious = () => {
-    setCurrentStep((prev) => Math.max(prev - 1, 1));
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const handleEditStep = (step: number) => {
-    setCurrentStep(step);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
   return (
     <div className="min-h-screen flex flex-col bg-background" dir={isRTL ? 'rtl' : 'ltr'} lang={language}>
       <TammHeader language={language} onLanguageToggle={onLanguageToggle} />
-      
+
       <div className="flex-1">
         <div className="container mx-auto px-4 sm:px-6 py-6 max-w-7xl">
           <nav className="flex items-center gap-2 text-xs md:text-sm mb-5">
