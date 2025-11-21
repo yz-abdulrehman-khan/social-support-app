@@ -4,12 +4,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { FormField, FormControl, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useIntl } from 'react-intl';
 import { toArabicNumerals } from '@/lib/i18n-utils';
-import type { CompleteFormData } from '@/lib/form-validation';
+import type { ApplicationData } from '@/features/application-form/types';
 
 type Language = 'en' | 'ar';
 
 interface StepTwoProps {
-  control: Control<CompleteFormData>;
+  control: Control<ApplicationData>;
   stepNumber: number;
   language?: Language;
 }

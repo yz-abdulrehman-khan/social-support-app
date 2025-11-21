@@ -6,12 +6,12 @@ import { FormField, FormControl, FormItem, FormLabel, FormMessage } from '@/comp
 import { Sparkles } from 'lucide-react';
 import { useIntl } from 'react-intl';
 import { toArabicNumerals } from '@/lib/i18n-utils';
-import type { CompleteFormData } from '@/lib/form-validation';
+import type { ApplicationData } from '@/features/application-form/types';
 
 type Language = 'en' | 'ar';
 
 interface StepThreeProps {
-  control: Control<CompleteFormData>;
+  control: Control<ApplicationData>;
   stepNumber: number;
   language?: Language;
 }
@@ -19,9 +19,9 @@ interface StepThreeProps {
 export function StepThree({ control, stepNumber, language = 'en' }: StepThreeProps) {
   const intl = useIntl();
   const isRTL = language === 'ar';
-  const { setValue, watch } = useFormContext<CompleteFormData>();
+  const { setValue, watch } = useFormContext<ApplicationData>();
 
-  const handleAIInsert = (field: keyof CompleteFormData) => {
+  const handleAIInsert = (field: keyof ApplicationData) => {
     const sampleText = language === 'en'
       ? "I am currently facing financial difficulties due to unexpected medical expenses and temporary unemployment. My family depends on me for support, and I am actively seeking assistance to help us through this challenging period."
       : "أواجه حاليًا صعوبات مالية بسبب نفقات طبية غير متوقعة والبطالة المؤقتة. تعتمد عليّ عائلتي للحصول على الدعم، وأبحث بنشاط عن المساعدة لمساعدتنا خلال هذه الفترة الصعبة.";

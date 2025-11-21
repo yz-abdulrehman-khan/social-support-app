@@ -9,12 +9,12 @@ import { StepOne } from '@/components/forms/steps/StepOne';
 import { StepTwo } from '@/components/forms/steps/StepTwo';
 import { StepThree } from '@/components/forms/steps/StepThree';
 import { StepFour } from '@/components/forms/steps/StepFour';
-import type { ApplicationData } from '@/App';
+import type { ApplicationData } from '@/features/application-form/types';
 import { ArrowLeft, ArrowRight, Check } from 'lucide-react';
 import { toast } from 'sonner';
 import { useIntl } from 'react-intl';
 import { toArabicNumerals } from '@/lib/i18n-utils';
-import { completeFormSchema, stepOneSchema, stepTwoSchema, stepThreeSchema, type CompleteFormData } from '@/lib/form-validation';
+import { completeFormSchema, stepOneSchema, stepTwoSchema, stepThreeSchema } from '@/lib/form-validation';
 import { z } from 'zod';
 import { makeZodI18nMap } from '@/lib/zod-i18n';
 
@@ -22,7 +22,7 @@ type Language = 'en' | 'ar';
 
 interface FormWizardProps {
   initialData: ApplicationData;
-  onSubmit: (data: CompleteFormData) => void;
+  onSubmit: (data: ApplicationData) => void;
   language?: Language;
   onLanguageToggle?: () => void;
   onBreadcrumbHome?: () => void;
@@ -40,9 +40,9 @@ export function FormWizard({ initialData, onSubmit, language = 'en', onLanguageT
     z.setErrorMap(errorMap);
   }, [intl]);
 
-  const form = useForm<CompleteFormData>({
+  const form = useForm<ApplicationData>({
     resolver: zodResolver(completeFormSchema),
-    defaultValues: initialData as CompleteFormData,
+    defaultValues: initialData,
     mode: 'onBlur',
     reValidateMode: 'onBlur',
   });
@@ -80,17 +80,17 @@ export function FormWizard({ initialData, onSubmit, language = 'en', onLanguageT
   }, [form, intl]);
 
   const validateStep = async (step: number): Promise<boolean> => {
-    let fieldsToValidate: (keyof CompleteFormData)[] = [];
+    let fieldsToValidate: (keyof ApplicationData)[] = [];
 
     switch (step) {
       case 1:
-        fieldsToValidate = Object.keys(stepOneSchema.shape) as (keyof CompleteFormData)[];
+        fieldsToValidate = Object.keys(stepOneSchema.shape) as (keyof ApplicationData)[];
         break;
       case 2:
-        fieldsToValidate = Object.keys(stepTwoSchema.shape) as (keyof CompleteFormData)[];
+        fieldsToValidate = Object.keys(stepTwoSchema.shape) as (keyof ApplicationData)[];
         break;
       case 3:
-        fieldsToValidate = Object.keys(stepThreeSchema.shape) as (keyof CompleteFormData)[];
+        fieldsToValidate = Object.keys(stepThreeSchema.shape) as (keyof ApplicationData)[];
         break;
       default:
         return true;

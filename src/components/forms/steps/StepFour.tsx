@@ -2,12 +2,12 @@ import { Button } from '@/components/ui/button';
 import { Edit } from 'lucide-react';
 import { useIntl } from 'react-intl';
 import { toArabicNumerals, formatNumericValue } from '@/lib/i18n-utils';
-import type { CompleteFormData } from '@/lib/form-validation';
+import type { ApplicationData } from '@/features/application-form/types';
 
 type Language = 'en' | 'ar';
 
 interface StepFourProps {
-  data: CompleteFormData;
+  data: ApplicationData;
   onEdit: (step: number) => void;
   stepNumber: number;
   language?: Language;

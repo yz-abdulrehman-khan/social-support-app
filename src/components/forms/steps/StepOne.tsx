@@ -6,19 +6,20 @@ import { DatePicker } from '@/components/ui/date-picker';
 import { FormField, FormControl, FormItem, FormMessage, FormLabel } from '@/components/ui/form';
 import { useIntl } from 'react-intl';
 import { toArabicNumerals } from '@/lib/i18n-utils';
-import { formatEmiratesId, formatUAEPhone, type CompleteFormData } from '@/lib/form-validation';
+import { formatEmiratesId, formatUAEPhone } from '@/lib/form-validation';
+import type { ApplicationData } from '@/features/application-form/types';
 
 type Language = 'en' | 'ar';
 
 interface StepOneProps {
-  control: Control<CompleteFormData>;
+  control: Control<ApplicationData>;
   stepNumber: number;
   language?: Language;
 }
 
 export function StepOne({ control, stepNumber, language = 'en' }: StepOneProps) {
   const intl = useIntl();
-  const { setValue } = useFormContext<CompleteFormData>();
+  const { setValue } = useFormContext<ApplicationData>();
 
   return (
     <div className="space-y-8 w-full">

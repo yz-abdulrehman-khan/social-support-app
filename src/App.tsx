@@ -7,36 +7,12 @@ import { Toaster } from '@/components/ui/sonner';
 import { flattenMessages } from '@/lib/i18n-utils';
 import enMessages from '@/locales/en.json';
 import arMessages from '@/locales/ar.json';
+import type { ApplicationData, AppState } from '@/features/application-form/types';
 
 const messages = {
   en: flattenMessages(enMessages),
   ar: flattenMessages(arMessages),
 };
-
-export type ApplicationData = {
-  fullNameEnglish: string;
-  fullNameArabic: string;
-  nationalId: string;
-  dateOfBirth: string;
-  gender: 'male' | 'female' | '';
-  street: string;
-  city: string;
-  emirate: 'Abu Dhabi' | 'Dubai' | 'Sharjah' | 'Ajman' | 'Umm Al Quwain' | 'Ras Al Khaimah' | 'Fujairah' | '';
-  country: 'United Arab Emirates';
-  postalCode?: string;
-  phoneNumber: string;
-  email: string;
-  maritalStatus: 'single' | 'married' | 'divorced' | 'widowed' | '';
-  numberOfDependents: string;
-  employmentStatus: 'employed' | 'self-employed' | 'unemployed' | 'retired' | 'student' | '';
-  monthlyIncome: string;
-  housingStatus: 'owned' | 'rented' | 'family-owned' | 'government' | 'other' | '';
-  financialSituation: string;
-  employmentCircumstances: string;
-  reasonForApplying: string;
-};
-
-type AppState = 'landing' | 'form' | 'success';
 
 export default function App() {
   const [appState, setAppState] = useState<AppState>('landing');
@@ -69,7 +45,7 @@ export default function App() {
     setAppState('form');
   };
 
-  const handleFormSubmit = (data: ApplicationData | any) => {
+  const handleFormSubmit = (data: ApplicationData) => {
     setApplicationData(data);
     const refNumber = `SA${Date.now().toString().slice(-8)}`;
     setReferenceNumber(refNumber);
