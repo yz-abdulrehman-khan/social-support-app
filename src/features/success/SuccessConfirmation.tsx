@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { TammHeader } from '@/components/layout/TammHeader';
 import { TammFooter } from '@/components/layout/TammFooter';
 import { useIntl } from 'react-intl';
-import { toArabicNumerals } from '@/lib/i18n-utils';
+import { toArabicNumerals } from '@/lib/i18n';
 
 type Language = 'en' | 'ar';
 

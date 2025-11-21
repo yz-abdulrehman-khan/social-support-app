@@ -3,7 +3,7 @@ import { TammHeader } from '@/components/layout/TammHeader';
 import { TammFooter } from '@/components/layout/TammFooter';
 import { Shield, Clock, FileCheck, Users, ArrowRight, ArrowLeft } from 'lucide-react';
 import { useIntl } from 'react-intl';
-import { toArabicNumerals } from '@/lib/i18n-utils';
+import { toArabicNumerals } from '@/lib/i18n';
 
 type Language = 'en' | 'ar';
 

@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Edit } from 'lucide-react';
 import { useIntl } from 'react-intl';
-import { toArabicNumerals, formatNumericValue } from '@/lib/i18n-utils';
+import { toArabicNumerals, formatNumericValue } from '@/lib/i18n';
 import type { ApplicationData } from '@/features/application-form/types';
 
 type Language = 'en' | 'ar';

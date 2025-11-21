@@ -3,7 +3,7 @@ import ReactDatePicker, { registerLocale } from 'react-datepicker';
 import { arSA } from 'date-fns/locale';
 import 'react-datepicker/dist/react-datepicker.css';
 import { cn } from '@/lib/utils';
-import { toArabicNumerals } from '@/lib/i18n-utils';
+import { toArabicNumerals } from '@/lib/i18n';
 
 registerLocale('ar', arSA);
 

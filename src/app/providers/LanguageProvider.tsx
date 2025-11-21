@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, type ReactNode } from 'react';
 import { IntlProvider } from 'react-intl';
-import { flattenMessages } from '@/lib/i18n-utils';
+import { flattenMessages } from '@/lib/i18n';
 import enMessages from '@/locales/en.json';
 import arMessages from '@/locales/ar.json';
 

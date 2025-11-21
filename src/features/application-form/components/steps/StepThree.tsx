@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { FormField, FormControl, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Sparkles } from 'lucide-react';
 import { useIntl } from 'react-intl';
-import { toArabicNumerals } from '@/lib/i18n-utils';
+import { toArabicNumerals } from '@/lib/i18n';
 import type { ApplicationData } from '@/features/application-form/types';
 
 type Language = 'en' | 'ar';

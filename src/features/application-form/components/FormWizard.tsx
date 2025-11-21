@@ -9,7 +9,7 @@ import { StepFour } from './steps/StepFour';
 import type { ApplicationData } from '@/features/application-form/types';
 import { ArrowLeft, ArrowRight, Check } from 'lucide-react';
 import { useIntl } from 'react-intl';
-import { toArabicNumerals } from '@/lib/i18n-utils';
+import { toArabicNumerals } from '@/lib/i18n';
 import { useFormWizard } from '@/features/application-form/hooks/useFormWizard';
 
 type Language = 'en' | 'ar';

@@ -5,8 +5,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { DatePicker } from '@/components/ui/date-picker';
 import { FormField, FormControl, FormItem, FormMessage, FormLabel } from '@/components/ui/form';
 import { useIntl } from 'react-intl';
-import { toArabicNumerals } from '@/lib/i18n-utils';
-import { formatEmiratesId, formatUAEPhone } from '@/lib/form-validation';
+import { toArabicNumerals } from '@/lib/i18n';
+import { formatEmiratesId, formatUAEPhone } from '@/features/application-form/validation';
 import type { ApplicationData } from '@/features/application-form/types';
 
 type Language = 'en' | 'ar';

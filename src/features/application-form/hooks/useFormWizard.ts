@@ -4,8 +4,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
 import { useIntl } from 'react-intl';
 import { z } from 'zod';
-import { completeFormSchema, stepOneSchema, stepTwoSchema, stepThreeSchema } from '@/lib/form-validation';
-import { makeZodI18nMap } from '@/lib/zod-i18n';
+import { completeFormSchema, stepOneSchema, stepTwoSchema, stepThreeSchema } from '@/features/application-form/validation';
+import { makeZodI18nMap } from '@/lib/i18n';
 import type { ApplicationData } from '@/features/application-form/types';
 
 interface UseFormWizardProps {
