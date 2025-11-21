@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { IntlProvider } from 'react-intl';
-import { LandingPage } from '@/pages/LandingPage';
-import { FormWizard } from '@/components/forms/FormWizard';
-import { SuccessConfirmation } from '@/components/feedback/SuccessConfirmation';
+import { LandingPage } from '@/features/landing';
+import { FormWizard } from '@/features/application-form/components';
+import { SuccessConfirmation } from '@/features/success';
 import { Toaster } from '@/components/ui/sonner';
 import { flattenMessages } from '@/lib/i18n-utils';
 import enMessages from '@/locales/en.json';
