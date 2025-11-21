@@ -20,7 +20,7 @@ export function StepTwo({ control, stepNumber, language = 'en' }: StepTwoProps) 
     <div className="space-y-8">
       {/* Question Number and Title */}
       <div className="mb-8">
-        <h2 className="text-xl md:text-2xl lg:text-3xl font-semibold text-foreground-dark mb-3">
+        <h2 className="text-lg md:text-xl lg:text-2xl font-semibold text-foreground-dark mb-3">
           {language === 'ar' ? toArabicNumerals(String(stepNumber)) : stepNumber}. {intl.formatMessage({ id: 'form.steps.financial.title' })}
         </h2>
         <p className="text-sm md:text-base lg:text-lg text-gray-600">

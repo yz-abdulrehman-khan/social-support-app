@@ -25,7 +25,7 @@ export function StepOne({ control, stepNumber, language = 'en' }: StepOneProps) 
     <div className="space-y-8 w-full">
       {/* Question Number and Title */}
       <div className="mb-8">
-        <h2 className="text-xl md:text-2xl lg:text-3xl font-semibold text-foreground-dark mb-3">
+        <h2 className="text-lg md:text-xl lg:text-2xl font-semibold text-foreground-dark mb-3">
           {language === 'ar' ? toArabicNumerals(String(stepNumber)) : stepNumber}. {intl.formatMessage({ id: 'form.steps.personal.title' })}
         </h2>
         <p className="text-sm md:text-base lg:text-lg text-gray-600">

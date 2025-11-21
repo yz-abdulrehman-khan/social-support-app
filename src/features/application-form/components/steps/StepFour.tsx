@@ -38,7 +38,7 @@ export function StepFour({ data, onEdit, stepNumber, language = 'en' }: StepFour
   }) => (
     <div className="pb-6 mb-6 border-b border-theme">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-base md:text-lg lg:text-xl font-semibold text-theme-primary">{title}</h3>
+        <h3 className="text-sm md:text-base lg:text-lg font-semibold text-theme-primary">{title}</h3>
         <Button
           onClick={() => onEdit(step)}
           variant="ghost"
@@ -59,7 +59,7 @@ export function StepFour({ data, onEdit, stepNumber, language = 'en' }: StepFour
     <div className="space-y-8 w-full">
       {/* Question Number and Title */}
       <div className="mb-8">
-        <h2 className="text-xl md:text-2xl lg:text-3xl font-semibold text-theme-primary mb-3">
+        <h2 className="text-lg md:text-xl lg:text-2xl font-semibold text-theme-primary mb-3">
           {language === 'ar' ? toArabicNumerals(String(stepNumber)) : stepNumber}. {intl.formatMessage({ id: 'form.steps.review.title' })}
         </h2>
         <p className="text-sm md:text-base lg:text-lg text-theme-secondary">
@@ -148,7 +148,7 @@ export function StepFour({ data, onEdit, stepNumber, language = 'en' }: StepFour
         {/* Step 3: Situation Description */}
         <div className="mb-6">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-theme-primary">{intl.formatMessage({ id: 'form.steps.situation.title' })}</h3>
+            <h3 className="text-base font-semibold text-theme-primary">{intl.formatMessage({ id: 'form.steps.situation.title' })}</h3>
             <Button
               onClick={() => onEdit(3)}
               variant="ghost"

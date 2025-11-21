@@ -52,7 +52,7 @@ export function FormWizard({ initialData, onSubmit, language = 'en', onLanguageT
             <span className="text-gray-600">{intl.formatMessage({ id: 'form.title' })}</span>
           </nav>
 
-          <h1 className={`text-2xl md:text-3xl lg:text-4xl font-semibold text-foreground-dark mb-8 ${isRTL ? 'text-right' : ''}`}>
+          <h1 className={`text-xl md:text-2xl lg:text-3xl font-semibold text-foreground-dark mb-8 ${isRTL ? 'text-right' : ''}`}>
             {intl.formatMessage({ id: 'form.title' })}
           </h1>
 

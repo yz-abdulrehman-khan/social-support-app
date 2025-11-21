@@ -42,14 +42,14 @@ export function SuccessConfirmation({
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full mb-4 bg-theme-success">
               <CheckCircle2 className="w-10 h-10 text-white" />
             </div>
-            <h1 className="text-xl md:text-2xl lg:text-3xl font-semibold text-theme-primary mb-2">{intl.formatMessage({ id: 'success.title' })}</h1>
+            <h1 className="text-lg md:text-xl lg:text-2xl font-semibold text-theme-primary mb-2">{intl.formatMessage({ id: 'success.title' })}</h1>
             <p className="text-sm md:text-base lg:text-lg text-theme-secondary leading-relaxed">
               {intl.formatMessage({ id: 'success.message' })}
             </p>
           </div>
 
           {/* Reference Number */}
-          <div className="bg-white rounded-lg p-5 mb-6 border border-theme button-border-animate">
+          <div className="bg-white rounded-lg p-5 mb-6 border border-theme">
             <div className="text-center mb-4">
               <p className="text-xs md:text-sm font-medium mb-2 text-theme-secondary">{intl.formatMessage({ id: 'success.reference.title' })}</p>
               <div className="rounded-lg p-4 mb-3 bg-theme-light">
@@ -84,8 +84,8 @@ export function SuccessConfirmation({
           </div>
 
           {/* Next Steps */}
-          <div className="bg-white rounded-lg p-6 mb-6 border border-theme button-border-animate">
-            <h2 className="text-base md:text-lg lg:text-xl font-semibold mb-4 text-theme-primary">{intl.formatMessage({ id: 'success.nextSteps.title' })}</h2>
+          <div className="bg-white rounded-lg p-6 mb-6 border border-theme">
+            <h2 className="text-sm md:text-base lg:text-lg font-semibold mb-4 text-theme-primary">{intl.formatMessage({ id: 'success.nextSteps.title' })}</h2>
             <div className="space-y-4">
               <div className="flex gap-4 items-start">
                 <div className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-white bg-theme-accent font-semibold">

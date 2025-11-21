@@ -38,7 +38,7 @@ export function LandingPage({ onStartApplication, language = 'en', onLanguageTog
               alt="TAMM Avatar"
               className="mx-auto mb-4 w-12 h-12 lg:w-16 lg:h-16"
             />
-            <h1 className="text-[22px] md:text-[28px] lg:text-[34px] xl:text-[46px] font-semibold text-white mb-3 md:mb-4">
+            <h1 className="text-[20px] md:text-[26px] lg:text-[32px] xl:text-[44px] font-semibold text-white mb-3 md:mb-4">
               {intl.formatMessage({ id: 'landing.hero.title' })}
             </h1>
             <p className="text-sm md:text-base lg:text-lg text-white/90 mb-5 md:mb-6 leading-relaxed">
@@ -68,7 +68,7 @@ export function LandingPage({ onStartApplication, language = 'en', onLanguageTog
       <section className="py-10 bg-white">
         <div className="container mx-auto px-6 max-w-6xl">
           <div className="text-center mb-8">
-            <h2 className="text-xl md:text-2xl lg:text-3xl font-semibold text-foreground mb-2 md:mb-3">
+            <h2 className="text-lg md:text-xl lg:text-2xl font-semibold text-foreground mb-2 md:mb-3">
               {intl.formatMessage({ id: 'landing.features.title' })}
             </h2>
             <p className="text-sm md:text-base lg:text-lg text-muted max-w-2xl mx-auto">
@@ -124,7 +124,7 @@ export function LandingPage({ onStartApplication, language = 'en', onLanguageTog
       <section className="py-10 bg-background">
         <div className="container mx-auto px-6 max-w-4xl">
           <div className="text-center mb-8">
-            <h2 className="text-xl md:text-2xl lg:text-3xl font-semibold text-foreground mb-2 md:mb-3">
+            <h2 className="text-lg md:text-xl lg:text-2xl font-semibold text-foreground mb-2 md:mb-3">
               {intl.formatMessage({ id: 'landing.process.title' })}
             </h2>
             <p className="text-sm md:text-base lg:text-lg text-muted">
@@ -133,7 +133,7 @@ export function LandingPage({ onStartApplication, language = 'en', onLanguageTog
           </div>
 
           <div className="space-y-4">
-            <div className="flex gap-4 items-start bg-white rounded-lg p-5 border border-border button-border-animate">
+            <div className="flex gap-4 items-start bg-white rounded-lg p-5 border border-border">
               {isRTL ? (
                 <>
                   <div className="w-10 h-10 bg-accent text-white rounded-full flex items-center justify-center shrink-0 font-semibold">
@@ -165,7 +165,7 @@ export function LandingPage({ onStartApplication, language = 'en', onLanguageTog
               )}
             </div>
 
-            <div className="flex gap-4 items-start bg-white rounded-lg p-5 border border-border button-border-animate">
+            <div className="flex gap-4 items-start bg-white rounded-lg p-5 border border-border">
               {isRTL ? (
                 <>
                   <div className="w-10 h-10 bg-accent text-white rounded-full flex items-center justify-center shrink-0 font-semibold">
@@ -197,7 +197,7 @@ export function LandingPage({ onStartApplication, language = 'en', onLanguageTog
               )}
             </div>
 
-            <div className="flex gap-4 items-start bg-white rounded-lg p-5 border border-border button-border-animate">
+            <div className="flex gap-4 items-start bg-white rounded-lg p-5 border border-border">
               {isRTL ? (
                 <>
                   <div className="w-10 h-10 bg-accent text-white rounded-full flex items-center justify-center shrink-0 font-semibold">
@@ -256,7 +256,7 @@ export function LandingPage({ onStartApplication, language = 'en', onLanguageTog
         <div className="container mx-auto px-6 max-w-4xl">
           <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg p-5 border border-blue-100">
             <div className="text-center">
-              <h2 className="text-lg md:text-xl lg:text-2xl font-semibold text-foreground mb-2 md:mb-3">
+              <h2 className="text-base md:text-lg lg:text-xl font-semibold text-foreground mb-2 md:mb-3">
                 {intl.formatMessage({ id: 'landing.help.title' })}
               </h2>
               <p className="text-sm md:text-base lg:text-lg text-muted mb-4 md:mb-5 leading-relaxed max-w-2xl mx-auto">
