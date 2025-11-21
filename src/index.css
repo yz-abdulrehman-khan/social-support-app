@@ -276,6 +276,20 @@
     box-shadow: 0 0 0 1px var(--primary), 0 0 12px rgba(14, 236, 218, 0.4);
   }
 
+  /* Globe rotation animation */
+  @keyframes globe-rotate {
+    from {
+      transform: rotateY(0deg);
+    }
+    to {
+      transform: rotateY(360deg);
+    }
+  }
+
+  .language-switcher:hover .globe-icon {
+    animation: globe-rotate 1.5s linear infinite;
+  }
+
   /* Theme Color Utilities */
   .bg-theme-light {
     background-color: var(--bg-light);

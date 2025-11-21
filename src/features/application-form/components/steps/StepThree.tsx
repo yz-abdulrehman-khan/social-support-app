@@ -1,5 +1,6 @@
 import type { Control } from 'react-hook-form';
 import { useFormContext } from 'react-hook-form';
+import { useState } from 'react';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { FormField, FormControl, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
@@ -7,6 +8,7 @@ import { Sparkles } from 'lucide-react';
 import { useIntl } from 'react-intl';
 import { toArabicNumerals } from '@/lib/i18n';
 import type { ApplicationData } from '@/features/application-form/types';
+import { AIWritingAssistant } from '@/components/modals/AIWritingAssistant';
 
 type Language = 'en' | 'ar';
 
@@ -20,12 +22,18 @@ export function StepThree({ control, stepNumber, language = 'en' }: StepThreePro
   const intl = useIntl();
   const isRTL = language === 'ar';
   const { setValue, watch } = useFormContext<ApplicationData>();
+  const [showAIAssistant, setShowAIAssistant] = useState(false);
+  const [currentField, setCurrentField] = useState<keyof ApplicationData | null>(null);
 
-  const handleAIInsert = (field: keyof ApplicationData) => {
-    const sampleText = language === 'en'
-      ? "I am currently facing financial difficulties due to unexpected medical expenses and temporary unemployment. My family depends on me for support, and I am actively seeking assistance to help us through this challenging period."
-      : "أواجه حاليًا صعوبات مالية بسبب نفقات طبية غير متوقعة والبطالة المؤقتة. تعتمد عليّ عائلتي للحصول على الدعم، وأبحث بنشاط عن المساعدة لمساعدتنا خلال هذه الفترة الصعبة.";
-    setValue(field, sampleText);
+  const handleAIClick = (field: keyof ApplicationData) => {
+    setCurrentField(field);
+    setShowAIAssistant(true);
+  };
+
+  const handleAIAccept = (text: string) => {
+    if (currentField) {
+      setValue(currentField, text, { shouldValidate: true });
+    }
   };
 
   const financialSituationValue = watch('financialSituation');
@@ -34,10 +42,10 @@ export function StepThree({ control, stepNumber, language = 'en' }: StepThreePro
     <div className="space-y-8">
       {/* Question Number and Title */}
       <div className="mb-8">
-        <h2 className="text-lg md:text-xl lg:text-2xl font-semibold text-theme-primary mb-3">
+        <h2 className="text-lg md:text-xl lg:text-2xl font-semibold text-theme-primary">
           {language === 'ar' ? toArabicNumerals(String(stepNumber)) : stepNumber}. {intl.formatMessage({ id: 'form.steps.situation.title' })}
         </h2>
-        <p className="text-sm md:text-base lg:text-lg text-theme-secondary">
+        <p className="text-[11px] md:text-xs lg:text-sm text-theme-secondary">
           {intl.formatMessage({ id: 'form.steps.situation.subtitle' })}
         </p>
       </div>
@@ -56,10 +64,10 @@ export function StepThree({ control, stepNumber, language = 'en' }: StepThreePro
                 </FormLabel>
                 <Button
                   type="button"
-                  variant="ghost"
+                  variant="subtle"
                   size="sm"
-                  onClick={() => handleAIInsert('financialSituation')}
-                  className="gap-2 text-theme-accent hover:text-theme-accent-hover hover:bg-theme-accent/5 rounded-full h-8 px-3"
+                  onClick={() => handleAIClick('financialSituation')}
+                  className="gap-2 text-theme-accent hover:text-theme-accent-hover rounded-full h-8 px-3"
                 >
                   <Sparkles className="w-4 h-4" />
                   <span className="text-sm">{intl.formatMessage({ id: 'form.steps.situation.fields.helpMeWrite' })}</span>
@@ -152,6 +160,13 @@ export function StepThree({ control, stepNumber, language = 'en' }: StepThreePro
           </div>
         </div>
       </div>
+
+      <AIWritingAssistant
+        open={showAIAssistant}
+        onClose={() => setShowAIAssistant(false)}
+        onAccept={handleAIAccept}
+        language={language}
+      />
     </div>
   );
 }

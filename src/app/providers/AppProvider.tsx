@@ -9,6 +9,7 @@ interface AppContextValue {
   submitApplication: (data: ApplicationData) => void;
   startNewApplication: () => void;
   navigateToLanding: () => void;
+  cancelApplication: () => void;
 }
 
 const AppContext = createContext<AppContextValue | undefined>(undefined);
@@ -53,12 +54,28 @@ export function AppProvider({ children }: { children: ReactNode }) {
   };
 
   const startNewApplication = () => {
-    setAppState('landing');
+    // Clear localStorage
+    localStorage.removeItem('financialAssistanceApplication');
+    // Reset application data to initial state
     setApplicationData(initialApplicationData);
+    // Clear reference number
     setReferenceNumber('');
+    // Navigate back to landing page
+    setAppState('landing');
   };
 
   const navigateToLanding = () => {
+    // Just navigate to landing page without clearing data
+    // This allows users to resume their application later
+    setAppState('landing');
+  };
+
+  const cancelApplication = () => {
+    // Clear localStorage
+    localStorage.removeItem('financialAssistanceApplication');
+    // Reset application data to initial state
+    setApplicationData(initialApplicationData);
+    // Navigate back to landing page
     setAppState('landing');
   };
 
@@ -72,6 +89,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         submitApplication,
         startNewApplication,
         navigateToLanding,
+        cancelApplication,
       }}
     >
       {children}

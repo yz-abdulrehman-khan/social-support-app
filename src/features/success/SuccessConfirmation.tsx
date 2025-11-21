@@ -43,7 +43,7 @@ export function SuccessConfirmation({
               <CheckCircle2 className="w-10 h-10 text-white" />
             </div>
             <h1 className="text-lg md:text-xl lg:text-2xl font-semibold text-theme-primary mb-2">{intl.formatMessage({ id: 'success.title' })}</h1>
-            <p className="text-sm md:text-base lg:text-lg text-theme-secondary leading-relaxed">
+            <p className="text-[11px] md:text-xs lg:text-sm text-theme-secondary leading-relaxed">
               {intl.formatMessage({ id: 'success.message' })}
             </p>
           </div>
@@ -138,7 +138,7 @@ export function SuccessConfirmation({
           </div>
 
           {/* Important Information */}
-          <div className="rounded-lg p-5 mb-6 bg-theme-info border border-theme">
+          <div className="rounded-lg p-5 mb-6 bg-white border border-theme">
             <h3 className="font-semibold mb-2 text-theme-primary">{intl.formatMessage({ id: 'success.importantInfo.title' })}</h3>
             <ul className="space-y-2 text-sm text-theme-secondary">
               <li className="flex items-start gap-2">

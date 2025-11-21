@@ -20,10 +20,10 @@ export function StepTwo({ control, stepNumber, language = 'en' }: StepTwoProps) 
     <div className="space-y-8">
       {/* Question Number and Title */}
       <div className="mb-8">
-        <h2 className="text-lg md:text-xl lg:text-2xl font-semibold text-foreground-dark mb-3">
+        <h2 className="text-lg md:text-xl lg:text-2xl font-semibold text-foreground-dark">
           {language === 'ar' ? toArabicNumerals(String(stepNumber)) : stepNumber}. {intl.formatMessage({ id: 'form.steps.financial.title' })}
         </h2>
-        <p className="text-sm md:text-base lg:text-lg text-gray-600">
+        <p className="text-[11px] md:text-xs lg:text-sm text-gray-600">
           {intl.formatMessage({ id: 'form.steps.financial.subtitle' })}
         </p>
       </div>
@@ -113,7 +113,7 @@ export function StepTwo({ control, stepNumber, language = 'en' }: StepTwoProps) 
                   </FormControl>
                   <SelectContent>
                     <SelectItem value="employed">{intl.formatMessage({ id: 'form.steps.financial.fields.employed' })}</SelectItem>
-                    <SelectItem value="self-employed">{intl.formatMessage({ id: 'form.steps.financial.fields.selfEmployed' })}</SelectItem>
+                    <SelectItem value="selfEmployed">{intl.formatMessage({ id: 'form.steps.financial.fields.selfEmployed' })}</SelectItem>
                     <SelectItem value="unemployed">{intl.formatMessage({ id: 'form.steps.financial.fields.unemployed' })}</SelectItem>
                     <SelectItem value="retired">{intl.formatMessage({ id: 'form.steps.financial.fields.retired' })}</SelectItem>
                     <SelectItem value="student">{intl.formatMessage({ id: 'form.steps.financial.fields.student' })}</SelectItem>

@@ -1,5 +1,6 @@
 import type { Control } from 'react-hook-form';
 import { useFormContext } from 'react-hook-form';
+import { useRef, useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { DatePicker } from '@/components/ui/date-picker';
@@ -8,6 +9,7 @@ import { useIntl } from 'react-intl';
 import { toArabicNumerals } from '@/lib/i18n';
 import { formatEmiratesId, formatUAEPhone } from '@/features/application-form/validation';
 import type { ApplicationData } from '@/features/application-form/types';
+import { translateToArabic, translateToEnglish } from '@/lib/translation';
 
 type Language = 'en' | 'ar';
 
@@ -19,16 +21,69 @@ interface StepOneProps {
 
 export function StepOne({ control, stepNumber, language = 'en' }: StepOneProps) {
   const intl = useIntl();
-  const { setValue } = useFormContext<ApplicationData>();
+  const { setValue, watch } = useFormContext<ApplicationData>();
+  const isTranslatingRef = useRef(false);
+  const [isTranslating, setIsTranslating] = useState(false);
+
+  const fullNameEnglish = watch('fullNameEnglish');
+  const fullNameArabic = watch('fullNameArabic');
+
+  const handleEnglishBlur = async () => {
+    if (isTranslatingRef.current) return;
+
+    // If English field is empty, clear Arabic field
+    if (!fullNameEnglish?.trim()) {
+      setValue('fullNameArabic', '', { shouldValidate: false });
+      return;
+    }
+
+    try {
+      isTranslatingRef.current = true;
+      setIsTranslating(true);
+      const arabicTranslation = await translateToArabic(fullNameEnglish);
+      if (arabicTranslation) {
+        setValue('fullNameArabic', arabicTranslation, { shouldValidate: false });
+      }
+    } catch (error) {
+      console.error('Failed to translate to Arabic:', error);
+    } finally {
+      isTranslatingRef.current = false;
+      setIsTranslating(false);
+    }
+  };
+
+  const handleArabicBlur = async () => {
+    if (isTranslatingRef.current) return;
+
+    // If Arabic field is empty, clear English field
+    if (!fullNameArabic?.trim()) {
+      setValue('fullNameEnglish', '', { shouldValidate: false });
+      return;
+    }
+
+    try {
+      isTranslatingRef.current = true;
+      setIsTranslating(true);
+      const englishTranslation = await translateToEnglish(fullNameArabic);
+      if (englishTranslation) {
+        setValue('fullNameEnglish', englishTranslation, { shouldValidate: false });
+      }
+    } catch (error) {
+      console.error('Failed to translate to English:', error);
+    } finally {
+      isTranslatingRef.current = false;
+      setIsTranslating(false);
+    }
+  };
 
   return (
     <div className="space-y-8 w-full">
       {/* Question Number and Title */}
       <div className="mb-8">
-        <h2 className="text-lg md:text-xl lg:text-2xl font-semibold text-foreground-dark mb-3">
+        <h2 className="text-lg md:text-xl lg:text-2xl font-semibold text-foreground-dark">
           {language === 'ar' ? toArabicNumerals(String(stepNumber)) : stepNumber}. {intl.formatMessage({ id: 'form.steps.personal.title' })}
         </h2>
-        <p className="text-sm md:text-base lg:text-lg text-gray-600">
+        <p className="text-[11px] md:text-xs lg:text-sm text-gray-600">
           {intl.formatMessage({ id: 'form.steps.personal.subtitle' })}
         </p>
       </div>
@@ -51,6 +106,11 @@ export function StepOne({ control, stepNumber, language = 'en' }: StepOneProps) 
                     id="fullNameEnglish"
                     placeholder={intl.formatMessage({ id: 'form.steps.personal.fields.placeholders.fullNameEnglish' })}
                     className="w-full"
+                    onBlur={() => {
+                      field.onBlur();
+                      handleEnglishBlur();
+                    }}
+                    disabled={isTranslating}
                   />
                 </FormControl>
                 <FormMessage />
@@ -72,6 +132,11 @@ export function StepOne({ control, stepNumber, language = 'en' }: StepOneProps) 
                     placeholder={intl.formatMessage({ id: 'form.steps.personal.fields.placeholders.fullNameArabic' })}
                     className="w-full"
                     dir="rtl"
+                    onBlur={() => {
+                      field.onBlur();
+                      handleArabicBlur();
+                    }}
+                    disabled={isTranslating}
                   />
                 </FormControl>
                 <FormMessage />

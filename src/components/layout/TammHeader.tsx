@@ -34,12 +34,12 @@ export function TammHeader({ language = 'en', onLanguageToggle }: TammHeaderProp
 
           <div className="flex items-center gap-1">
             <Button
-              variant="ghost"
+              variant="subtle"
               size="sm"
-              className="gap-1.5 text-xs md:text-sm text-gray-700"
               onClick={onLanguageToggle}
+              className="language-switcher gap-1.5 text-gray-700 "
             >
-              <Globe className="w-4 h-4" />
+              <Globe className="w-4 h-4 globe-icon" />
               <span>{language === 'en' ? 'العربية' : 'English'}</span>
             </Button>
           </div>

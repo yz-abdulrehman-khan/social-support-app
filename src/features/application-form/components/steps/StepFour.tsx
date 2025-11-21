@@ -17,11 +17,11 @@ export function StepFour({ data, onEdit, stepNumber, language = 'en' }: StepFour
   const intl = useIntl();
 
   const DataRow = ({ label, value }: { label: string; value?: string }) => (
-    <div className="mb-4">
-      <div className="text-xs md:text-sm font-medium text-theme-secondary mb-0.5">
+    <div className="py-3 border-b border-gray-100 last:border-0">
+      <div className="text-xs text-theme-secondary mb-1">
         {label}
       </div>
-      <div className="text-sm md:text-base text-theme-primary">
+      <div className="text-sm text-theme-primary">
         {value || '-'}
       </div>
     </div>
@@ -36,20 +36,20 @@ export function StepFour({ data, onEdit, stepNumber, language = 'en' }: StepFour
     step: number;
     children: React.ReactNode;
   }) => (
-    <div className="pb-6 mb-6 border-b border-theme">
-      <div className="flex items-center justify-between mb-4">
-        <h3 className="text-sm md:text-base lg:text-lg font-semibold text-theme-primary">{title}</h3>
+    <div className="mb-8">
+      <div className="flex items-center justify-between mb-4 pb-3 border-b-2 border-gray-200">
+        <h3 className="text-base font-semibold text-theme-primary">{title}</h3>
         <Button
           onClick={() => onEdit(step)}
-          variant="ghost"
+          variant="subtle"
           size="sm"
-          className="gap-1.5 text-theme-accent hover:text-theme-accent-hover hover:bg-transparent h-auto p-0 text-xs md:text-sm font-medium"
+          className="gap-2 text-theme-accent hover:text-theme-accent-hover"
         >
           <Edit className="w-4 h-4" />
           {intl.formatMessage({ id: 'common.edit' })}
         </Button>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12">
         {children}
       </div>
     </div>
@@ -59,10 +59,10 @@ export function StepFour({ data, onEdit, stepNumber, language = 'en' }: StepFour
     <div className="space-y-8 w-full">
       {/* Question Number and Title */}
       <div className="mb-8">
-        <h2 className="text-lg md:text-xl lg:text-2xl font-semibold text-theme-primary mb-3">
+        <h2 className="text-lg md:text-xl lg:text-2xl font-semibold text-theme-primary">
           {language === 'ar' ? toArabicNumerals(String(stepNumber)) : stepNumber}. {intl.formatMessage({ id: 'form.steps.review.title' })}
         </h2>
-        <p className="text-sm md:text-base lg:text-lg text-theme-secondary">
+        <p className="text-[11px] md:text-xs lg:text-sm text-theme-secondary">
           {intl.formatMessage({ id: 'form.steps.review.subtitle' })}
         </p>
       </div>
@@ -146,22 +146,22 @@ export function StepFour({ data, onEdit, stepNumber, language = 'en' }: StepFour
         </ReviewSection>
 
         {/* Step 3: Situation Description */}
-        <div className="mb-6">
-          <div className="flex items-center justify-between mb-4">
+        <div className="mb-8">
+          <div className="flex items-center justify-between mb-4 pb-3 border-b-2 border-gray-200">
             <h3 className="text-base font-semibold text-theme-primary">{intl.formatMessage({ id: 'form.steps.situation.title' })}</h3>
             <Button
               onClick={() => onEdit(3)}
-              variant="ghost"
+              variant="subtle"
               size="sm"
-              className="gap-1.5 text-theme-accent hover:text-theme-accent-hover hover:bg-transparent h-auto p-0 text-sm font-medium"
+              className="gap-2 text-theme-accent hover:text-theme-accent-hover"
             >
               <Edit className="w-4 h-4" />
               {intl.formatMessage({ id: 'common.edit' })}
             </Button>
           </div>
-          <div className="space-y-4">
+          <div className="space-y-6">
             <div>
-              <div className="text-xs font-medium text-theme-secondary mb-0.5">
+              <div className="text-xs text-theme-secondary mb-2">
                 {intl.formatMessage({ id: 'form.steps.situation.fields.describeYourSituation' })}
               </div>
               <div className="text-sm text-theme-primary leading-relaxed whitespace-pre-wrap">
@@ -170,7 +170,7 @@ export function StepFour({ data, onEdit, stepNumber, language = 'en' }: StepFour
             </div>
             {data.employmentCircumstances && (
               <div>
-                <div className="text-xs font-medium text-theme-secondary mb-0.5">
+                <div className="text-xs text-theme-secondary mb-2">
                   {intl.formatMessage({ id: 'form.steps.situation.fields.employmentCircumstances' })}
                 </div>
                 <div className="text-sm text-theme-primary leading-relaxed whitespace-pre-wrap">
@@ -180,7 +180,7 @@ export function StepFour({ data, onEdit, stepNumber, language = 'en' }: StepFour
             )}
             {data.reasonForApplying && (
               <div>
-                <div className="text-xs font-medium text-theme-secondary mb-0.5">
+                <div className="text-xs text-theme-secondary mb-2">
                   {intl.formatMessage({ id: 'form.steps.situation.fields.reasonForApplying' })}
                 </div>
                 <div className="text-sm text-theme-primary leading-relaxed whitespace-pre-wrap">
@@ -193,15 +193,15 @@ export function StepFour({ data, onEdit, stepNumber, language = 'en' }: StepFour
       </div>
 
       {/* Important Notice */}
-      <div className="bg-theme-info border border-theme rounded-lg p-4 mt-4">
+      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
         <div className="flex gap-3">
-          <div className="shrink-0">
-            <svg className="w-5 h-5 text-theme-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div className="shrink-0 mt-0.5">
+            <svg className="w-5 h-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </div>
           <div className="flex-1">
-            <p className="text-sm text-theme-primary">
+            <p className="text-sm text-gray-700 leading-relaxed">
               {intl.formatMessage({ id: 'form.steps.review.confirmSubmit' })}
             </p>
           </div>

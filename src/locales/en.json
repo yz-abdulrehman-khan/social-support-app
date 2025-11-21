@@ -6,7 +6,14 @@
     "previous": "Previous",
     "questions": "Questions",
     "edit": "Edit",
-    "other": "Other"
+    "other": "Other",
+    "saveProgress": "Save Progress"
+  },
+  "cancelDialog": {
+    "title": "Cancel Application?",
+    "description": "All unsaved progress will be lost and cannot be recovered.",
+    "confirm": "Yes, Cancel Application",
+    "keep": "Keep Editing"
   },
   "landing": {
     "hero": {
@@ -188,7 +195,8 @@
     "fillRequiredFields": "Please fill in all required fields",
     "enterValidEmail": "Please enter a valid email address",
     "enterValidPhone": "Please enter a valid phone number",
-    "provideDetailedDescription": "Please provide a detailed description (minimum 50 characters)"
+    "provideDetailedDescription": "Please provide a detailed description (minimum 50 characters)",
+    "progressSaved": "Progress saved successfully"
   },
   "success": {
     "title": "Application Successfully Submitted",
@@ -228,6 +236,22 @@
       "additionalDocuments": "If you need to provide additional documents, you will be contacted directly",
       "urgentInquiries": "For urgent inquiries, contact our support center at 800-TAMM (8266)"
     }
+  },
+  "aiWritingAssistant": {
+    "title": "AI Writing Assistant",
+    "description": "Describe your situation in your own words, and our AI will help you write a clear and professional description.",
+    "userInputLabel": "Tell us about your situation",
+    "userInputPlaceholder": "Example: I lost my job three months ago and have been struggling to pay rent and medical bills for my sick mother...",
+    "charactersCount": "characters",
+    "generateButton": "Generate Professional Text",
+    "generating": "Generating...",
+    "generatedTextLabel": "Generated Text",
+    "regenerateButton": "Regenerate",
+    "copyButton": "Copy",
+    "copiedButton": "Copied",
+    "cancelButton": "Cancel",
+    "useTextButton": "Use This Text",
+    "errorMessage": "Failed to generate text. Please try again."
   },
   "footer": {
     "emergency": {

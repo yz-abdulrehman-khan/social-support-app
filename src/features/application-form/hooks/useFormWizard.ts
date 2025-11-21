@@ -30,25 +30,36 @@ export function useFormWizard({ initialData, onSubmit, totalSteps }: UseFormWiza
     reValidateMode: 'onBlur',
   });
 
-  useEffect(() => {
-    const subscription = form.watch((formData) => {
-      const autoSave = setInterval(() => {
-        localStorage.setItem('financialAssistanceApplication', JSON.stringify(formData));
-      }, 30000);
+  const handleSaveProgress = () => {
+    const formData = form.getValues();
+    // Only save if there's actual data (not just empty initial values)
+    const hasData = Object.values(formData).some(value =>
+      value !== '' && value !== null && value !== undefined
+    );
 
-      return () => clearInterval(autoSave);
-    });
-
-    return () => subscription.unsubscribe();
-  }, [form]);
+    if (hasData) {
+      localStorage.setItem('financialAssistanceApplication', JSON.stringify(formData));
+      toast.success(intl.formatMessage({ id: 'toast.progressSaved' }));
+    }
+  };
 
   useEffect(() => {
     const savedData = localStorage.getItem('financialAssistanceApplication');
     if (savedData) {
       try {
         const parsed = JSON.parse(savedData);
-        form.reset(parsed);
-        toast.success(intl.formatMessage({ id: 'toast.previousDataRestored' }));
+        // Only restore if there's actual data (not just empty initial values)
+        const hasData = Object.values(parsed).some(value =>
+          value !== '' && value !== null && value !== undefined
+        );
+
+        if (hasData) {
+          form.reset(parsed);
+          toast.success(intl.formatMessage({ id: 'toast.previousDataRestored' }));
+        } else {
+          // Clean up empty data from localStorage
+          localStorage.removeItem('financialAssistanceApplication');
+        }
       } catch (e) {
         console.error('Failed to load saved data', e);
       }
@@ -120,5 +131,6 @@ export function useFormWizard({ initialData, onSubmit, totalSteps }: UseFormWiza
     handleNext,
     handlePrevious,
     handleEditStep,
+    handleSaveProgress,
   };
 }

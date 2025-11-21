@@ -6,7 +6,14 @@
     "previous": "السابق",
     "questions": "الأسئلة",
     "edit": "تعديل",
-    "other": "أخرى"
+    "other": "أخرى",
+    "saveProgress": "حفظ التقدم"
+  },
+  "cancelDialog": {
+    "title": "إلغاء الطلب؟",
+    "description": "سيتم فقدان جميع التقدم غير المحفوظ ولا يمكن استرداده.",
+    "confirm": "نعم، إلغاء الطلب",
+    "keep": "متابعة التعديل"
   },
   "landing": {
     "hero": {
@@ -183,12 +190,28 @@
     "invalidNumber": "يرجى إدخال رقم صالح",
     "minLength": "يرجى إدخال {min} حرفًا على الأقل"
   },
+  "aiWritingAssistant": {
+    "title": "مساعد الكتابة بالذكاء الاصطناعي",
+    "description": "صف موقفك بكلماتك الخاصة، وسيساعدك الذكاء الاصطناعي في كتابة وصف واضح واحترافي.",
+    "userInputLabel": "أخبرنا عن موقفك",
+    "userInputPlaceholder": "مثال: فقدت وظيفتي منذ ثلاثة أشهر وأعاني من دفع الإيجار والفواتير الطبية لأمي المريضة...",
+    "charactersCount": "حرف",
+    "generateButton": "إنشاء نص احترافي",
+    "generating": "جاري الإنشاء...",
+    "generatedTextLabel": "النص المُنشأ",
+    "regenerateButton": "إعادة الإنشاء",
+    "copyButton": "نسخ",
+    "copiedButton": "تم النسخ",
+    "useTextButton": "استخدام هذا النص",
+    "errorMessage": "فشل إنشاء النص. يرجى المحاولة مرة أخرى."
+  },
   "toast": {
     "previousDataRestored": "تم استعادة بيانات الطلب السابق",
     "fillRequiredFields": "يرجى ملء جميع الحقول المطلوبة",
     "enterValidEmail": "يرجى إدخال بريد إلكتروني صالح",
     "enterValidPhone": "يرجى إدخال رقم هاتف صالح",
-    "provideDetailedDescription": "يرجى تقديم وصف مفصل (٥٠ حرفًا على الأقل)"
+    "provideDetailedDescription": "يرجى تقديم وصف مفصل (٥٠ حرفًا على الأقل)",
+    "progressSaved": "تم حفظ التقدم بنجاح"
   },
   "success": {
     "title": "تم إرسال الطلب بنجاح",

@@ -1,5 +1,16 @@
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 import { TammHeader } from '@/components/layout/TammHeader';
 import { TammFooter } from '@/components/layout/TammFooter';
 import { StepOne } from './steps/StepOne';
@@ -11,6 +22,7 @@ import { ArrowLeft, ArrowRight, Check } from 'lucide-react';
 import { useIntl } from 'react-intl';
 import { toArabicNumerals } from '@/lib/i18n';
 import { useFormWizard } from '@/features/application-form/hooks/useFormWizard';
+import { useApp } from '@/app/providers/AppProvider';
 
 type Language = 'en' | 'ar';
 
@@ -26,12 +38,23 @@ export function FormWizard({ initialData, onSubmit, language = 'en', onLanguageT
   const intl = useIntl();
   const totalSteps = 4;
   const isRTL = language === 'ar';
+  const { cancelApplication } = useApp();
+  const [showCancelDialog, setShowCancelDialog] = useState(false);
 
-  const { form, currentStep, handleNext, handlePrevious, handleEditStep } = useFormWizard({
+  const { form, currentStep, handleNext, handlePrevious, handleEditStep, handleSaveProgress } = useFormWizard({
     initialData,
     onSubmit,
     totalSteps,
   });
+
+  const handleCancelClick = () => {
+    setShowCancelDialog(true);
+  };
+
+  const handleConfirmCancel = () => {
+    setShowCancelDialog(false);
+    cancelApplication();
+  };
 
   const steps = [
     { number: 1, label: intl.formatMessage({ id: 'form.steps.personal.title' }), completed: currentStep > 1 },
@@ -147,35 +170,35 @@ export function FormWizard({ initialData, onSubmit, language = 'en', onLanguageT
                 )}
               </Form>
 
-              <div className="mt-8 flex items-center justify-between">
-                <div className="flex items-center gap-3">
+              <div className="mt-8 flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-between gap-4">
+                <div className="flex items-center gap-3 justify-center sm:justify-start">
                   {currentStep > 1 && (
                     <Button
                       type="button"
                       variant="subtle"
                       onClick={handlePrevious}
-                      className="rounded-full px-6 h-10 font-normal"
+                      className="rounded-full px-6 h-10 font-normal flex-1 sm:flex-initial"
                     >
                       {isRTL ? (
                         <>
-                          <span>{intl.formatMessage({ id: 'common.previous' })}</span>
+                          <span className="hidden sm:inline">{intl.formatMessage({ id: 'common.previous' })}</span>
                           <ArrowRight className="w-4 h-4" />
                         </>
                       ) : (
                         <>
                           <ArrowLeft className="w-4 h-4" />
-                          <span>{intl.formatMessage({ id: 'common.previous' })}</span>
+                          <span className="hidden sm:inline">{intl.formatMessage({ id: 'common.previous' })}</span>
                         </>
                       )}
                     </Button>
                   )}
                   <Button
                     onClick={handleNext}
-                    className="rounded-full px-6 h-10 font-normal inline-flex items-center gap-2 bg-theme-accent hover:bg-theme-accent-hover text-white"
+                    className="rounded-full px-6 h-10 font-normal inline-flex items-center gap-2 bg-theme-accent hover:bg-theme-accent-hover text-white flex-1 sm:flex-initial"
                   >
                     {isRTL ? (
                       <>
-                        <span>
+                        <span className="text-xs sm:text-sm">
                           {currentStep === totalSteps
                             ? intl.formatMessage({ id: 'form.navigation.submitApplication' })
                             : currentStep === 3
@@ -186,7 +209,7 @@ export function FormWizard({ initialData, onSubmit, language = 'en', onLanguageT
                       </>
                     ) : (
                       <>
-                        <span>
+                        <span className="text-xs sm:text-sm">
                           {currentStep === totalSteps
                             ? intl.formatMessage({ id: 'form.navigation.submitApplication' })
                             : currentStep === 3
@@ -199,14 +222,24 @@ export function FormWizard({ initialData, onSubmit, language = 'en', onLanguageT
                   </Button>
                 </div>
 
-                <Button
-                  type="button"
-                  variant="cancel"
-                  onClick={() => currentStep === 1 && onBreadcrumbHome ? onBreadcrumbHome() : window.history.back()}
-                  className="rounded-full px-6 h-10 font-normal"
-                >
-                  {intl.formatMessage({ id: 'common.cancel' })}
-                </Button>
+                <div className="flex items-center gap-3 w-full sm:w-auto">
+                  <Button
+                    type="button"
+                    variant="subtle"
+                    onClick={handleSaveProgress}
+                    className="rounded-full px-6 h-10 font-normal flex-1 sm:flex-initial"
+                  >
+                    {intl.formatMessage({ id: 'common.saveProgress' })}
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="cancel"
+                    onClick={handleCancelClick}
+                    className="rounded-full px-6 h-10 font-normal flex-1 sm:flex-initial"
+                  >
+                    {intl.formatMessage({ id: 'common.cancel' })}
+                  </Button>
+                </div>
               </div>
             </main>
           </div>
@@ -214,6 +247,27 @@ export function FormWizard({ initialData, onSubmit, language = 'en', onLanguageT
       </div>
 
       <TammFooter language={language} />
+
+      <AlertDialog open={showCancelDialog} onOpenChange={setShowCancelDialog}>
+        <AlertDialogContent dir={isRTL ? 'rtl' : 'ltr'} className="max-w-md">
+          <AlertDialogHeader className={isRTL ? 'text-right' : ''}>
+            <AlertDialogTitle>
+              {intl.formatMessage({ id: 'cancelDialog.title' })}
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              {intl.formatMessage({ id: 'cancelDialog.description' })}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter className={isRTL ? 'sm:flex-row sm:justify-start' : 'sm:flex-row sm:justify-end'}>
+            <AlertDialogCancel className="bg-theme-accent hover:bg-theme-accent-hover text-white">
+              {intl.formatMessage({ id: 'cancelDialog.keep' })}
+            </AlertDialogCancel>
+            <AlertDialogAction onClick={handleConfirmCancel}>
+              {intl.formatMessage({ id: 'cancelDialog.confirm' })}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
