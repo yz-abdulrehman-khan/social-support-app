@@ -3,16 +3,10 @@ import ReactDatePicker, { registerLocale } from 'react-datepicker';
 import { arSA } from 'date-fns/locale';
 import 'react-datepicker/dist/react-datepicker.css';
 import { cn } from '@/lib/utils';
-import { useIntl } from 'react-intl';
+import { toArabicNumerals } from '@/lib/i18n-utils';
 
 // Register Arabic locale
 registerLocale('ar', arSA);
-
-// Helper function to convert Western numerals to Arabic numerals
-const toArabicNumerals = (str: string | number): string => {
-  const arabicNumerals = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
-  return String(str).replace(/\d/g, (digit) => arabicNumerals[parseInt(digit)]);
-};
 
 interface DatePickerProps {
   id?: string;
@@ -70,7 +64,7 @@ export function DatePicker({ id, value, onChange, className, language = 'en', pl
 
   // Render day numbers in Arabic numerals when Arabic is selected
   const renderDayContents = (day: number) => {
-    return <span>{formatNumber(day, language)}</span>;
+    return <span>{language === 'ar' ? toArabicNumerals(String(day)) : day}</span>;
   };
 
   // Render custom header with Arabic numerals for year
@@ -90,24 +84,23 @@ export function DatePicker({ id, value, onChange, className, language = 'en', pl
     const years = Array.from({ length: 100 }, (_, i) => new Date().getFullYear() - i);
 
     return (
-      <div className="flex items-center justify-between px-3 sm:px-4 py-3 mb-2">
+      <div className="flex items-center justify-between px-4 py-3 mb-2">
         <button
           type="button"
           onClick={decreaseMonth}
           disabled={prevMonthButtonDisabled}
-          className="p-1.5 sm:p-2 hover:bg-gray-100 rounded-lg flex items-center justify-center disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+          className="p-1.5 hover:bg-accent/10 rounded-md flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
         >
-          <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d={isRTL ? "M9 5l7 7-7 7" : "M15 19l-7-7 7-7"} />
+          <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={isRTL ? "M9 5l7 7-7 7" : "M15 19l-7-7 7-7"} />
           </svg>
         </button>
 
-        <div className="flex items-center gap-2 sm:gap-4">
+        <div className="flex items-center gap-2.5">
           <select
             value={months[date.getMonth()]}
             onChange={({ target: { value } }) => changeMonth(months.indexOf(value))}
-            className="text-xs sm:text-sm font-semibold bg-white border border-gray-200 rounded-md px-2 sm:px-3 py-1.5 outline-none cursor-pointer hover:border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
-            style={{ minWidth: '70px' }}
+            className="text-sm font-semibold bg-white border border-gray-200 rounded-md px-3 py-1.5 outline-none cursor-pointer hover:border-accent focus:border-primary transition-colors min-w-[80px]"
           >
             {months.map((month) => (
               <option key={month} value={month}>
@@ -119,12 +112,11 @@ export function DatePicker({ id, value, onChange, className, language = 'en', pl
           <select
             value={date.getFullYear()}
             onChange={({ target: { value } }) => changeYear(Number(value))}
-            className="text-xs sm:text-sm font-semibold bg-white border border-gray-200 rounded-md px-2 sm:px-3 py-1.5 outline-none cursor-pointer hover:border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
-            style={{ minWidth: '75px' }}
+            className="text-sm font-semibold bg-white border border-gray-200 rounded-md px-3 py-1.5 outline-none cursor-pointer hover:border-accent focus:border-primary transition-colors min-w-[85px]"
           >
             {years.map((year) => (
               <option key={year} value={year}>
-                {formatNumber(year, language)}
+                {language === 'ar' ? toArabicNumerals(String(year)) : year}
               </option>
             ))}
           </select>
@@ -134,10 +126,10 @@ export function DatePicker({ id, value, onChange, className, language = 'en', pl
           type="button"
           onClick={increaseMonth}
           disabled={nextMonthButtonDisabled}
-          className="p-1.5 sm:p-2 hover:bg-gray-100 rounded-lg flex items-center justify-center disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+          className="p-1.5 hover:bg-accent/10 rounded-md flex items-center justify-center disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
         >
-          <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d={isRTL ? "M15 19l-7-7 7-7" : "M9 5l7 7-7 7"} />
+          <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={isRTL ? "M15 19l-7-7 7-7" : "M9 5l7 7-7 7"} />
           </svg>
         </button>
       </div>

@@ -41,7 +41,7 @@ export function TammHeader({ language = 'en', onLanguageToggle }: TammHeaderProp
             <Button
               variant="ghost"
               size="sm"
-              className="gap-1.5 text-xs md:text-sm text-gray-700 hover:text-theme-accent hover:bg-gray-50"
+              className="gap-1.5 text-xs md:text-sm text-gray-700"
               onClick={onLanguageToggle}
             >
               <Globe className="w-4 h-4" />

@@ -192,8 +192,9 @@
   input[type="number"]:focus,
   select:focus,
   textarea:focus {
-    border-color: var(--accent);
-    ring: 1px var(--accent);
+    @apply outline-none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 1px var(--primary), 0 0 8px rgba(14, 236, 218, 0.2);
   }
 
   input[type="text"]:hover,
@@ -218,12 +219,16 @@
 
   /* Focus States - Accessibility */
   button:focus-visible:not([role="option"]):not([data-slot="select-item"]),
-  a:focus-visible,
+  a:focus-visible {
+    @apply outline-none ring-2 ring-offset-2;
+    --tw-ring-color: var(--primary);
+  }
+
+  /* Input focus - border only, no outline */
   input:focus-visible,
   textarea:focus-visible,
   select:focus-visible {
-    @apply outline-none ring-2 ring-offset-2;
-    --tw-ring-color: var(--primary);
+    @apply outline-none;
   }
 
   /* Prevent focus ring on dropdown items */
@@ -258,6 +263,17 @@
 
   .shadow-clean-lg {
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  }
+
+  /* Animated Border Effect */
+  .button-border-animate {
+    position: relative;
+    transition: all 0.3s ease;
+  }
+
+  .button-border-animate:hover {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 1px var(--primary), 0 0 12px rgba(14, 236, 218, 0.4);
   }
 
   /* Theme Color Utilities */

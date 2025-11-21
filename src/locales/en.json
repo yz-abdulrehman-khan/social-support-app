@@ -1,167 +1,232 @@
 {
-  "login": "Login",
-  "signup": "Sign Up",
-  "heroTitle": "Financial Assistance Application Portal",
-  "heroSubtitle": "Access government financial support securely and with dignity.",
-  "startApplication": "Start Your Application",
-  "featuresTitle": "Why Apply Through Our Portal",
-  "featuresSubtitle": "Our platform makes it easy to apply for financial assistance with complete privacy and dignity.",
-  "feature1Title": "Secure & Confidential",
-  "feature1Desc": "Your personal information is protected with government-grade security.",
-  "feature2Title": "Fast Processing",
-  "feature2Desc": "Applications are reviewed promptly to provide timely assistance.",
-  "feature3Title": "Easy to Use",
-  "feature3Desc": "Simple step-by-step process with helpful guidance throughout.",
-  "feature4Title": "AI Writing Help",
-  "feature4Desc": "Get assistance describing your situation with our AI-powered tool.",
-  "eligibilityTitle": "Am I Eligible?",
-  "eligibilityIntro": "You may qualify for financial assistance if you meet any of the following criteria:",
-  "eligibilityCriteria.0": "UAE National or legal resident facing temporary financial hardship",
-  "eligibilityCriteria.1": "Family income below the established threshold",
-  "eligibilityCriteria.2": "Unemployed and actively seeking employment",
-  "eligibilityCriteria.3": "Medical emergency causing financial strain",
-  "eligibilityCriteria.4": "Supporting dependents with special needs",
-  "eligibilityCriteria.5": "Affected by natural disaster or unforeseen circumstances",
-  "eligibilityNote": "Don't worry if you're unsure - our team will review all applications fairly and compassionately.",
-  "processTitle": "How It Works",
-  "processSubtitle": "Three simple steps to submit your application",
-  "step1": "Fill Application",
-  "step1Desc": "Complete the secure online form with your details",
-  "step2": "Review & Submit",
-  "step2Desc": "Review your information and submit your application",
-  "step3": "Receive Confirmation",
-  "step3Desc": "Get instant confirmation and track your application status",
-  "home": "Home",
-  "journeys": "Journeys",
-  "financialAssistance": "Financial Assistance Application",
-  "questions": "Questions",
-  "previous": "Previous",
-  "next": "Next",
-  "cancel": "Cancel",
-  "reviewSubmit": "Review & Submit",
-  "lastSaved": "Last saved",
-  "emergencyNumbers": "Emergency Numbers",
-  "viewAllNumbers": "View All Numbers",
-  "police": "Police",
-  "ambulance": "Ambulance",
-  "civilDefence": "Civil Defence",
-  "serviceForIndividuals": "Service for Individuals",
-  "serviceForBusiness": "Service for Business",
-  "support": "Support",
-  "aboutUs": "About Us",
-  "helpTopics": "Help Topics",
-  "privacyPolicy": "Privacy Policy",
-  "fileComplaint": "File a Complaint",
-  "reportBug": "Report a Bug",
-  "giveSuggestion": "Give a Suggestion",
-  "shareCompliment": "Share a Compliment",
-  "provideFeedback": "Provide Feedback",
-  "whatIsTAMM": "What is TAMM",
-  "tammServices": "TAMM Services",
-  "tammCases": "TAMM Cases",
-  "findServiceCenters": "Find TAMM Service Centers",
-  "copyright": "© 2025 Abu Dhabi Government. All rights reserved.",
-  "needHelp": "Need Help?",
-  "needHelpDesc": "Our support team is available 24/7 to assist you. Contact us through chat, phone, or visit a service center.",
-  "findServiceCenter": "Find Service Center",
-  "contactSupport": "Contact Support",
-  "step1Title": "Personal Information",
-  "step1Subtitle": "Please provide your basic personal details as they appear on your Emirates ID.",
-  "fullNameEnglish": "Full Name (English)",
-  "fullNameArabic": "Full Name (Arabic)",
-  "emiratesId": "Emirates ID Number",
-  "dateOfBirth": "Date of Birth",
-  "gender": "Gender",
-  "selectGender": "Select gender",
-  "male": "Male",
-  "female": "Female",
-  "nationality": "Nationality",
-  "phoneNumber": "Phone Number",
-  "email": "Email Address",
-  "street": "Street Address",
-  "city": "City",
-  "emirate": "Emirate",
-  "country": "Country",
-  "postalCode": "Postal Code",
-  "step2Title": "Family & Financial Details",
-  "step2Subtitle": "Help us understand your household situation and financial circumstances.",
-  "maritalStatus": "Marital Status",
-  "selectMaritalStatus": "Select marital status",
-  "single": "Single",
-  "married": "Married",
-  "divorced": "Divorced",
-  "widowed": "Widowed",
-  "numberOfDependents": "Number of Dependents",
-  "monthlyIncome": "Monthly Household Income (AED)",
-  "employmentStatus": "Employment Status",
-  "selectEmploymentStatus": "Select employment status",
-  "employed": "Employed",
-  "unemployed": "Unemployed",
-  "selfEmployed": "Self-Employed",
-  "retired": "Retired",
-  "student": "Student",
-  "housingStatus": "Housing Status",
-  "selectHousingStatus": "Select housing status",
-  "owned": "Owned",
-  "rented": "Rented",
-  "familyHousing": "Family Housing",
-  "governmentHousing": "Government Housing",
-  "other": "Other",
-  "step3Title": "Situation Description",
-  "step3Subtitle": "Please describe your current situation. The more details you provide, the better we can assess your needs.",
-  "assistanceType": "Type of Assistance Needed",
-  "step4Title": "Review & Confirm",
-  "step4Subtitle": "Please review all your information carefully before submitting. You can edit any section by clicking the Edit button.",
-  "editSection": "Edit",
-  "personalInfo": "Personal Information",
-  "contactInfo": "Contact Information",
-  "addressInfo": "Address Information",
-  "familyFinancialInfo": "Family & Financial Details",
-  "situationInfo": "Situation Description",
-  "submitApplication": "Submit Application",
-  "confirmSubmit": "Are you sure you want to submit this application? Please review all information carefully.",
-  "selectAssistanceType": "Select assistance type",
-  "financialSupport": "Financial Support",
-  "medicalAssistance": "Medical Assistance",
-  "housingSupport": "Housing Support",
-  "educationSupport": "Education Support",
-  "emergencyRelief": "Emergency Relief",
-  "describeYourSituation": "Describe Your Situation",
-  "situationPlaceholder": "Please explain your current circumstances and why you are seeking assistance. Be as detailed as possible.",
-  "helpMeWrite": "Help Me Write",
-  "supportingDocuments": "Supporting Documents",
-  "uploadDocuments": "Upload documents",
-  "uploadHint": "Upload any supporting documents (Emirates ID, medical records, bills, etc.)",
-  "declaration": "Declaration",
-  "declarationText": "I declare that all information provided in this application is true and accurate to the best of my knowledge.",
-  "required": "This field is required",
-  "invalidEmail": "Please enter a valid email address",
-  "invalidPhone": "Please enter a valid phone number",
-  "invalidEmiratesId": "Please enter a valid Emirates ID (e.g., 784-1234-1234567-1)",
-  "successTitle": "Application Successfully Submitted",
-  "successMessage": "Your financial assistance application has been received and is now being reviewed.",
-  "yourReferenceNumber": "Your Reference Number",
-  "saveReferenceNumber": "Please save this number for tracking your application",
-  "downloadConfirmation": "Download Confirmation",
-  "emailConfirmation": "Email Confirmation",
-  "whatHappensNext": "What Happens Next?",
-  "returnToHome": "Return to Home",
-  "applicationReview": "Application Review",
-  "applicationReviewDesc": "Your application will be reviewed within 5-7 business days.",
-  "eligibilityAssessment": "Eligibility Assessment",
-  "eligibilityAssessmentDesc": "We will assess your eligibility based on the information provided.",
-  "decisionNotification": "Decision Notification",
-  "decisionNotificationDesc": "You will receive a notification via email and SMS.",
-  "supportDisbursement": "Support Disbursement",
-  "supportDisbursementDesc": "If approved, assistance will be processed and disbursed.",
-  "importantInformation": "Important Information",
-  "checkEmail": "Check your email regularly for updates on your application status",
-  "trackApplication": "You can track your application status using your reference number",
-  "additionalDocuments": "If you need to provide additional documents, you will be contacted directly",
-  "urgentInquiries": "For urgent inquiries, contact our support center at 800-TAMM (8266)",
-  "previousDataRestored": "Previous application data restored",
-  "fillRequiredFields": "Please fill in all required fields",
-  "enterValidEmail": "Please enter a valid email address",
-  "enterValidPhone": "Please enter a valid phone number",
-  "provideDetailedDescription": "Please provide a detailed description (minimum 50 characters)"
+  "common": {
+    "home": "Home",
+    "cancel": "Cancel",
+    "next": "Next",
+    "previous": "Previous",
+    "questions": "Questions",
+    "edit": "Edit",
+    "other": "Other"
+  },
+  "landing": {
+    "hero": {
+      "title": "Financial Assistance Application Portal",
+      "subtitle": "Access government financial support securely and with dignity.",
+      "startButton": "Start Your Application"
+    },
+    "features": {
+      "title": "Why Apply Through Our Portal",
+      "subtitle": "Apply for financial assistance with privacy and dignity.",
+      "security": {
+        "title": "Secure & Confidential",
+        "description": "Your data is encrypted and secure."
+      },
+      "processing": {
+        "title": "Fast Processing",
+        "description": "Reviewed within 5-7 business days."
+      },
+      "usability": {
+        "title": "Easy to Use",
+        "description": "Intuitive step-by-step interface."
+      },
+      "aiHelp": {
+        "title": "AI Writing Help",
+        "description": "AI-powered writing assistance."
+      }
+    },
+    "process": {
+      "title": "How It Works",
+      "subtitle": "Three simple steps to submit your application",
+      "steps": {
+        "apply": {
+          "title": "Fill Application",
+          "description": "Complete the secure online form with your details"
+        },
+        "review": {
+          "title": "Review & Submit",
+          "description": "Review your information and submit your application"
+        },
+        "confirm": {
+          "title": "Receive Confirmation",
+          "description": "Get instant confirmation and track your application status"
+        }
+      }
+    },
+    "help": {
+      "title": "Need Help?",
+      "description": "Our support team is available 24/7 to assist you. Contact us through chat, phone, or visit a service center.",
+      "contactSupport": "Contact Support",
+      "findServiceCenter": "Find Service Center"
+    }
+  },
+  "form": {
+    "title": "Financial Assistance Application",
+    "navigation": {
+      "reviewSubmit": "Review & Submit",
+      "submitApplication": "Submit Application"
+    },
+    "steps": {
+      "personal": {
+        "title": "Personal Information",
+        "subtitle": "Please provide your basic personal details as they appear on your Emirates ID.",
+        "sections": {
+          "info": "Personal Information",
+          "contact": "Contact Information",
+          "address": "Address Information"
+        },
+        "fields": {
+          "fullNameEnglish": "Full Name (English)",
+          "fullNameArabic": "Full Name (Arabic)",
+          "emiratesId": "Emirates ID Number",
+          "dateOfBirth": "Date of Birth",
+          "gender": "Gender",
+          "selectGender": "Select gender",
+          "male": "Male",
+          "female": "Female",
+          "nationality": "Nationality",
+          "phoneNumber": "Phone Number",
+          "email": "Email Address",
+          "street": "Street Address",
+          "city": "City",
+          "emirate": "Emirate",
+          "country": "Country",
+          "postalCode": "Postal Code"
+        }
+      },
+      "financial": {
+        "title": "Family & Financial Details",
+        "subtitle": "Help us understand your household situation and financial circumstances.",
+        "section": "Family & Financial Details",
+        "fields": {
+          "maritalStatus": "Marital Status",
+          "selectMaritalStatus": "Select marital status",
+          "single": "Single",
+          "married": "Married",
+          "divorced": "Divorced",
+          "widowed": "Widowed",
+          "numberOfDependents": "Number of Dependents",
+          "monthlyIncome": "Monthly Household Income (AED)",
+          "employmentStatus": "Employment Status",
+          "selectEmploymentStatus": "Select employment status",
+          "employed": "Employed",
+          "unemployed": "Unemployed",
+          "selfEmployed": "Self-Employed",
+          "retired": "Retired",
+          "student": "Student",
+          "housingStatus": "Housing Status",
+          "selectHousingStatus": "Select housing status",
+          "owned": "Owned",
+          "rented": "Rented",
+          "familyHousing": "Family Housing",
+          "governmentHousing": "Government Housing"
+        }
+      },
+      "situation": {
+        "title": "Situation Description",
+        "subtitle": "Please describe your current situation. The more details you provide, the better we can assess your needs.",
+        "section": "Situation Description",
+        "fields": {
+          "assistanceType": "Type of Assistance Needed",
+          "selectAssistanceType": "Select assistance type",
+          "financialSupport": "Financial Support",
+          "medicalAssistance": "Medical Assistance",
+          "housingSupport": "Housing Support",
+          "educationSupport": "Education Support",
+          "emergencyRelief": "Emergency Relief",
+          "describeYourSituation": "Describe Your Situation",
+          "situationPlaceholder": "Please explain your current circumstances and why you are seeking assistance. Be as detailed as possible.",
+          "helpMeWrite": "Help Me Write",
+          "supportingDocuments": "Supporting Documents",
+          "uploadDocuments": "Upload documents",
+          "uploadHint": "Upload any supporting documents (Emirates ID, medical records, bills, etc.)",
+          "declaration": "Declaration",
+          "declarationText": "I declare that all information provided in this application is true and accurate to the best of my knowledge."
+        }
+      },
+      "review": {
+        "title": "Review & Confirm",
+        "subtitle": "Please review all your information carefully before submitting. You can edit any section by clicking the Edit button.",
+        "confirmSubmit": "Are you sure you want to submit this application? Please review all information carefully."
+      }
+    }
+  },
+  "validation": {
+    "required": "This field is required",
+    "invalidEmail": "Please enter a valid email address",
+    "invalidPhone": "Please enter a valid phone number",
+    "invalidEmiratesId": "Please enter a valid Emirates ID (e.g., 784-1234-1234567-1)"
+  },
+  "toast": {
+    "previousDataRestored": "Previous application data restored",
+    "fillRequiredFields": "Please fill in all required fields",
+    "enterValidEmail": "Please enter a valid email address",
+    "enterValidPhone": "Please enter a valid phone number",
+    "provideDetailedDescription": "Please provide a detailed description (minimum 50 characters)"
+  },
+  "success": {
+    "title": "Application Successfully Submitted",
+    "message": "Your financial assistance application has been received and is now being reviewed.",
+    "reference": {
+      "title": "Your Reference Number",
+      "saveNote": "Please save this number for tracking your application",
+      "downloadConfirmation": "Download Confirmation",
+      "emailConfirmation": "Email Confirmation"
+    },
+    "nextSteps": {
+      "title": "What Happens Next?",
+      "returnHome": "Return to Home",
+      "steps": {
+        "review": {
+          "title": "Application Review",
+          "description": "Your application will be reviewed within 5-7 business days."
+        },
+        "assessment": {
+          "title": "Eligibility Assessment",
+          "description": "We will assess your eligibility based on the information provided."
+        },
+        "notification": {
+          "title": "Decision Notification",
+          "description": "You will receive a notification via email and SMS."
+        },
+        "disbursement": {
+          "title": "Support Disbursement",
+          "description": "If approved, assistance will be processed and disbursed."
+        }
+      }
+    },
+    "importantInfo": {
+      "title": "Important Information",
+      "checkEmail": "Check your email regularly for updates on your application status",
+      "trackApplication": "You can track your application status using your reference number",
+      "additionalDocuments": "If you need to provide additional documents, you will be contacted directly",
+      "urgentInquiries": "For urgent inquiries, contact our support center at 800-TAMM (8266)"
+    }
+  },
+  "footer": {
+    "emergency": {
+      "title": "Emergency Numbers",
+      "viewAll": "View All Numbers",
+      "police": "Police",
+      "ambulance": "Ambulance",
+      "civilDefence": "Civil Defence"
+    },
+    "links": {
+      "individuals": "Service for Individuals",
+      "business": "Service for Business",
+      "support": "Support",
+      "aboutUs": "About Us",
+      "helpTopics": "Help Topics",
+      "privacyPolicy": "Privacy Policy",
+      "fileComplaint": "File a Complaint",
+      "reportBug": "Report a Bug",
+      "giveSuggestion": "Give a Suggestion",
+      "shareCompliment": "Share a Compliment",
+      "provideFeedback": "Provide Feedback",
+      "whatIsTAMM": "What is TAMM",
+      "tammServices": "TAMM Services",
+      "tammCases": "TAMM Cases",
+      "findServiceCenters": "Find TAMM Service Centers"
+    },
+    "copyright": "© 2025 Abu Dhabi Government. All rights reserved."
+  }
 }

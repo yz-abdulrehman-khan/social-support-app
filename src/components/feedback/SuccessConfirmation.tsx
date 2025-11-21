@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { TammHeader } from '@/components/layout/TammHeader';
 import { TammFooter } from '@/components/layout/TammFooter';
 import { useIntl } from 'react-intl';
+import { toArabicNumerals } from '@/lib/i18n-utils';
 
 type Language = 'en' | 'ar';
 
@@ -41,23 +42,23 @@ export function SuccessConfirmation({
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full mb-4 bg-theme-success">
               <CheckCircle2 className="w-10 h-10 text-white" />
             </div>
-            <h1 className="text-xl md:text-2xl lg:text-3xl font-semibold text-theme-primary mb-2">{intl.formatMessage({ id: 'successTitle' })}</h1>
+            <h1 className="text-xl md:text-2xl lg:text-3xl font-semibold text-theme-primary mb-2">{intl.formatMessage({ id: 'success.title' })}</h1>
             <p className="text-sm md:text-base lg:text-lg text-theme-secondary leading-relaxed">
-              {intl.formatMessage({ id: 'successMessage' })}
+              {intl.formatMessage({ id: 'success.message' })}
             </p>
           </div>
 
           {/* Reference Number */}
-          <div className="bg-white rounded-lg p-5 mb-6 border border-theme">
+          <div className="bg-white rounded-lg p-5 mb-6 border border-theme button-border-animate">
             <div className="text-center mb-4">
-              <p className="text-xs md:text-sm font-medium mb-2 text-theme-secondary">{intl.formatMessage({ id: 'yourReferenceNumber' })}</p>
+              <p className="text-xs md:text-sm font-medium mb-2 text-theme-secondary">{intl.formatMessage({ id: 'success.reference.title' })}</p>
               <div className="rounded-lg p-4 mb-3 bg-theme-light">
                 <p className="text-xl md:text-2xl lg:text-3xl tracking-widest font-mono text-theme-primary">
                   {referenceNumber}
                 </p>
               </div>
               <p className="text-xs md:text-sm text-theme-secondary leading-relaxed">
-                {intl.formatMessage({ id: 'saveReferenceNumber' })}
+                {intl.formatMessage({ id: 'success.reference.saveNote' })}
               </p>
             </div>
 
@@ -66,70 +67,70 @@ export function SuccessConfirmation({
               <Button
                 variant="outline"
                 onClick={handleDownload}
-                className="gap-2 rounded-full border-theme-accent text-theme-accent hover:bg-theme-accent hover:text-white"
+                className="gap-2 rounded-full border-accent text-accent"
               >
                 <Download className="w-4 h-4" />
-                {intl.formatMessage({ id: 'downloadConfirmation' })}
+                {intl.formatMessage({ id: 'success.reference.downloadConfirmation' })}
               </Button>
               <Button
                 variant="outline"
                 onClick={handleEmail}
-                className="gap-2 rounded-full border-theme-accent text-theme-accent hover:bg-theme-accent hover:text-white"
+                className="gap-2 rounded-full border-accent text-accent"
               >
                 <Mail className="w-4 h-4" />
-                {intl.formatMessage({ id: 'emailConfirmation' })}
+                {intl.formatMessage({ id: 'success.reference.emailConfirmation' })}
               </Button>
             </div>
           </div>
 
           {/* Next Steps */}
-          <div className="bg-white rounded-lg p-6 mb-6 border border-theme">
-            <h2 className="text-base md:text-lg lg:text-xl font-semibold mb-4 text-theme-primary">{intl.formatMessage({ id: 'whatHappensNext' })}</h2>
+          <div className="bg-white rounded-lg p-6 mb-6 border border-theme button-border-animate">
+            <h2 className="text-base md:text-lg lg:text-xl font-semibold mb-4 text-theme-primary">{intl.formatMessage({ id: 'success.nextSteps.title' })}</h2>
             <div className="space-y-4">
               <div className="flex gap-4 items-start">
                 <div className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-white bg-theme-accent font-semibold">
-                  {intl.formatNumber(1)}
+                  {language === 'ar' ? toArabicNumerals(String(1)) : 1}
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-sm md:text-base font-semibold mb-1 text-theme-primary">{intl.formatMessage({ id: 'applicationReview' })}</h3>
+                  <h3 className="text-sm md:text-base font-semibold mb-1 text-theme-primary">{intl.formatMessage({ id: 'success.nextSteps.steps.review.title' })}</h3>
                   <p className="text-xs md:text-sm text-theme-secondary leading-relaxed">
-                    {intl.formatMessage({ id: 'applicationReviewDesc' })}
+                    {intl.formatMessage({ id: 'success.nextSteps.steps.review.description' })}
                   </p>
                 </div>
               </div>
 
               <div className="flex gap-4 items-start">
                 <div className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-white bg-theme-accent font-semibold">
-                  {intl.formatNumber(2)}
+                  {language === 'ar' ? toArabicNumerals(String(2)) : 2}
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-sm md:text-base font-semibold mb-1 text-theme-primary">{intl.formatMessage({ id: 'eligibilityAssessment' })}</h3>
+                  <h3 className="text-sm md:text-base font-semibold mb-1 text-theme-primary">{intl.formatMessage({ id: 'success.nextSteps.steps.assessment.title' })}</h3>
                   <p className="text-xs md:text-sm text-theme-secondary leading-relaxed">
-                    {intl.formatMessage({ id: 'eligibilityAssessmentDesc' })}
+                    {intl.formatMessage({ id: 'success.nextSteps.steps.assessment.description' })}
                   </p>
                 </div>
               </div>
 
               <div className="flex gap-4 items-start">
                 <div className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-white bg-theme-accent font-semibold">
-                  {intl.formatNumber(3)}
+                  {language === 'ar' ? toArabicNumerals(String(3)) : 3}
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-sm md:text-base font-semibold mb-1 text-theme-primary">{intl.formatMessage({ id: 'decisionNotification' })}</h3>
+                  <h3 className="text-sm md:text-base font-semibold mb-1 text-theme-primary">{intl.formatMessage({ id: 'success.nextSteps.steps.notification.title' })}</h3>
                   <p className="text-xs md:text-sm text-theme-secondary leading-relaxed">
-                    {intl.formatMessage({ id: 'decisionNotificationDesc' })}
+                    {intl.formatMessage({ id: 'success.nextSteps.steps.notification.description' })}
                   </p>
                 </div>
               </div>
 
               <div className="flex gap-4 items-start">
                 <div className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-white bg-theme-accent font-semibold">
-                  {intl.formatNumber(4)}
+                  {language === 'ar' ? toArabicNumerals(String(4)) : 4}
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-sm md:text-base font-semibold mb-1 text-theme-primary">{intl.formatMessage({ id: 'supportDisbursement' })}</h3>
+                  <h3 className="text-sm md:text-base font-semibold mb-1 text-theme-primary">{intl.formatMessage({ id: 'success.nextSteps.steps.disbursement.title' })}</h3>
                   <p className="text-xs md:text-sm text-theme-secondary leading-relaxed">
-                    {intl.formatMessage({ id: 'supportDisbursementDesc' })}
+                    {intl.formatMessage({ id: 'success.nextSteps.steps.disbursement.description' })}
                   </p>
                 </div>
               </div>
@@ -138,23 +139,23 @@ export function SuccessConfirmation({
 
           {/* Important Information */}
           <div className="rounded-lg p-5 mb-6 bg-theme-info border border-theme">
-            <h3 className="font-semibold mb-2 text-theme-primary">{intl.formatMessage({ id: 'importantInformation' })}</h3>
+            <h3 className="font-semibold mb-2 text-theme-primary">{intl.formatMessage({ id: 'success.importantInfo.title' })}</h3>
             <ul className="space-y-2 text-sm text-theme-secondary">
               <li className="flex items-start gap-2">
                 <span className="mt-0.5 text-theme-accent">•</span>
-                <span>{intl.formatMessage({ id: 'checkEmail' })}</span>
+                <span>{intl.formatMessage({ id: 'success.importantInfo.checkEmail' })}</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="mt-0.5 text-theme-accent">•</span>
-                <span>{intl.formatMessage({ id: 'trackApplication' })}</span>
+                <span>{intl.formatMessage({ id: 'success.importantInfo.trackApplication' })}</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="mt-0.5 text-theme-accent">•</span>
-                <span>{intl.formatMessage({ id: 'additionalDocuments' })}</span>
+                <span>{intl.formatMessage({ id: 'success.importantInfo.additionalDocuments' })}</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="mt-0.5 text-theme-accent">•</span>
-                <span>{intl.formatMessage({ id: 'urgentInquiries' })}</span>
+                <span>{intl.formatMessage({ id: 'success.importantInfo.urgentInquiries' })}</span>
               </li>
             </ul>
           </div>
@@ -166,7 +167,7 @@ export function SuccessConfirmation({
               className="gap-2 text-white rounded-full px-8 bg-theme-accent hover:bg-theme-accent-hover"
             >
               <Home className="w-4 h-4" />
-              {intl.formatMessage({ id: 'returnToHome' })}
+              {intl.formatMessage({ id: 'success.nextSteps.returnHome' })}
             </Button>
           </div>
         </div>

@@ -4,12 +4,13 @@ import { LandingPage } from '@/pages/LandingPage';
 import { FormWizard } from '@/components/forms/FormWizard';
 import { SuccessConfirmation } from '@/components/feedback/SuccessConfirmation';
 import { Toaster } from '@/components/ui/sonner';
+import { flattenMessages } from '@/lib/i18n-utils';
 import enMessages from '@/locales/en.json';
 import arMessages from '@/locales/ar.json';
 
 const messages = {
-  en: enMessages,
-  ar: arMessages,
+  en: flattenMessages(enMessages),
+  ar: flattenMessages(arMessages),
 };
 
 export type ApplicationData = {

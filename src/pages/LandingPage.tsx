@@ -3,6 +3,7 @@ import { TammHeader } from '@/components/layout/TammHeader';
 import { TammFooter } from '@/components/layout/TammFooter';
 import { Shield, Clock, FileCheck, Users, ArrowRight, ArrowLeft } from 'lucide-react';
 import { useIntl } from 'react-intl';
+import { toArabicNumerals } from '@/lib/i18n-utils';
 
 type Language = 'en' | 'ar';
 
@@ -15,6 +16,9 @@ interface LandingPageProps {
 export function LandingPage({ onStartApplication, language = 'en', onLanguageToggle }: LandingPageProps) {
   const intl = useIntl();
   const isRTL = language === 'ar';
+
+  const formatStepNumber = (num: number) =>
+    isRTL ? toArabicNumerals(String(num)) : num;
 
   return (
     <div className="min-h-screen flex flex-col" dir={isRTL ? 'rtl' : 'ltr'} lang={language}>
@@ -35,10 +39,10 @@ export function LandingPage({ onStartApplication, language = 'en', onLanguageTog
               className="mx-auto mb-4 w-12 h-12 lg:w-16 lg:h-16"
             />
             <h1 className="text-[22px] md:text-[28px] lg:text-[34px] xl:text-[46px] font-semibold text-white mb-3 md:mb-4">
-              {intl.formatMessage({ id: 'heroTitle' })}
+              {intl.formatMessage({ id: 'landing.hero.title' })}
             </h1>
             <p className="text-sm md:text-base lg:text-lg text-white/90 mb-5 md:mb-6 leading-relaxed">
-              {intl.formatMessage({ id: 'heroSubtitle' })}
+              {intl.formatMessage({ id: 'landing.hero.subtitle' })}
             </p>
             <Button
               onClick={onStartApplication}
@@ -46,12 +50,12 @@ export function LandingPage({ onStartApplication, language = 'en', onLanguageTog
             >
               {isRTL ? (
                 <>
-                  <span>{intl.formatMessage({ id: 'startApplication' })}</span>
+                  <span>{intl.formatMessage({ id: 'landing.hero.startButton' })}</span>
                   <ArrowLeft className="w-4 h-4" />
                 </>
               ) : (
                 <>
-                  <span>{intl.formatMessage({ id: 'startApplication' })}</span>
+                  <span>{intl.formatMessage({ id: 'landing.hero.startButton' })}</span>
                   <ArrowRight className="w-4 h-4" />
                 </>
               )}
@@ -65,10 +69,10 @@ export function LandingPage({ onStartApplication, language = 'en', onLanguageTog
         <div className="container mx-auto px-6 max-w-6xl">
           <div className="text-center mb-8">
             <h2 className="text-xl md:text-2xl lg:text-3xl font-semibold text-foreground mb-2 md:mb-3">
-              {intl.formatMessage({ id: 'featuresTitle' })}
+              {intl.formatMessage({ id: 'landing.features.title' })}
             </h2>
             <p className="text-sm md:text-base lg:text-lg text-muted max-w-2xl mx-auto">
-              {intl.formatMessage({ id: 'featuresSubtitle' })}
+              {intl.formatMessage({ id: 'landing.features.subtitle' })}
             </p>
           </div>
 
@@ -77,9 +81,9 @@ export function LandingPage({ onStartApplication, language = 'en', onLanguageTog
               <div className="w-14 h-14 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-3">
                 <Shield className="w-7 h-7 text-accent" />
               </div>
-              <h3 className="text-base md:text-lg font-semibold text-foreground mb-1.5 md:mb-2">{intl.formatMessage({ id: 'feature1Title' })}</h3>
+              <h3 className="text-base md:text-lg font-semibold text-foreground mb-1.5 md:mb-2">{intl.formatMessage({ id: 'landing.features.security.title' })}</h3>
               <p className="text-sm md:text-base text-muted leading-relaxed">
-                {intl.formatMessage({ id: 'feature1Desc' })}
+                {intl.formatMessage({ id: 'landing.features.security.description' })}
               </p>
             </div>
 
@@ -87,9 +91,9 @@ export function LandingPage({ onStartApplication, language = 'en', onLanguageTog
               <div className="w-14 h-14 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-3">
                 <Clock className="w-7 h-7 text-accent" />
               </div>
-              <h3 className="text-base md:text-lg font-semibold text-foreground mb-1.5 md:mb-2">{intl.formatMessage({ id: 'feature2Title' })}</h3>
+              <h3 className="text-base md:text-lg font-semibold text-foreground mb-1.5 md:mb-2">{intl.formatMessage({ id: 'landing.features.processing.title' })}</h3>
               <p className="text-sm md:text-base text-muted leading-relaxed">
-                {intl.formatMessage({ id: 'feature2Desc' })}
+                {intl.formatMessage({ id: 'landing.features.processing.description' })}
               </p>
             </div>
 
@@ -97,9 +101,9 @@ export function LandingPage({ onStartApplication, language = 'en', onLanguageTog
               <div className="w-14 h-14 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-3">
                 <FileCheck className="w-7 h-7 text-accent" />
               </div>
-              <h3 className="text-base md:text-lg font-semibold text-foreground mb-1.5 md:mb-2">{intl.formatMessage({ id: 'feature3Title' })}</h3>
+              <h3 className="text-base md:text-lg font-semibold text-foreground mb-1.5 md:mb-2">{intl.formatMessage({ id: 'landing.features.usability.title' })}</h3>
               <p className="text-sm md:text-base text-muted leading-relaxed">
-                {intl.formatMessage({ id: 'feature3Desc' })}
+                {intl.formatMessage({ id: 'landing.features.usability.description' })}
               </p>
             </div>
 
@@ -107,9 +111,9 @@ export function LandingPage({ onStartApplication, language = 'en', onLanguageTog
               <div className="w-14 h-14 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-3">
                 <Users className="w-7 h-7 text-accent" />
               </div>
-              <h3 className="text-base md:text-lg font-semibold text-foreground mb-1.5 md:mb-2">{intl.formatMessage({ id: 'feature4Title' })}</h3>
+              <h3 className="text-base md:text-lg font-semibold text-foreground mb-1.5 md:mb-2">{intl.formatMessage({ id: 'landing.features.aiHelp.title' })}</h3>
               <p className="text-sm md:text-base text-muted leading-relaxed">
-                {intl.formatMessage({ id: 'feature4Desc' })}
+                {intl.formatMessage({ id: 'landing.features.aiHelp.description' })}
               </p>
             </div>
           </div>
@@ -121,104 +125,104 @@ export function LandingPage({ onStartApplication, language = 'en', onLanguageTog
         <div className="container mx-auto px-6 max-w-4xl">
           <div className="text-center mb-8">
             <h2 className="text-xl md:text-2xl lg:text-3xl font-semibold text-foreground mb-2 md:mb-3">
-              {intl.formatMessage({ id: 'processTitle' })}
+              {intl.formatMessage({ id: 'landing.process.title' })}
             </h2>
             <p className="text-sm md:text-base lg:text-lg text-muted">
-              {intl.formatMessage({ id: 'processSubtitle' })}
+              {intl.formatMessage({ id: 'landing.process.subtitle' })}
             </p>
           </div>
 
           <div className="space-y-4">
-            <div className="flex gap-4 items-start bg-white rounded-lg p-5 border border-border">
+            <div className="flex gap-4 items-start bg-white rounded-lg p-5 border border-border button-border-animate">
               {isRTL ? (
                 <>
                   <div className="w-10 h-10 bg-accent text-white rounded-full flex items-center justify-center shrink-0 font-semibold">
-                    {intl.formatNumber(1)}
+                    {formatStepNumber(1)}
                   </div>
                   <div className="flex-1 text-right">
                     <h3 className="text-base md:text-lg font-semibold text-foreground mb-1 md:mb-2">
-                      {intl.formatMessage({ id: 'step1' })}
+                      {intl.formatMessage({ id: 'landing.process.steps.apply.title' })}
                     </h3>
                     <p className="text-sm md:text-base text-muted leading-relaxed">
-                      {intl.formatMessage({ id: 'step1Desc' })}
+                      {intl.formatMessage({ id: 'landing.process.steps.apply.description' })}
                     </p>
                   </div>
                 </>
               ) : (
                 <>
                   <div className="w-10 h-10 bg-accent text-white rounded-full flex items-center justify-center shrink-0 font-semibold">
-                    {intl.formatNumber(1)}
+                    {formatStepNumber(1)}
                   </div>
                   <div className="flex-1">
                     <h3 className="text-base md:text-lg font-semibold text-foreground mb-1 md:mb-2">
-                      {intl.formatMessage({ id: 'step1' })}
+                      {intl.formatMessage({ id: 'landing.process.steps.apply.title' })}
                     </h3>
                     <p className="text-sm md:text-base text-muted leading-relaxed">
-                      {intl.formatMessage({ id: 'step1Desc' })}
+                      {intl.formatMessage({ id: 'landing.process.steps.apply.description' })}
                     </p>
                   </div>
                 </>
               )}
             </div>
 
-            <div className="flex gap-4 items-start bg-white rounded-lg p-5 border border-border">
+            <div className="flex gap-4 items-start bg-white rounded-lg p-5 border border-border button-border-animate">
               {isRTL ? (
                 <>
                   <div className="w-10 h-10 bg-accent text-white rounded-full flex items-center justify-center shrink-0 font-semibold">
-                    {intl.formatNumber(2)}
+                    {formatStepNumber(2)}
                   </div>
                   <div className="flex-1 text-right">
                     <h3 className="text-base md:text-lg font-semibold text-foreground mb-1 md:mb-2">
-                      {intl.formatMessage({ id: 'step2' })}
+                      {intl.formatMessage({ id: 'landing.process.steps.review.title' })}
                     </h3>
                     <p className="text-sm md:text-base text-muted leading-relaxed">
-                      {intl.formatMessage({ id: 'step2Desc' })}
+                      {intl.formatMessage({ id: 'landing.process.steps.review.description' })}
                     </p>
                   </div>
                 </>
               ) : (
                 <>
                   <div className="w-10 h-10 bg-accent text-white rounded-full flex items-center justify-center shrink-0 font-semibold">
-                    {intl.formatNumber(2)}
+                    {formatStepNumber(2)}
                   </div>
                   <div className="flex-1">
                     <h3 className="text-base md:text-lg font-semibold text-foreground mb-1 md:mb-2">
-                      {intl.formatMessage({ id: 'step2' })}
+                      {intl.formatMessage({ id: 'landing.process.steps.review.title' })}
                     </h3>
                     <p className="text-sm md:text-base text-muted leading-relaxed">
-                      {intl.formatMessage({ id: 'step2Desc' })}
+                      {intl.formatMessage({ id: 'landing.process.steps.review.description' })}
                     </p>
                   </div>
                 </>
               )}
             </div>
 
-            <div className="flex gap-4 items-start bg-white rounded-lg p-5 border border-border">
+            <div className="flex gap-4 items-start bg-white rounded-lg p-5 border border-border button-border-animate">
               {isRTL ? (
                 <>
                   <div className="w-10 h-10 bg-accent text-white rounded-full flex items-center justify-center shrink-0 font-semibold">
-                    {intl.formatNumber(3)}
+                    {formatStepNumber(3)}
                   </div>
                   <div className="flex-1 text-right">
                     <h3 className="text-base md:text-lg font-semibold text-foreground mb-1 md:mb-2">
-                      {intl.formatMessage({ id: 'step3' })}
+                      {intl.formatMessage({ id: 'landing.process.steps.confirm.title' })}
                     </h3>
                     <p className="text-sm md:text-base text-muted leading-relaxed">
-                      {intl.formatMessage({ id: 'step3Desc' })}
+                      {intl.formatMessage({ id: 'landing.process.steps.confirm.description' })}
                     </p>
                   </div>
                 </>
               ) : (
                 <>
                   <div className="w-10 h-10 bg-accent text-white rounded-full flex items-center justify-center shrink-0 font-semibold">
-                    {intl.formatNumber(3)}
+                    {formatStepNumber(3)}
                   </div>
                   <div className="flex-1">
                     <h3 className="text-base md:text-lg font-semibold text-foreground mb-1 md:mb-2">
-                      {intl.formatMessage({ id: 'step3' })}
+                      {intl.formatMessage({ id: 'landing.process.steps.confirm.title' })}
                     </h3>
                     <p className="text-sm md:text-base text-muted leading-relaxed">
-                      {intl.formatMessage({ id: 'step3Desc' })}
+                      {intl.formatMessage({ id: 'landing.process.steps.confirm.description' })}
                     </p>
                   </div>
                 </>
@@ -233,12 +237,12 @@ export function LandingPage({ onStartApplication, language = 'en', onLanguageTog
             >
               {isRTL ? (
                 <>
-                  <span>{intl.formatMessage({ id: 'startApplication' })}</span>
+                  <span>{intl.formatMessage({ id: 'landing.hero.startButton' })}</span>
                   <ArrowLeft className="w-4 h-4" />
                 </>
               ) : (
                 <>
-                  <span>{intl.formatMessage({ id: 'startApplication' })}</span>
+                  <span>{intl.formatMessage({ id: 'landing.hero.startButton' })}</span>
                   <ArrowRight className="w-4 h-4" />
                 </>
               )}
@@ -253,23 +257,23 @@ export function LandingPage({ onStartApplication, language = 'en', onLanguageTog
           <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg p-5 border border-blue-100">
             <div className="text-center">
               <h2 className="text-lg md:text-xl lg:text-2xl font-semibold text-foreground mb-2 md:mb-3">
-                {intl.formatMessage({ id: 'needHelp' })}
+                {intl.formatMessage({ id: 'landing.help.title' })}
               </h2>
               <p className="text-sm md:text-base lg:text-lg text-muted mb-4 md:mb-5 leading-relaxed max-w-2xl mx-auto">
-                {intl.formatMessage({ id: 'needHelpDesc' })}
+                {intl.formatMessage({ id: 'landing.help.description' })}
               </p>
               <div className="flex flex-col sm:flex-row gap-2.5 justify-center">
                 <Button
                   variant="outline"
-                  className="border-accent text-accent hover:bg-accent hover:text-white rounded-full px-6 h-10"
+                  className="border-accent text-accent rounded-full px-6 h-10"
                 >
-                  {intl.formatMessage({ id: 'contactSupport' })}
+                  {intl.formatMessage({ id: 'landing.help.contactSupport' })}
                 </Button>
                 <Button
                   variant="outline"
-                  className="border-border text-foreground hover:bg-background rounded-full px-6 h-10"
+                  className="rounded-full px-6 h-10"
                 >
-                  {intl.formatMessage({ id: 'findServiceCenter' })}
+                  {intl.formatMessage({ id: 'landing.help.findServiceCenter' })}
                 </Button>
               </div>
             </div>

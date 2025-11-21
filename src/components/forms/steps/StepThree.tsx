@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import type { ApplicationData } from '@/App';
 import { Sparkles } from 'lucide-react';
 import { useIntl } from 'react-intl';
+import { toArabicNumerals } from '@/lib/i18n-utils';
 
 type Language = 'en' | 'ar';
 
@@ -30,10 +31,10 @@ export function StepThree({ data, onChange, stepNumber, language = 'en' }: StepT
       {/* Question Number and Title */}
       <div className="mb-8">
         <h2 className="text-xl md:text-2xl lg:text-3xl font-semibold text-theme-primary mb-3">
-          {intl.formatNumber(stepNumber)}. {intl.formatMessage({ id: 'step3Title' })}
+          {language === 'ar' ? toArabicNumerals(String(stepNumber)) : stepNumber}. {intl.formatMessage({ id: 'form.steps.situation.title' })}
         </h2>
         <p className="text-sm md:text-base lg:text-lg text-theme-secondary">
-          {intl.formatMessage({ id: 'step3Subtitle' })}
+          {intl.formatMessage({ id: 'form.steps.situation.subtitle' })}
         </p>
       </div>
 
@@ -43,7 +44,7 @@ export function StepThree({ data, onChange, stepNumber, language = 'en' }: StepT
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <Label htmlFor="financialSituation" className="text-xs md:text-sm font-medium text-theme-primary">
-              {intl.formatMessage({ id: 'describeYourSituation' })} <span className="text-red-500">*</span>
+              {intl.formatMessage({ id: 'form.steps.situation.fields.describeYourSituation' })} <span className="text-red-500">*</span>
             </Label>
             <Button
               type="button"
@@ -53,14 +54,14 @@ export function StepThree({ data, onChange, stepNumber, language = 'en' }: StepT
               className="gap-2 text-theme-accent hover:text-theme-accent-hover hover:bg-theme-accent/5 rounded-full h-8 px-3"
             >
               <Sparkles className="w-4 h-4" />
-              <span className="text-sm">{intl.formatMessage({ id: 'helpMeWrite' })}</span>
+              <span className="text-sm">{intl.formatMessage({ id: 'form.steps.situation.fields.helpMeWrite' })}</span>
             </Button>
           </div>
           <Textarea
             id="financialSituation"
             value={data.financialSituation}
             onChange={(e) => onChange({ financialSituation: e.target.value })}
-            placeholder={intl.formatMessage({ id: 'situationPlaceholder' })}
+            placeholder={intl.formatMessage({ id: 'form.steps.situation.fields.situationPlaceholder' })}
             rows={6}
             className="resize-none"
             dir={isRTL ? 'rtl' : 'ltr'}

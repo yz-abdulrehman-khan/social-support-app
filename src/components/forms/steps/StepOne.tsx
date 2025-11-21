@@ -4,6 +4,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { DatePicker } from '@/components/ui/date-picker';
 import type { ApplicationData } from '@/App';
 import { useIntl } from 'react-intl';
+import { toArabicNumerals } from '@/lib/i18n-utils';
 
 type Language = 'en' | 'ar';
 
@@ -21,10 +22,10 @@ export function StepOne({ data, onChange, stepNumber, language = 'en' }: StepOne
       {/* Question Number and Title */}
       <div className="mb-8">
         <h2 className="text-xl md:text-2xl lg:text-3xl font-semibold text-foreground-dark mb-3">
-          {intl.formatNumber(stepNumber)}. {intl.formatMessage({ id: 'step1Title' })}
+          {language === 'ar' ? toArabicNumerals(String(stepNumber)) : stepNumber}. {intl.formatMessage({ id: 'form.steps.personal.title' })}
         </h2>
         <p className="text-sm md:text-base lg:text-lg text-gray-600">
-          {intl.formatMessage({ id: 'step1Subtitle' })}
+          {intl.formatMessage({ id: 'form.steps.personal.subtitle' })}
         </p>
       </div>
 
@@ -34,7 +35,7 @@ export function StepOne({ data, onChange, stepNumber, language = 'en' }: StepOne
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <Label htmlFor="fullNameEnglish" className="text-xs md:text-sm font-medium text-foreground mb-1.5 block">
-              {intl.formatMessage({ id: 'fullNameEnglish' })} <span className="text-red-500">*</span>
+              {intl.formatMessage({ id: 'form.steps.personal.fields.fullNameEnglish' })} <span className="text-red-500">*</span>
             </Label>
             <Input
               id="fullNameEnglish"
@@ -46,7 +47,7 @@ export function StepOne({ data, onChange, stepNumber, language = 'en' }: StepOne
           </div>
           <div>
             <Label htmlFor="fullNameArabic" className="text-xs md:text-sm font-medium text-foreground mb-1.5 block">
-              {intl.formatMessage({ id: 'fullNameArabic' })} <span className="text-red-500">*</span>
+              {intl.formatMessage({ id: 'form.steps.personal.fields.fullNameArabic' })} <span className="text-red-500">*</span>
             </Label>
             <Input
               id="fullNameArabic"
@@ -63,7 +64,7 @@ export function StepOne({ data, onChange, stepNumber, language = 'en' }: StepOne
         <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
           <div className="col-span-2">
             <Label htmlFor="nationalId" className="text-xs md:text-sm font-medium text-foreground mb-1.5 block">
-              {intl.formatMessage({ id: 'emiratesId' })} <span className="text-red-500">*</span>
+              {intl.formatMessage({ id: 'form.steps.personal.fields.emiratesId' })} <span className="text-red-500">*</span>
             </Label>
             <Input
               id="nationalId"
@@ -75,7 +76,7 @@ export function StepOne({ data, onChange, stepNumber, language = 'en' }: StepOne
           </div>
           <div className="col-span-2">
             <Label htmlFor="dateOfBirth" className="text-xs md:text-sm font-medium text-foreground mb-1.5 block">
-              {intl.formatMessage({ id: 'dateOfBirth' })} <span className="text-red-500">*</span>
+              {intl.formatMessage({ id: 'form.steps.personal.fields.dateOfBirth' })} <span className="text-red-500">*</span>
             </Label>
             <DatePicker
               id="dateOfBirth"
@@ -88,7 +89,7 @@ export function StepOne({ data, onChange, stepNumber, language = 'en' }: StepOne
           </div>
           <div className="md:col-span-1">
             <Label htmlFor="gender" className="text-xs md:text-sm font-medium text-foreground mb-1.5 block">
-              {intl.formatMessage({ id: 'gender' })} <span className="text-red-500">*</span>
+              {intl.formatMessage({ id: 'form.steps.personal.fields.gender' })} <span className="text-red-500">*</span>
             </Label>
             <Select
               dir={language === 'ar' ? 'rtl' : 'ltr'}
@@ -96,11 +97,11 @@ export function StepOne({ data, onChange, stepNumber, language = 'en' }: StepOne
               onValueChange={(value) => onChange({ gender: value })}
             >
               <SelectTrigger className="w-full">
-                <SelectValue placeholder={intl.formatMessage({ id: 'selectGender' })} />
+                <SelectValue placeholder={intl.formatMessage({ id: 'form.steps.personal.fields.selectGender' })} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="male">{intl.formatMessage({ id: 'male' })}</SelectItem>
-                <SelectItem value="female">{intl.formatMessage({ id: 'female' })}</SelectItem>
+                <SelectItem value="male">{intl.formatMessage({ id: 'form.steps.personal.fields.male' })}</SelectItem>
+                <SelectItem value="female">{intl.formatMessage({ id: 'form.steps.personal.fields.female' })}</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -109,7 +110,7 @@ export function StepOne({ data, onChange, stepNumber, language = 'en' }: StepOne
         {/* Street Address */}
         <div>
           <Label htmlFor="street" className="text-xs md:text-sm font-medium text-foreground mb-1.5 block">
-            {intl.formatMessage({ id: 'street' })} <span className="text-red-500">*</span>
+            {intl.formatMessage({ id: 'form.steps.personal.fields.street' })} <span className="text-red-500">*</span>
           </Label>
           <Input
             id="street"
@@ -124,7 +125,7 @@ export function StepOne({ data, onChange, stepNumber, language = 'en' }: StepOne
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <Label htmlFor="city" className="text-xs md:text-sm font-medium text-foreground mb-1.5 block">
-              {intl.formatMessage({ id: 'city' })} <span className="text-red-500">*</span>
+              {intl.formatMessage({ id: 'form.steps.personal.fields.city' })} <span className="text-red-500">*</span>
             </Label>
             <Input
               id="city"
@@ -136,7 +137,7 @@ export function StepOne({ data, onChange, stepNumber, language = 'en' }: StepOne
           </div>
           <div>
             <Label htmlFor="emirate" className="text-xs md:text-sm font-medium text-foreground mb-1.5 block">
-              {intl.formatMessage({ id: 'emirate' })} <span className="text-red-500">*</span>
+              {intl.formatMessage({ id: 'form.steps.personal.fields.emirate' })} <span className="text-red-500">*</span>
             </Label>
             <Input
               id="emirate"
@@ -152,7 +153,7 @@ export function StepOne({ data, onChange, stepNumber, language = 'en' }: StepOne
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <Label htmlFor="country" className="text-xs md:text-sm font-medium text-foreground mb-1.5 block">
-              {intl.formatMessage({ id: 'country' })} <span className="text-red-500">*</span>
+              {intl.formatMessage({ id: 'form.steps.personal.fields.country' })} <span className="text-red-500">*</span>
             </Label>
             <Input
               id="country"
@@ -164,7 +165,7 @@ export function StepOne({ data, onChange, stepNumber, language = 'en' }: StepOne
           </div>
           <div>
             <Label htmlFor="postalCode" className="text-xs md:text-sm font-medium text-foreground mb-1.5 block">
-              {intl.formatMessage({ id: 'postalCode' })}
+              {intl.formatMessage({ id: 'form.steps.personal.fields.postalCode' })}
             </Label>
             <Input
               id="postalCode"
@@ -180,7 +181,7 @@ export function StepOne({ data, onChange, stepNumber, language = 'en' }: StepOne
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <Label htmlFor="phoneNumber" className="text-xs md:text-sm font-medium text-foreground mb-1.5 block">
-              {intl.formatMessage({ id: 'phoneNumber' })} <span className="text-red-500">*</span>
+              {intl.formatMessage({ id: 'form.steps.personal.fields.phoneNumber' })} <span className="text-red-500">*</span>
             </Label>
             <Input
               id="phoneNumber"
@@ -193,7 +194,7 @@ export function StepOne({ data, onChange, stepNumber, language = 'en' }: StepOne
           </div>
           <div>
             <Label htmlFor="email" className="text-xs md:text-sm font-medium text-foreground mb-1.5 block">
-              {intl.formatMessage({ id: 'email' })} <span className="text-red-500">*</span>
+              {intl.formatMessage({ id: 'form.steps.personal.fields.email' })} <span className="text-red-500">*</span>
             </Label>
             <Input
               id="email"

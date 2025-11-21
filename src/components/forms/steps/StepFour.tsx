@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Edit } from 'lucide-react';
 import type { ApplicationData } from '@/App';
 import { useIntl } from 'react-intl';
+import { toArabicNumerals, formatNumericValue } from '@/lib/i18n-utils';
 
 type Language = 'en' | 'ar';
 
@@ -14,37 +15,6 @@ interface StepFourProps {
 
 export function StepFour({ data, onEdit, stepNumber, language = 'en' }: StepFourProps) {
   const intl = useIntl();
-  // Helper function to get translated values
-  const getTranslatedValue = (_key: string, value: string): string => {
-    if (!value) return '-';
-
-    // Map of English values to translation keys
-    const valueKeyMap: { [key: string]: string } = {
-      'male': 'male',
-      'female': 'female',
-      'single': 'single',
-      'married': 'married',
-      'divorced': 'divorced',
-      'widowed': 'widowed',
-      'employed': 'employed',
-      'unemployed': 'unemployed',
-      'selfEmployed': 'selfEmployed',
-      'retired': 'retired',
-      'student': 'student',
-      'owned': 'owned',
-      'rented': 'rented',
-      'familyHousing': 'familyHousing',
-      'governmentHousing': 'governmentHousing',
-      'other': 'other',
-    };
-
-    // If value has a translation, use it
-    if (valueKeyMap[value]) {
-      return t(valueKeyMap[value] as any, language);
-    }
-
-    return value;
-  };
 
   const DataRow = ({ label, value }: { label: string; value: string }) => (
     <div className="mb-4">
@@ -76,7 +46,7 @@ export function StepFour({ data, onEdit, stepNumber, language = 'en' }: StepFour
           className="gap-1.5 text-theme-accent hover:text-theme-accent-hover hover:bg-transparent h-auto p-0 text-xs md:text-sm font-medium"
         >
           <Edit className="w-4 h-4" />
-          {intl.formatMessage({ id: 'editSection' })}
+          {intl.formatMessage({ id: 'common.edit' })}
         </Button>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8">
@@ -90,95 +60,95 @@ export function StepFour({ data, onEdit, stepNumber, language = 'en' }: StepFour
       {/* Question Number and Title */}
       <div className="mb-8">
         <h2 className="text-xl md:text-2xl lg:text-3xl font-semibold text-theme-primary mb-3">
-          {intl.formatNumber(stepNumber)}. {intl.formatMessage({ id: 'step4Title' })}
+          {language === 'ar' ? toArabicNumerals(String(stepNumber)) : stepNumber}. {intl.formatMessage({ id: 'form.steps.review.title' })}
         </h2>
         <p className="text-sm md:text-base lg:text-lg text-theme-secondary">
-          {intl.formatMessage({ id: 'step4Subtitle' })}
+          {intl.formatMessage({ id: 'form.steps.review.subtitle' })}
         </p>
       </div>
 
       {/* Review Sections */}
       <div>
         {/* Step 1: Personal Information */}
-        <ReviewSection title={intl.formatMessage({ id: 'step1Title' })} step={1}>
+        <ReviewSection title={intl.formatMessage({ id: 'form.steps.personal.title' })} step={1}>
           <DataRow
-            label={intl.formatMessage({ id: 'fullNameEnglish' })}
+            label={intl.formatMessage({ id: 'form.steps.personal.fields.fullNameEnglish' })}
             value={data.fullNameEnglish}
           />
           <DataRow
-            label={intl.formatMessage({ id: 'fullNameArabic' })}
+            label={intl.formatMessage({ id: 'form.steps.personal.fields.fullNameArabic' })}
             value={data.fullNameArabic}
           />
           <DataRow
-            label={intl.formatMessage({ id: 'emiratesId' })}
+            label={intl.formatMessage({ id: 'form.steps.personal.fields.emiratesId' })}
             value={data.nationalId}
           />
           <DataRow
-            label={intl.formatMessage({ id: 'dateOfBirth' })}
-            value={language === 'ar' && data.dateOfBirth ? intl.formatNumber(data.dateOfBirth) : data.dateOfBirth}
+            label={intl.formatMessage({ id: 'form.steps.personal.fields.dateOfBirth' })}
+            value={language === 'ar' && data.dateOfBirth ? toArabicNumerals(data.dateOfBirth) : data.dateOfBirth}
           />
           <DataRow
-            label={intl.formatMessage({ id: 'gender' })}
-            value={getTranslatedValue('gender', data.gender)}
+            label={intl.formatMessage({ id: 'form.steps.personal.fields.gender' })}
+            value={data.gender ? intl.formatMessage({ id: `form.steps.personal.fields.${data.gender}` }) : '-'}
           />
           <DataRow
-            label={intl.formatMessage({ id: 'phoneNumber' })}
+            label={intl.formatMessage({ id: 'form.steps.personal.fields.phoneNumber' })}
             value={data.phoneNumber}
           />
           <DataRow
-            label={intl.formatMessage({ id: 'email' })}
+            label={intl.formatMessage({ id: 'form.steps.personal.fields.email' })}
             value={data.email}
           />
           <DataRow
-            label={intl.formatMessage({ id: 'street' })}
+            label={intl.formatMessage({ id: 'form.steps.personal.fields.street' })}
             value={data.street}
           />
           <DataRow
-            label={intl.formatMessage({ id: 'city' })}
+            label={intl.formatMessage({ id: 'form.steps.personal.fields.city' })}
             value={data.city}
           />
           <DataRow
-            label={intl.formatMessage({ id: 'emirate' })}
+            label={intl.formatMessage({ id: 'form.steps.personal.fields.emirate' })}
             value={data.emirate}
           />
           <DataRow
-            label={intl.formatMessage({ id: 'country' })}
+            label={intl.formatMessage({ id: 'form.steps.personal.fields.country' })}
             value={data.country}
           />
           <DataRow
-            label={intl.formatMessage({ id: 'postalCode' })}
-            value={language === 'ar' && data.postalCode ? intl.formatNumber(data.postalCode) : data.postalCode}
+            label={intl.formatMessage({ id: 'form.steps.personal.fields.postalCode' })}
+            value={language === 'ar' && data.postalCode ? toArabicNumerals(data.postalCode) : data.postalCode}
           />
         </ReviewSection>
 
         {/* Step 2: Family & Financial Details */}
-        <ReviewSection title={intl.formatMessage({ id: 'step2Title' })} step={2}>
+        <ReviewSection title={intl.formatMessage({ id: 'form.steps.financial.title' })} step={2}>
           <DataRow
-            label={intl.formatMessage({ id: 'maritalStatus' })}
-            value={getTranslatedValue('maritalStatus', data.maritalStatus)}
+            label={intl.formatMessage({ id: 'form.steps.financial.fields.maritalStatus' })}
+            value={data.maritalStatus ? intl.formatMessage({ id: `form.steps.financial.fields.${data.maritalStatus}` }) : '-'}
           />
           <DataRow
-            label={intl.formatMessage({ id: 'numberOfDependents' })}
-            value={language === 'ar' && data.numberOfDependents ? intl.formatNumber(data.numberOfDependents) : data.numberOfDependents}
+            label={intl.formatMessage({ id: 'form.steps.financial.fields.numberOfDependents' })}
+            value={data.numberOfDependents ? formatNumericValue(data.numberOfDependents, language, intl) : '-'}
           />
           <DataRow
-            label={intl.formatMessage({ id: 'employmentStatus' })}
-            value={getTranslatedValue('employmentStatus', data.employmentStatus)}
+            label={intl.formatMessage({ id: 'form.steps.financial.fields.employmentStatus' })}
+            value={data.employmentStatus ? intl.formatMessage({ id: `form.steps.financial.fields.${data.employmentStatus}` }) : '-'}
           />
           <DataRow
-            label={intl.formatMessage({ id: 'monthlyIncome' })}
-            value={data.monthlyIncome ? (language === 'ar' ? `${intl.formatNumber(data.monthlyIncome)} درهم` : `${data.monthlyIncome} AED`) : '-'}
+            label={intl.formatMessage({ id: 'form.steps.financial.fields.monthlyIncome' })}
+            value={data.monthlyIncome ? `${formatNumericValue(data.monthlyIncome, language, intl)} ${language === 'ar' ? 'درهم' : 'AED'}` : '-'}
           />
           <DataRow
-            label={intl.formatMessage({ id: 'housingStatus' })}
-            value={getTranslatedValue('housingStatus', data.housingStatus)}
+            label={intl.formatMessage({ id: 'form.steps.financial.fields.housingStatus' })}
+            value={data.housingStatus ? intl.formatMessage({ id: `form.steps.financial.fields.${data.housingStatus}` }) : '-'}
           />
         </ReviewSection>
 
         {/* Step 3: Situation Description */}
         <div className="mb-6">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-theme-primary">{intl.formatMessage({ id: 'step3Title' })}</h3>
+            <h3 className="text-lg font-semibold text-theme-primary">{intl.formatMessage({ id: 'form.steps.situation.title' })}</h3>
             <Button
               onClick={() => onEdit(3)}
               variant="ghost"
@@ -186,13 +156,13 @@ export function StepFour({ data, onEdit, stepNumber, language = 'en' }: StepFour
               className="gap-1.5 text-theme-accent hover:text-theme-accent-hover hover:bg-transparent h-auto p-0 text-sm font-medium"
             >
               <Edit className="w-4 h-4" />
-              {intl.formatMessage({ id: 'editSection' })}
+              {intl.formatMessage({ id: 'common.edit' })}
             </Button>
           </div>
           <div className="space-y-4">
             <div>
               <div className="text-xs font-medium text-theme-secondary mb-0.5">
-                {intl.formatMessage({ id: 'describeYourSituation' })}
+                {intl.formatMessage({ id: 'form.steps.situation.fields.describeYourSituation' })}
               </div>
               <div className="text-sm text-theme-primary leading-relaxed whitespace-pre-wrap">
                 {data.financialSituation || '-'}
@@ -232,7 +202,7 @@ export function StepFour({ data, onEdit, stepNumber, language = 'en' }: StepFour
           </div>
           <div className="flex-1">
             <p className="text-sm text-theme-primary">
-              {intl.formatMessage({ id: 'confirmSubmit' })}
+              {intl.formatMessage({ id: 'form.steps.review.confirmSubmit' })}
             </p>
           </div>
         </div>

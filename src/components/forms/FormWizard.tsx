@@ -10,6 +10,7 @@ import type { ApplicationData } from '@/App';
 import { ArrowLeft, ArrowRight, Check } from 'lucide-react';
 import { toast } from 'sonner';
 import { useIntl } from 'react-intl';
+import { toArabicNumerals } from '@/lib/i18n-utils';
 
 type Language = 'en' | 'ar';
 
@@ -30,10 +31,10 @@ export function FormWizard({ initialData, onSubmit, language = 'en', onLanguageT
   const isRTL = language === 'ar';
 
   const steps = [
-    { number: 1, label: intl.formatMessage({ id: 'step1Title' }), completed: currentStep > 1 },
-    { number: 2, label: intl.formatMessage({ id: 'step2Title' }), completed: currentStep > 2 },
-    { number: 3, label: intl.formatMessage({ id: 'step3Title' }), completed: currentStep > 3 },
-    { number: 4, label: intl.formatMessage({ id: 'step4Title' }), completed: currentStep > 4 },
+    { number: 1, label: intl.formatMessage({ id: 'form.steps.personal.title' }), completed: currentStep > 1 },
+    { number: 2, label: intl.formatMessage({ id: 'form.steps.financial.title' }), completed: currentStep > 2 },
+    { number: 3, label: intl.formatMessage({ id: 'form.steps.situation.title' }), completed: currentStep > 3 },
+    { number: 4, label: intl.formatMessage({ id: 'form.steps.review.title' }), completed: currentStep > 4 },
   ];
 
   // Auto-save functionality
@@ -52,7 +53,7 @@ export function FormWizard({ initialData, onSubmit, language = 'en', onLanguageT
       try {
         const parsed = JSON.parse(savedData);
         setFormData(parsed);
-        toast.success(intl.formatMessage({ id: 'previousDataRestored' }));
+        toast.success(intl.formatMessage({ id: 'toast.previousDataRestored' }));
       } catch (e) {
         console.error('Failed to load saved data', e);
       }
@@ -66,32 +67,32 @@ export function FormWizard({ initialData, onSubmit, language = 'en', onLanguageT
         if (!formData.fullNameEnglish || !formData.fullNameArabic || !formData.nationalId ||
             !formData.dateOfBirth || !formData.gender || !formData.street || !formData.city ||
             !formData.emirate || !formData.phoneNumber || !formData.email) {
-          toast.error(intl.formatMessage({ id: 'fillRequiredFields' }));
+          toast.error(intl.formatMessage({ id: 'toast.fillRequiredFields' }));
           return false;
         }
         // Email validation
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(formData.email)) {
-          toast.error(intl.formatMessage({ id: 'enterValidEmail' }));
+          toast.error(intl.formatMessage({ id: 'toast.enterValidEmail' }));
           return false;
         }
         // Phone validation (basic)
         if (formData.phoneNumber.length < 9) {
-          toast.error(intl.formatMessage({ id: 'enterValidPhone' }));
+          toast.error(intl.formatMessage({ id: 'toast.enterValidPhone' }));
           return false;
         }
         return true;
 
       case 2:
         if (!formData.maritalStatus || !formData.employmentStatus || !formData.housingStatus) {
-          toast.error(intl.formatMessage({ id: 'fillRequiredFields' }));
+          toast.error(intl.formatMessage({ id: 'toast.fillRequiredFields' }));
           return false;
         }
         return true;
 
       case 3:
         if (!formData.financialSituation || formData.financialSituation.length < 50) {
-          toast.error(intl.formatMessage({ id: 'provideDetailedDescription' }));
+          toast.error(intl.formatMessage({ id: 'toast.provideDetailedDescription' }));
           return false;
         }
         return true;
@@ -134,15 +135,15 @@ export function FormWizard({ initialData, onSubmit, language = 'en', onLanguageT
       <div className="flex-1">
         <div className="container mx-auto px-4 sm:px-6 py-6 max-w-7xl">
           {/* Breadcrumb */}
-          <nav className={`flex items-center gap-2 text-xs md:text-sm mb-5 ${isRTL ? 'flex-row-reverse justify-end' : ''}`}>
-            <a href="#" className="text-accent hover:underline" onClick={onBreadcrumbHome}>{intl.formatMessage({ id: 'home' })}</a>
+          <nav className="flex items-center gap-2 text-xs md:text-sm mb-5">
+            <a href="#" className="text-accent hover:underline" onClick={onBreadcrumbHome}>{intl.formatMessage({ id: 'common.home' })}</a>
             <span className="text-gray-400">/</span>
-            <span className="text-gray-600">{intl.formatMessage({ id: 'financialAssistance' })}</span>
+            <span className="text-gray-600">{intl.formatMessage({ id: 'form.title' })}</span>
           </nav>
 
           {/* Page Title */}
           <h1 className={`text-2xl md:text-3xl lg:text-4xl font-semibold text-foreground-dark mb-8 ${isRTL ? 'text-right' : ''}`}>
-            {intl.formatMessage({ id: 'financialAssistance' })}
+            {intl.formatMessage({ id: 'form.title' })}
           </h1>
 
           {/* Two Column Layout - Sidebar and Content */}
@@ -152,7 +153,7 @@ export function FormWizard({ initialData, onSubmit, language = 'en', onLanguageT
               <div className="sticky top-6">
                 <div className="bg-surface-light rounded-lg p-6">
                   <h2 className="text-xs md:text-sm font-semibold text-foreground-dark mb-6">
-                    {intl.formatMessage({ id: 'questions' })}
+                    {intl.formatMessage({ id: 'common.questions' })}
                   </h2>
                   <nav className="relative">
                     {/* Connecting Line */}
@@ -186,7 +187,7 @@ export function FormWizard({ initialData, onSubmit, language = 'en', onLanguageT
                               {isCompleted ? (
                                 <Check className="w-3 h-3" strokeWidth={3} />
                               ) : (
-                                intl.formatNumber(step.number)
+                                language === 'ar' ? toArabicNumerals(String(step.number)) : step.number
                               )}
                             </div>
                             {/* Step Label */}
@@ -254,13 +255,13 @@ export function FormWizard({ initialData, onSubmit, language = 'en', onLanguageT
                     >
                       {isRTL ? (
                         <>
-                          <span>{intl.formatMessage({ id: 'previous' })}</span>
+                          <span>{intl.formatMessage({ id: 'common.previous' })}</span>
                           <ArrowRight className="w-4 h-4" />
                         </>
                       ) : (
                         <>
                           <ArrowLeft className="w-4 h-4" />
-                          <span>{intl.formatMessage({ id: 'previous' })}</span>
+                          <span>{intl.formatMessage({ id: 'common.previous' })}</span>
                         </>
                       )}
                     </Button>
@@ -273,10 +274,10 @@ export function FormWizard({ initialData, onSubmit, language = 'en', onLanguageT
                       <>
                         <span>
                           {currentStep === totalSteps
-                            ? intl.formatMessage({ id: 'submitApplication' })
+                            ? intl.formatMessage({ id: 'form.navigation.submitApplication' })
                             : currentStep === 3
-                            ? intl.formatMessage({ id: 'reviewSubmit' })
-                            : intl.formatMessage({ id: 'next' })}
+                            ? intl.formatMessage({ id: 'form.navigation.reviewSubmit' })
+                            : intl.formatMessage({ id: 'common.next' })}
                         </span>
                         <ArrowLeft className="w-4 h-4" />
                       </>
@@ -284,10 +285,10 @@ export function FormWizard({ initialData, onSubmit, language = 'en', onLanguageT
                       <>
                         <span>
                           {currentStep === totalSteps
-                            ? intl.formatMessage({ id: 'submitApplication' })
+                            ? intl.formatMessage({ id: 'form.navigation.submitApplication' })
                             : currentStep === 3
-                            ? intl.formatMessage({ id: 'reviewSubmit' })
-                            : intl.formatMessage({ id: 'next' })}
+                            ? intl.formatMessage({ id: 'form.navigation.reviewSubmit' })
+                            : intl.formatMessage({ id: 'common.next' })}
                         </span>
                         <ArrowRight className="w-4 h-4" />
                       </>
@@ -298,9 +299,9 @@ export function FormWizard({ initialData, onSubmit, language = 'en', onLanguageT
                 <Button
                   variant="outline"
                   onClick={() => currentStep === 1 && onBreadcrumbHome ? onBreadcrumbHome() : window.history.back()}
-                  className="rounded-full px-6 h-10 bg-gray-light hover:bg-gray-light-hover text-foreground border-0 font-normal"
+                  className="rounded-full px-6 h-10 font-normal bg-gray-50 border-gray-200 hover:bg-gray-100 hover:border-gray-300"
                 >
-                  {intl.formatMessage({ id: 'cancel' })}
+                  {intl.formatMessage({ id: 'common.cancel' })}
                 </Button>
               </div>
             </main>
