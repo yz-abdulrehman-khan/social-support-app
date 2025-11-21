@@ -3,7 +3,9 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { DatePicker } from '@/components/ui/date-picker';
 import type { ApplicationData } from '@/App';
-import { t, formatNumber, type Language } from '@/i18n/translations';
+import { useIntl } from 'react-intl';
+
+type Language = 'en' | 'ar';
 
 interface StepOneProps {
   data: ApplicationData;
@@ -13,15 +15,16 @@ interface StepOneProps {
 }
 
 export function StepOne({ data, onChange, stepNumber, language = 'en' }: StepOneProps) {
+  const intl = useIntl();
   return (
     <div className="space-y-8 w-full">
       {/* Question Number and Title */}
       <div className="mb-8">
         <h2 className="text-xl md:text-2xl lg:text-3xl font-semibold text-foreground-dark mb-3">
-          {formatNumber(stepNumber, language)}. {t('step1Title', language)}
+          {intl.formatNumber(stepNumber)}. {intl.formatMessage({ id: 'step1Title' })}
         </h2>
         <p className="text-sm md:text-base lg:text-lg text-gray-600">
-          {t('step1Subtitle', language)}
+          {intl.formatMessage({ id: 'step1Subtitle' })}
         </p>
       </div>
 
@@ -31,7 +34,7 @@ export function StepOne({ data, onChange, stepNumber, language = 'en' }: StepOne
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <Label htmlFor="fullNameEnglish" className="text-xs md:text-sm font-medium text-foreground mb-1.5 block">
-              {t('fullNameEnglish', language)} <span className="text-red-500">*</span>
+              {intl.formatMessage({ id: 'fullNameEnglish' })} <span className="text-red-500">*</span>
             </Label>
             <Input
               id="fullNameEnglish"
@@ -43,7 +46,7 @@ export function StepOne({ data, onChange, stepNumber, language = 'en' }: StepOne
           </div>
           <div>
             <Label htmlFor="fullNameArabic" className="text-xs md:text-sm font-medium text-foreground mb-1.5 block">
-              {t('fullNameArabic', language)} <span className="text-red-500">*</span>
+              {intl.formatMessage({ id: 'fullNameArabic' })} <span className="text-red-500">*</span>
             </Label>
             <Input
               id="fullNameArabic"
@@ -60,7 +63,7 @@ export function StepOne({ data, onChange, stepNumber, language = 'en' }: StepOne
         <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
           <div className="col-span-2">
             <Label htmlFor="nationalId" className="text-xs md:text-sm font-medium text-foreground mb-1.5 block">
-              {t('emiratesId', language)} <span className="text-red-500">*</span>
+              {intl.formatMessage({ id: 'emiratesId' })} <span className="text-red-500">*</span>
             </Label>
             <Input
               id="nationalId"
@@ -72,7 +75,7 @@ export function StepOne({ data, onChange, stepNumber, language = 'en' }: StepOne
           </div>
           <div className="col-span-2">
             <Label htmlFor="dateOfBirth" className="text-xs md:text-sm font-medium text-foreground mb-1.5 block">
-              {t('dateOfBirth', language)} <span className="text-red-500">*</span>
+              {intl.formatMessage({ id: 'dateOfBirth' })} <span className="text-red-500">*</span>
             </Label>
             <DatePicker
               id="dateOfBirth"
@@ -85,7 +88,7 @@ export function StepOne({ data, onChange, stepNumber, language = 'en' }: StepOne
           </div>
           <div className="md:col-span-1">
             <Label htmlFor="gender" className="text-xs md:text-sm font-medium text-foreground mb-1.5 block">
-              {t('gender', language)} <span className="text-red-500">*</span>
+              {intl.formatMessage({ id: 'gender' })} <span className="text-red-500">*</span>
             </Label>
             <Select
               dir={language === 'ar' ? 'rtl' : 'ltr'}
@@ -93,11 +96,11 @@ export function StepOne({ data, onChange, stepNumber, language = 'en' }: StepOne
               onValueChange={(value) => onChange({ gender: value })}
             >
               <SelectTrigger className="w-full">
-                <SelectValue placeholder={t('selectGender', language)} />
+                <SelectValue placeholder={intl.formatMessage({ id: 'selectGender' })} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="male">{t('male', language)}</SelectItem>
-                <SelectItem value="female">{t('female', language)}</SelectItem>
+                <SelectItem value="male">{intl.formatMessage({ id: 'male' })}</SelectItem>
+                <SelectItem value="female">{intl.formatMessage({ id: 'female' })}</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -106,7 +109,7 @@ export function StepOne({ data, onChange, stepNumber, language = 'en' }: StepOne
         {/* Street Address */}
         <div>
           <Label htmlFor="street" className="text-xs md:text-sm font-medium text-foreground mb-1.5 block">
-            {t('street', language)} <span className="text-red-500">*</span>
+            {intl.formatMessage({ id: 'street' })} <span className="text-red-500">*</span>
           </Label>
           <Input
             id="street"
@@ -121,7 +124,7 @@ export function StepOne({ data, onChange, stepNumber, language = 'en' }: StepOne
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <Label htmlFor="city" className="text-xs md:text-sm font-medium text-foreground mb-1.5 block">
-              {t('city', language)} <span className="text-red-500">*</span>
+              {intl.formatMessage({ id: 'city' })} <span className="text-red-500">*</span>
             </Label>
             <Input
               id="city"
@@ -133,7 +136,7 @@ export function StepOne({ data, onChange, stepNumber, language = 'en' }: StepOne
           </div>
           <div>
             <Label htmlFor="emirate" className="text-xs md:text-sm font-medium text-foreground mb-1.5 block">
-              {t('emirate', language)} <span className="text-red-500">*</span>
+              {intl.formatMessage({ id: 'emirate' })} <span className="text-red-500">*</span>
             </Label>
             <Input
               id="emirate"
@@ -149,7 +152,7 @@ export function StepOne({ data, onChange, stepNumber, language = 'en' }: StepOne
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <Label htmlFor="country" className="text-xs md:text-sm font-medium text-foreground mb-1.5 block">
-              {t('country', language)} <span className="text-red-500">*</span>
+              {intl.formatMessage({ id: 'country' })} <span className="text-red-500">*</span>
             </Label>
             <Input
               id="country"
@@ -161,7 +164,7 @@ export function StepOne({ data, onChange, stepNumber, language = 'en' }: StepOne
           </div>
           <div>
             <Label htmlFor="postalCode" className="text-xs md:text-sm font-medium text-foreground mb-1.5 block">
-              {t('postalCode', language)}
+              {intl.formatMessage({ id: 'postalCode' })}
             </Label>
             <Input
               id="postalCode"
@@ -177,7 +180,7 @@ export function StepOne({ data, onChange, stepNumber, language = 'en' }: StepOne
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <Label htmlFor="phoneNumber" className="text-xs md:text-sm font-medium text-foreground mb-1.5 block">
-              {t('phoneNumber', language)} <span className="text-red-500">*</span>
+              {intl.formatMessage({ id: 'phoneNumber' })} <span className="text-red-500">*</span>
             </Label>
             <Input
               id="phoneNumber"
@@ -190,7 +193,7 @@ export function StepOne({ data, onChange, stepNumber, language = 'en' }: StepOne
           </div>
           <div>
             <Label htmlFor="email" className="text-xs md:text-sm font-medium text-foreground mb-1.5 block">
-              {t('email', language)} <span className="text-red-500">*</span>
+              {intl.formatMessage({ id: 'email' })} <span className="text-red-500">*</span>
             </Label>
             <Input
               id="email"

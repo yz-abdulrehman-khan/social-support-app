@@ -3,10 +3,16 @@ import ReactDatePicker, { registerLocale } from 'react-datepicker';
 import { arSA } from 'date-fns/locale';
 import 'react-datepicker/dist/react-datepicker.css';
 import { cn } from '@/lib/utils';
-import { formatNumber } from '@/i18n/translations';
+import { useIntl } from 'react-intl';
 
 // Register Arabic locale
 registerLocale('ar', arSA);
+
+// Helper function to convert Western numerals to Arabic numerals
+const toArabicNumerals = (str: string | number): string => {
+  const arabicNumerals = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+  return String(str).replace(/\d/g, (digit) => arabicNumerals[parseInt(digit)]);
+};
 
 interface DatePickerProps {
   id?: string;
@@ -19,7 +25,7 @@ interface DatePickerProps {
 
 const CustomInput = forwardRef<HTMLInputElement, any>(({ value, onClick, placeholder, className, language }, ref) => {
   // Convert date to Arabic numerals if language is Arabic
-  const displayValue = language === 'ar' && value ? formatNumber(value, 'ar') : value;
+  const displayValue = language === 'ar' && value ? toArabicNumerals(value) : value;
 
   return (
     <input

@@ -3,7 +3,9 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import type { ApplicationData } from '@/App';
 import { Sparkles } from 'lucide-react';
-import { t, formatNumber, type Language } from '@/i18n/translations';
+import { useIntl } from 'react-intl';
+
+type Language = 'en' | 'ar';
 
 interface StepThreeProps {
   data: ApplicationData;
@@ -13,6 +15,7 @@ interface StepThreeProps {
 }
 
 export function StepThree({ data, onChange, stepNumber, language = 'en' }: StepThreeProps) {
+  const intl = useIntl();
   const isRTL = language === 'ar';
 
   const handleAIInsert = (field: keyof ApplicationData) => {
@@ -27,10 +30,10 @@ export function StepThree({ data, onChange, stepNumber, language = 'en' }: StepT
       {/* Question Number and Title */}
       <div className="mb-8">
         <h2 className="text-xl md:text-2xl lg:text-3xl font-semibold text-theme-primary mb-3">
-          {formatNumber(stepNumber, language)}. {t('step3Title', language)}
+          {intl.formatNumber(stepNumber)}. {intl.formatMessage({ id: 'step3Title' })}
         </h2>
         <p className="text-sm md:text-base lg:text-lg text-theme-secondary">
-          {t('step3Subtitle', language)}
+          {intl.formatMessage({ id: 'step3Subtitle' })}
         </p>
       </div>
 
@@ -40,7 +43,7 @@ export function StepThree({ data, onChange, stepNumber, language = 'en' }: StepT
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <Label htmlFor="financialSituation" className="text-xs md:text-sm font-medium text-theme-primary">
-              {t('describeYourSituation', language)} <span className="text-red-500">*</span>
+              {intl.formatMessage({ id: 'describeYourSituation' })} <span className="text-red-500">*</span>
             </Label>
             <Button
               type="button"
@@ -50,14 +53,14 @@ export function StepThree({ data, onChange, stepNumber, language = 'en' }: StepT
               className="gap-2 text-theme-accent hover:text-theme-accent-hover hover:bg-theme-accent/5 rounded-full h-8 px-3"
             >
               <Sparkles className="w-4 h-4" />
-              <span className="text-sm">{t('helpMeWrite', language)}</span>
+              <span className="text-sm">{intl.formatMessage({ id: 'helpMeWrite' })}</span>
             </Button>
           </div>
           <Textarea
             id="financialSituation"
             value={data.financialSituation}
             onChange={(e) => onChange({ financialSituation: e.target.value })}
-            placeholder={t('situationPlaceholder', language)}
+            placeholder={intl.formatMessage({ id: 'situationPlaceholder' })}
             rows={6}
             className="resize-none"
             dir={isRTL ? 'rtl' : 'ltr'}

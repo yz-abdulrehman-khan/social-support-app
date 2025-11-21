@@ -2,7 +2,9 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import type { ApplicationData } from '@/App';
-import { t, formatNumber, type Language } from '@/i18n/translations';
+import { useIntl } from 'react-intl';
+
+type Language = 'en' | 'ar';
 
 interface StepTwoProps {
   data: ApplicationData;
@@ -12,15 +14,16 @@ interface StepTwoProps {
 }
 
 export function StepTwo({ data, onChange, stepNumber, language = 'en' }: StepTwoProps) {
+  const intl = useIntl();
   return (
     <div className="space-y-8">
       {/* Question Number and Title */}
       <div className="mb-8">
         <h2 className="text-xl md:text-2xl lg:text-3xl font-semibold text-foreground-dark mb-3">
-          {formatNumber(stepNumber, language)}. {t('step2Title', language)}
+          {intl.formatNumber(stepNumber)}. {intl.formatMessage({ id: 'step2Title' })}
         </h2>
         <p className="text-sm md:text-base lg:text-lg text-gray-600">
-          {t('step2Subtitle', language)}
+          {intl.formatMessage({ id: 'step2Subtitle' })}
         </p>
       </div>
 
@@ -30,7 +33,7 @@ export function StepTwo({ data, onChange, stepNumber, language = 'en' }: StepTwo
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <Label htmlFor="maritalStatus" className="text-xs md:text-sm font-medium text-foreground mb-1.5 block">
-              {t('maritalStatus', language)} <span className="text-red-500">*</span>
+              {intl.formatMessage({ id: 'maritalStatus' })} <span className="text-red-500">*</span>
             </Label>
             <Select
               dir={language === 'ar' ? 'rtl' : 'ltr'}
@@ -38,20 +41,20 @@ export function StepTwo({ data, onChange, stepNumber, language = 'en' }: StepTwo
               onValueChange={(value) => onChange({ maritalStatus: value })}
             >
               <SelectTrigger>
-                <SelectValue placeholder={t('selectMaritalStatus', language)} />
+                <SelectValue placeholder={intl.formatMessage({ id: 'selectMaritalStatus' })} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="single">{t('single', language)}</SelectItem>
-                <SelectItem value="married">{t('married', language)}</SelectItem>
-                <SelectItem value="divorced">{t('divorced', language)}</SelectItem>
-                <SelectItem value="widowed">{t('widowed', language)}</SelectItem>
+                <SelectItem value="single">{intl.formatMessage({ id: 'single' })}</SelectItem>
+                <SelectItem value="married">{intl.formatMessage({ id: 'married' })}</SelectItem>
+                <SelectItem value="divorced">{intl.formatMessage({ id: 'divorced' })}</SelectItem>
+                <SelectItem value="widowed">{intl.formatMessage({ id: 'widowed' })}</SelectItem>
               </SelectContent>
             </Select>
           </div>
 
           <div>
             <Label htmlFor="numberOfDependents" className="text-xs md:text-sm font-medium text-foreground mb-1.5 block">
-              {t('numberOfDependents', language)} <span className="text-red-500">*</span>
+              {intl.formatMessage({ id: 'numberOfDependents' })} <span className="text-red-500">*</span>
             </Label>
             <Input
               id="numberOfDependents"
@@ -69,7 +72,7 @@ export function StepTwo({ data, onChange, stepNumber, language = 'en' }: StepTwo
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <Label htmlFor="employmentStatus" className="text-xs md:text-sm font-medium text-foreground mb-1.5 block">
-              {t('employmentStatus', language)} <span className="text-red-500">*</span>
+              {intl.formatMessage({ id: 'employmentStatus' })} <span className="text-red-500">*</span>
             </Label>
             <Select
               dir={language === 'ar' ? 'rtl' : 'ltr'}
@@ -77,21 +80,21 @@ export function StepTwo({ data, onChange, stepNumber, language = 'en' }: StepTwo
               onValueChange={(value) => onChange({ employmentStatus: value })}
             >
               <SelectTrigger>
-                <SelectValue placeholder={t('selectEmploymentStatus', language)} />
+                <SelectValue placeholder={intl.formatMessage({ id: 'selectEmploymentStatus' })} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="employed">{t('employed', language)}</SelectItem>
-                <SelectItem value="self-employed">{t('selfEmployed', language)}</SelectItem>
-                <SelectItem value="unemployed">{t('unemployed', language)}</SelectItem>
-                <SelectItem value="retired">{t('retired', language)}</SelectItem>
-                <SelectItem value="student">{t('student', language)}</SelectItem>
+                <SelectItem value="employed">{intl.formatMessage({ id: 'employed' })}</SelectItem>
+                <SelectItem value="self-employed">{intl.formatMessage({ id: 'selfEmployed' })}</SelectItem>
+                <SelectItem value="unemployed">{intl.formatMessage({ id: 'unemployed' })}</SelectItem>
+                <SelectItem value="retired">{intl.formatMessage({ id: 'retired' })}</SelectItem>
+                <SelectItem value="student">{intl.formatMessage({ id: 'student' })}</SelectItem>
               </SelectContent>
             </Select>
           </div>
 
           <div>
             <Label htmlFor="monthlyIncome" className="text-xs md:text-sm font-medium text-foreground mb-1.5 block">
-              {t('monthlyIncome', language)} <span className="text-red-500">*</span>
+              {intl.formatMessage({ id: 'monthlyIncome' })} <span className="text-red-500">*</span>
             </Label>
             <Input
               id="monthlyIncome"
@@ -108,7 +111,7 @@ export function StepTwo({ data, onChange, stepNumber, language = 'en' }: StepTwo
         {/* Housing */}
         <div>
           <Label htmlFor="housingStatus" className="text-xs md:text-sm font-medium text-foreground mb-1.5 block">
-            {t('housingStatus', language)} <span className="text-red-500">*</span>
+            {intl.formatMessage({ id: 'housingStatus' })} <span className="text-red-500">*</span>
           </Label>
           <Select
             dir={language === 'ar' ? 'rtl' : 'ltr'}
@@ -116,14 +119,14 @@ export function StepTwo({ data, onChange, stepNumber, language = 'en' }: StepTwo
             onValueChange={(value) => onChange({ housingStatus: value })}
           >
             <SelectTrigger>
-              <SelectValue placeholder={t('selectHousingStatus', language)} />
+              <SelectValue placeholder={intl.formatMessage({ id: 'selectHousingStatus' })} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="owned">{t('owned', language)}</SelectItem>
-              <SelectItem value="rented">{t('rented', language)}</SelectItem>
-              <SelectItem value="family-owned">{t('familyHousing', language)}</SelectItem>
-              <SelectItem value="government">{t('governmentHousing', language)}</SelectItem>
-              <SelectItem value="other">{t('other', language)}</SelectItem>
+              <SelectItem value="owned">{intl.formatMessage({ id: 'owned' })}</SelectItem>
+              <SelectItem value="rented">{intl.formatMessage({ id: 'rented' })}</SelectItem>
+              <SelectItem value="family-owned">{intl.formatMessage({ id: 'familyHousing' })}</SelectItem>
+              <SelectItem value="government">{intl.formatMessage({ id: 'governmentHousing' })}</SelectItem>
+              <SelectItem value="other">{intl.formatMessage({ id: 'other' })}</SelectItem>
             </SelectContent>
           </Select>
         </div>

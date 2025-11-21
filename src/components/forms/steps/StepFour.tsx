@@ -1,7 +1,9 @@
 import { Button } from '@/components/ui/button';
 import { Edit } from 'lucide-react';
 import type { ApplicationData } from '@/App';
-import { t, formatNumber, type Language } from '@/i18n/translations';
+import { useIntl } from 'react-intl';
+
+type Language = 'en' | 'ar';
 
 interface StepFourProps {
   data: ApplicationData;
@@ -11,6 +13,7 @@ interface StepFourProps {
 }
 
 export function StepFour({ data, onEdit, stepNumber, language = 'en' }: StepFourProps) {
+  const intl = useIntl();
   // Helper function to get translated values
   const getTranslatedValue = (_key: string, value: string): string => {
     if (!value) return '-';
@@ -73,7 +76,7 @@ export function StepFour({ data, onEdit, stepNumber, language = 'en' }: StepFour
           className="gap-1.5 text-theme-accent hover:text-theme-accent-hover hover:bg-transparent h-auto p-0 text-xs md:text-sm font-medium"
         >
           <Edit className="w-4 h-4" />
-          {t('editSection', language)}
+          {intl.formatMessage({ id: 'editSection' })}
         </Button>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8">
@@ -87,87 +90,87 @@ export function StepFour({ data, onEdit, stepNumber, language = 'en' }: StepFour
       {/* Question Number and Title */}
       <div className="mb-8">
         <h2 className="text-xl md:text-2xl lg:text-3xl font-semibold text-theme-primary mb-3">
-          {formatNumber(stepNumber, language)}. {t('step4Title', language)}
+          {intl.formatNumber(stepNumber)}. {intl.formatMessage({ id: 'step4Title' })}
         </h2>
         <p className="text-sm md:text-base lg:text-lg text-theme-secondary">
-          {t('step4Subtitle', language)}
+          {intl.formatMessage({ id: 'step4Subtitle' })}
         </p>
       </div>
 
       {/* Review Sections */}
       <div>
         {/* Step 1: Personal Information */}
-        <ReviewSection title={t('step1Title', language)} step={1}>
+        <ReviewSection title={intl.formatMessage({ id: 'step1Title' })} step={1}>
           <DataRow
-            label={t('fullNameEnglish', language)}
+            label={intl.formatMessage({ id: 'fullNameEnglish' })}
             value={data.fullNameEnglish}
           />
           <DataRow
-            label={t('fullNameArabic', language)}
+            label={intl.formatMessage({ id: 'fullNameArabic' })}
             value={data.fullNameArabic}
           />
           <DataRow
-            label={t('emiratesId', language)}
+            label={intl.formatMessage({ id: 'emiratesId' })}
             value={data.nationalId}
           />
           <DataRow
-            label={t('dateOfBirth', language)}
-            value={language === 'ar' && data.dateOfBirth ? formatNumber(data.dateOfBirth, language) : data.dateOfBirth}
+            label={intl.formatMessage({ id: 'dateOfBirth' })}
+            value={language === 'ar' && data.dateOfBirth ? intl.formatNumber(data.dateOfBirth) : data.dateOfBirth}
           />
           <DataRow
-            label={t('gender', language)}
+            label={intl.formatMessage({ id: 'gender' })}
             value={getTranslatedValue('gender', data.gender)}
           />
           <DataRow
-            label={t('phoneNumber', language)}
+            label={intl.formatMessage({ id: 'phoneNumber' })}
             value={data.phoneNumber}
           />
           <DataRow
-            label={t('email', language)}
+            label={intl.formatMessage({ id: 'email' })}
             value={data.email}
           />
           <DataRow
-            label={t('street', language)}
+            label={intl.formatMessage({ id: 'street' })}
             value={data.street}
           />
           <DataRow
-            label={t('city', language)}
+            label={intl.formatMessage({ id: 'city' })}
             value={data.city}
           />
           <DataRow
-            label={t('emirate', language)}
+            label={intl.formatMessage({ id: 'emirate' })}
             value={data.emirate}
           />
           <DataRow
-            label={t('country', language)}
+            label={intl.formatMessage({ id: 'country' })}
             value={data.country}
           />
           <DataRow
-            label={t('postalCode', language)}
-            value={language === 'ar' && data.postalCode ? formatNumber(data.postalCode, language) : data.postalCode}
+            label={intl.formatMessage({ id: 'postalCode' })}
+            value={language === 'ar' && data.postalCode ? intl.formatNumber(data.postalCode) : data.postalCode}
           />
         </ReviewSection>
 
         {/* Step 2: Family & Financial Details */}
-        <ReviewSection title={t('step2Title', language)} step={2}>
+        <ReviewSection title={intl.formatMessage({ id: 'step2Title' })} step={2}>
           <DataRow
-            label={t('maritalStatus', language)}
+            label={intl.formatMessage({ id: 'maritalStatus' })}
             value={getTranslatedValue('maritalStatus', data.maritalStatus)}
           />
           <DataRow
-            label={t('numberOfDependents', language)}
-            value={language === 'ar' && data.numberOfDependents ? formatNumber(data.numberOfDependents, language) : data.numberOfDependents}
+            label={intl.formatMessage({ id: 'numberOfDependents' })}
+            value={language === 'ar' && data.numberOfDependents ? intl.formatNumber(data.numberOfDependents) : data.numberOfDependents}
           />
           <DataRow
-            label={t('employmentStatus', language)}
+            label={intl.formatMessage({ id: 'employmentStatus' })}
             value={getTranslatedValue('employmentStatus', data.employmentStatus)}
           />
           <DataRow
-            label={t('monthlyIncome', language)}
-            value={data.monthlyIncome ? (language === 'ar' ? `${formatNumber(data.monthlyIncome, language)} درهم` : `${data.monthlyIncome} AED`) : '-'}
+            label={intl.formatMessage({ id: 'monthlyIncome' })}
+            value={data.monthlyIncome ? (language === 'ar' ? `${intl.formatNumber(data.monthlyIncome)} درهم` : `${data.monthlyIncome} AED`) : '-'}
           />
           <DataRow
-            label={t('housingStatus', language)}
+            label={intl.formatMessage({ id: 'housingStatus' })}
             value={getTranslatedValue('housingStatus', data.housingStatus)}
           />
         </ReviewSection>
@@ -175,7 +178,7 @@ export function StepFour({ data, onEdit, stepNumber, language = 'en' }: StepFour
         {/* Step 3: Situation Description */}
         <div className="mb-6">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-theme-primary">{t('step3Title', language)}</h3>
+            <h3 className="text-lg font-semibold text-theme-primary">{intl.formatMessage({ id: 'step3Title' })}</h3>
             <Button
               onClick={() => onEdit(3)}
               variant="ghost"
@@ -183,13 +186,13 @@ export function StepFour({ data, onEdit, stepNumber, language = 'en' }: StepFour
               className="gap-1.5 text-theme-accent hover:text-theme-accent-hover hover:bg-transparent h-auto p-0 text-sm font-medium"
             >
               <Edit className="w-4 h-4" />
-              {t('editSection', language)}
+              {intl.formatMessage({ id: 'editSection' })}
             </Button>
           </div>
           <div className="space-y-4">
             <div>
               <div className="text-xs font-medium text-theme-secondary mb-0.5">
-                {t('describeYourSituation', language)}
+                {intl.formatMessage({ id: 'describeYourSituation' })}
               </div>
               <div className="text-sm text-theme-primary leading-relaxed whitespace-pre-wrap">
                 {data.financialSituation || '-'}
@@ -229,7 +232,7 @@ export function StepFour({ data, onEdit, stepNumber, language = 'en' }: StepFour
           </div>
           <div className="flex-1">
             <p className="text-sm text-theme-primary">
-              {t('confirmSubmit', language)}
+              {intl.formatMessage({ id: 'confirmSubmit' })}
             </p>
           </div>
         </div>
