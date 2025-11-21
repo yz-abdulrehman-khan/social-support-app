@@ -1,30 +1,34 @@
+import type { Control } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
-import type { ApplicationData } from '@/App';
+import { FormField, FormControl, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Sparkles } from 'lucide-react';
 import { useIntl } from 'react-intl';
 import { toArabicNumerals } from '@/lib/i18n-utils';
+import type { CompleteFormData } from '@/lib/form-validation';
 
 type Language = 'en' | 'ar';
 
 interface StepThreeProps {
-  data: ApplicationData;
-  onChange: (updates: Partial<ApplicationData>) => void;
+  control: Control<CompleteFormData>;
   stepNumber: number;
   language?: Language;
 }
 
-export function StepThree({ data, onChange, stepNumber, language = 'en' }: StepThreeProps) {
+export function StepThree({ control, stepNumber, language = 'en' }: StepThreeProps) {
   const intl = useIntl();
   const isRTL = language === 'ar';
+  const { setValue, watch } = useFormContext<CompleteFormData>();
 
-  const handleAIInsert = (field: keyof ApplicationData) => {
+  const handleAIInsert = (field: keyof CompleteFormData) => {
     const sampleText = language === 'en'
       ? "I am currently facing financial difficulties due to unexpected medical expenses and temporary unemployment. My family depends on me for support, and I am actively seeking assistance to help us through this challenging period."
       : "أواجه حاليًا صعوبات مالية بسبب نفقات طبية غير متوقعة والبطالة المؤقتة. تعتمد عليّ عائلتي للحصول على الدعم، وأبحث بنشاط عن المساعدة لمساعدتنا خلال هذه الفترة الصعبة.";
-    onChange({ [field]: sampleText });
+    setValue(field, sampleText);
   };
+
+  const financialSituationValue = watch('financialSituation');
 
   return (
     <div className="space-y-8">
@@ -41,67 +45,93 @@ export function StepThree({ data, onChange, stepNumber, language = 'en' }: StepT
       {/* Form Fields */}
       <div className="space-y-6">
         {/* Financial Situation */}
-        <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            <Label htmlFor="financialSituation" className="text-xs md:text-sm font-medium text-theme-primary">
-              {intl.formatMessage({ id: 'form.steps.situation.fields.describeYourSituation' })} <span className="text-red-500">*</span>
-            </Label>
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              onClick={() => handleAIInsert('financialSituation')}
-              className="gap-2 text-theme-accent hover:text-theme-accent-hover hover:bg-theme-accent/5 rounded-full h-8 px-3"
-            >
-              <Sparkles className="w-4 h-4" />
-              <span className="text-sm">{intl.formatMessage({ id: 'form.steps.situation.fields.helpMeWrite' })}</span>
-            </Button>
-          </div>
-          <Textarea
-            id="financialSituation"
-            value={data.financialSituation}
-            onChange={(e) => onChange({ financialSituation: e.target.value })}
-            placeholder={intl.formatMessage({ id: 'form.steps.situation.fields.situationPlaceholder' })}
-            rows={6}
-            className="resize-none"
-            dir={isRTL ? 'rtl' : 'ltr'}
-          />
-          <p className="text-xs text-theme-secondary">
-            {data.financialSituation.length} {language === 'en' ? 'characters (minimum 50 required)' : 'حرف (الحد الأدنى ٥٠ حرفًا مطلوبًا)'}
-          </p>
-        </div>
+        <FormField
+          control={control}
+          name="financialSituation"
+          render={({ field }) => (
+            <FormItem>
+              <div className="flex items-center justify-between">
+                <FormLabel className="text-xs md:text-sm font-medium">
+                  {intl.formatMessage({ id: 'form.steps.situation.fields.describeYourSituation' })} <span className="text-red-500">*</span>
+                </FormLabel>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => handleAIInsert('financialSituation')}
+                  className="gap-2 text-theme-accent hover:text-theme-accent-hover hover:bg-theme-accent/5 rounded-full h-8 px-3"
+                >
+                  <Sparkles className="w-4 h-4" />
+                  <span className="text-sm">{intl.formatMessage({ id: 'form.steps.situation.fields.helpMeWrite' })}</span>
+                </Button>
+              </div>
+              <FormControl>
+                <Textarea
+                  {...field}
+                  id="financialSituation"
+                  placeholder={intl.formatMessage({ id: 'form.steps.situation.fields.situationPlaceholder' })}
+                  rows={6}
+                  className="resize-none"
+                  dir={isRTL ? 'rtl' : 'ltr'}
+                />
+              </FormControl>
+              <div className="flex items-center justify-between">
+                <FormMessage />
+                <p className="text-xs text-theme-secondary">
+                  {financialSituationValue?.length || 0} {intl.formatMessage({ id: 'form.steps.situation.fields.charactersMinimum' })}
+                </p>
+              </div>
+            </FormItem>
+          )}
+        />
 
         {/* Employment Circumstances (Optional) */}
-        <div className="space-y-2">
-          <Label htmlFor="employmentCircumstances" className="text-xs md:text-sm font-medium text-theme-primary block">
-            {language === 'en' ? 'Employment Circumstances (Optional)' : 'ظروف التوظيف (اختياري)'}
-          </Label>
-          <Textarea
-            id="employmentCircumstances"
-            value={data.employmentCircumstances}
-            onChange={(e) => onChange({ employmentCircumstances: e.target.value })}
-            placeholder={language === 'en' ? "Describe your employment situation..." : "صف حالة عملك..."}
-            rows={4}
-            className="resize-none"
-            dir={isRTL ? 'rtl' : 'ltr'}
-          />
-        </div>
+        <FormField
+          control={control}
+          name="employmentCircumstances"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-xs md:text-sm font-medium">
+                {intl.formatMessage({ id: 'form.steps.situation.fields.employmentCircumstances' })}
+              </FormLabel>
+              <FormControl>
+                <Textarea
+                  {...field}
+                  id="employmentCircumstances"
+                  placeholder={intl.formatMessage({ id: 'form.steps.situation.fields.employmentCircumstancesPlaceholder' })}
+                  rows={4}
+                  className="resize-none"
+                  dir={isRTL ? 'rtl' : 'ltr'}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
         {/* Reason for Applying */}
-        <div className="space-y-2">
-          <Label htmlFor="reasonForApplying" className="text-xs md:text-sm font-medium text-theme-primary block">
-            {language === 'en' ? 'Specific Reason for Applying' : 'السبب المحدد للتقديم'} <span className="text-red-500">*</span>
-          </Label>
-          <Textarea
-            id="reasonForApplying"
-            value={data.reasonForApplying}
-            onChange={(e) => onChange({ reasonForApplying: e.target.value })}
-            placeholder={language === 'en' ? "What specific assistance are you seeking and why?" : "ما هي المساعدة المحددة التي تبحث عنها ولماذا؟"}
-            rows={4}
-            className="resize-none"
-            dir={isRTL ? 'rtl' : 'ltr'}
-          />
-        </div>
+        <FormField
+          control={control}
+          name="reasonForApplying"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-xs md:text-sm font-medium">
+                {intl.formatMessage({ id: 'form.steps.situation.fields.reasonForApplying' })} <span className="text-red-500">*</span>
+              </FormLabel>
+              <FormControl>
+                <Textarea
+                  {...field}
+                  id="reasonForApplying"
+                  placeholder={intl.formatMessage({ id: 'form.steps.situation.fields.reasonForApplyingPlaceholder' })}
+                  rows={4}
+                  className="resize-none"
+                  dir={isRTL ? 'rtl' : 'ltr'}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
         {/* Important Note */}
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mt-4">
@@ -113,12 +143,10 @@ export function StepThree({ data, onChange, stepNumber, language = 'en' }: StepT
             </div>
             <div className="flex-1">
               <h4 className="font-semibold text-theme-primary mb-1 text-sm">
-                {language === 'en' ? 'Privacy & Confidentiality' : 'الخصوصية والسرية'}
+                {intl.formatMessage({ id: 'form.steps.situation.fields.privacyTitle' })}
               </h4>
               <p className="text-sm text-gray-700">
-                {language === 'en' 
-                  ? 'Your information is handled with the utmost care and confidentiality. We understand this is a sensitive time, and your privacy is protected under UAE law.'
-                  : 'يتم التعامل مع معلوماتك بأقصى قدر من العناية والسرية. نحن ندرك أن هذا وقت حساس، وخصوصيتك محمية بموجب قانون الإمارات العربية المتحدة.'}
+                {intl.formatMessage({ id: 'form.steps.situation.fields.privacyMessage' })}
               </p>
             </div>
           </div>

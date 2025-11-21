@@ -1,22 +1,25 @@
+import type { Control } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { DatePicker } from '@/components/ui/date-picker';
-import type { ApplicationData } from '@/App';
+import { FormField, FormControl, FormItem, FormMessage, FormLabel } from '@/components/ui/form';
 import { useIntl } from 'react-intl';
 import { toArabicNumerals } from '@/lib/i18n-utils';
+import { formatEmiratesId, formatUAEPhone, type CompleteFormData } from '@/lib/form-validation';
 
 type Language = 'en' | 'ar';
 
 interface StepOneProps {
-  data: ApplicationData;
-  onChange: (updates: Partial<ApplicationData>) => void;
+  control: Control<CompleteFormData>;
   stepNumber: number;
   language?: Language;
 }
 
-export function StepOne({ data, onChange, stepNumber, language = 'en' }: StepOneProps) {
+export function StepOne({ control, stepNumber, language = 'en' }: StepOneProps) {
   const intl = useIntl();
+  const { setValue } = useFormContext<CompleteFormData>();
+
   return (
     <div className="space-y-8 w-full">
       {/* Question Number and Title */}
@@ -32,179 +35,313 @@ export function StepOne({ data, onChange, stepNumber, language = 'en' }: StepOne
       {/* Form Fields */}
       <div className="space-y-6 w-full">
         {/* Full Name - English & Arabic */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <Label htmlFor="fullNameEnglish" className="text-xs md:text-sm font-medium text-foreground mb-1.5 block">
-              {intl.formatMessage({ id: 'form.steps.personal.fields.fullNameEnglish' })} <span className="text-red-500">*</span>
-            </Label>
-            <Input
-              id="fullNameEnglish"
-              value={data.fullNameEnglish}
-              onChange={(e) => onChange({ fullNameEnglish: e.target.value })}
-              placeholder={language === 'en' ? "Enter your full name in English" : "أدخل اسمك الكامل بالإنجليزية"}
-              className="w-full"
-            />
-          </div>
-          <div>
-            <Label htmlFor="fullNameArabic" className="text-xs md:text-sm font-medium text-foreground mb-1.5 block">
-              {intl.formatMessage({ id: 'form.steps.personal.fields.fullNameArabic' })} <span className="text-red-500">*</span>
-            </Label>
-            <Input
-              id="fullNameArabic"
-              value={data.fullNameArabic}
-              onChange={(e) => onChange({ fullNameArabic: e.target.value })}
-              placeholder="أدخل اسمك الكامل بالعربية"
-              className="w-full"
-              dir="rtl"
-            />
-          </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
+          <FormField
+            control={control}
+            name="fullNameEnglish"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-xs md:text-sm font-medium">
+                  {intl.formatMessage({ id: 'form.steps.personal.fields.fullNameEnglish' })} <span className="text-red-500">*</span>
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    {...field}
+                    id="fullNameEnglish"
+                    placeholder={intl.formatMessage({ id: 'form.steps.personal.fields.placeholders.fullNameEnglish' })}
+                    className="w-full"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={control}
+            name="fullNameArabic"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-xs md:text-sm font-medium">
+                  {intl.formatMessage({ id: 'form.steps.personal.fields.fullNameArabic' })} <span className="text-red-500">*</span>
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    {...field}
+                    id="fullNameArabic"
+                    placeholder={intl.formatMessage({ id: 'form.steps.personal.fields.placeholders.fullNameArabic' })}
+                    className="w-full"
+                    dir="rtl"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
 
         {/* Emirates ID, Date of Birth & Gender - Side by Side */}
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-4 items-start">
           <div className="col-span-2">
-            <Label htmlFor="nationalId" className="text-xs md:text-sm font-medium text-foreground mb-1.5 block">
-              {intl.formatMessage({ id: 'form.steps.personal.fields.emiratesId' })} <span className="text-red-500">*</span>
-            </Label>
-            <Input
-              id="nationalId"
-              value={data.nationalId}
-              onChange={(e) => onChange({ nationalId: e.target.value })}
-              placeholder="784-XXXX-XXXXXXX-X"
-              className="w-full"
+            <FormField
+              control={control}
+              name="nationalId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-xs md:text-sm font-medium">
+                    {intl.formatMessage({ id: 'form.steps.personal.fields.emiratesId' })} <span className="text-red-500">*</span>
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      id="nationalId"
+                      placeholder="784-XXXX-XXXXXXX-X"
+                      className="w-full"
+                      onChange={(e) => {
+                        const formatted = formatEmiratesId(e.target.value);
+                        setValue('nationalId', formatted);
+                      }}
+                      maxLength={18}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
           </div>
           <div className="col-span-2">
-            <Label htmlFor="dateOfBirth" className="text-xs md:text-sm font-medium text-foreground mb-1.5 block">
-              {intl.formatMessage({ id: 'form.steps.personal.fields.dateOfBirth' })} <span className="text-red-500">*</span>
-            </Label>
-            <DatePicker
-              id="dateOfBirth"
-              value={data.dateOfBirth}
-              onChange={(date) => onChange({ dateOfBirth: date })}
-              className="w-full"
-              language={language}
-              placeholder={language === 'ar' ? 'اختر تاريخ الميلاد' : 'Select date of birth'}
+            <FormField
+              control={control}
+              name="dateOfBirth"
+              render={({ field, fieldState }) => (
+                <FormItem>
+                  <FormLabel className="text-xs md:text-sm font-medium">
+                    {intl.formatMessage({ id: 'form.steps.personal.fields.dateOfBirth' })} <span className="text-red-500">*</span>
+                  </FormLabel>
+                  <DatePicker
+                    id="dateOfBirth"
+                    value={field.value}
+                    onChange={field.onChange}
+                    onBlur={field.onBlur}
+                    className="w-full"
+                    language={language}
+                    placeholder={language === 'ar' ? 'اختر تاريخ الميلاد' : 'Select date of birth'}
+                    hasError={!!fieldState.error}
+                  />
+                  <FormMessage />
+                </FormItem>
+              )}
             />
           </div>
           <div className="md:col-span-1">
-            <Label htmlFor="gender" className="text-xs md:text-sm font-medium text-foreground mb-1.5 block">
-              {intl.formatMessage({ id: 'form.steps.personal.fields.gender' })} <span className="text-red-500">*</span>
-            </Label>
-            <Select
-              dir={language === 'ar' ? 'rtl' : 'ltr'}
-              value={data.gender}
-              onValueChange={(value) => onChange({ gender: value })}
-            >
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder={intl.formatMessage({ id: 'form.steps.personal.fields.selectGender' })} />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="male">{intl.formatMessage({ id: 'form.steps.personal.fields.male' })}</SelectItem>
-                <SelectItem value="female">{intl.formatMessage({ id: 'form.steps.personal.fields.female' })}</SelectItem>
-              </SelectContent>
-            </Select>
+            <FormField
+              control={control}
+              name="gender"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-xs md:text-sm font-medium">
+                    {intl.formatMessage({ id: 'form.steps.personal.fields.gender' })} <span className="text-red-500">*</span>
+                  </FormLabel>
+                  <Select
+                    dir={language === 'ar' ? 'rtl' : 'ltr'}
+                    value={field.value}
+                    onValueChange={field.onChange}
+                    onOpenChange={(open) => {
+                      if (!open) field.onBlur();
+                    }}
+                  >
+                    <FormControl>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder={intl.formatMessage({ id: 'form.steps.personal.fields.selectGender' })} />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="male">{intl.formatMessage({ id: 'form.steps.personal.fields.male' })}</SelectItem>
+                      <SelectItem value="female">{intl.formatMessage({ id: 'form.steps.personal.fields.female' })}</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
         </div>
 
         {/* Street Address */}
         <div>
-          <Label htmlFor="street" className="text-xs md:text-sm font-medium text-foreground mb-1.5 block">
-            {intl.formatMessage({ id: 'form.steps.personal.fields.street' })} <span className="text-red-500">*</span>
-          </Label>
-          <Input
-            id="street"
-            value={data.street}
-            onChange={(e) => onChange({ street: e.target.value })}
-            placeholder={language === 'en' ? "Enter street address" : "أدخل عنوان الشارع"}
-            className="w-full"
+          <FormField
+            control={control}
+            name="street"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-xs md:text-sm font-medium">
+                  {intl.formatMessage({ id: 'form.steps.personal.fields.street' })} <span className="text-red-500">*</span>
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    {...field}
+                    id="street"
+                    placeholder={intl.formatMessage({ id: 'form.steps.personal.fields.placeholders.street' })}
+                    className="w-full"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
         </div>
 
         {/* City & Emirate - Side by Side */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <Label htmlFor="city" className="text-xs md:text-sm font-medium text-foreground mb-1.5 block">
-              {intl.formatMessage({ id: 'form.steps.personal.fields.city' })} <span className="text-red-500">*</span>
-            </Label>
-            <Input
-              id="city"
-              value={data.city}
-              onChange={(e) => onChange({ city: e.target.value })}
-              placeholder={language === 'en' ? "Enter city" : "أدخل المدينة"}
-              className="w-full"
-            />
-          </div>
-          <div>
-            <Label htmlFor="emirate" className="text-xs md:text-sm font-medium text-foreground mb-1.5 block">
-              {intl.formatMessage({ id: 'form.steps.personal.fields.emirate' })} <span className="text-red-500">*</span>
-            </Label>
-            <Input
-              id="emirate"
-              value={data.emirate}
-              onChange={(e) => onChange({ emirate: e.target.value })}
-              placeholder={language === 'en' ? "Enter emirate" : "أدخل الإمارة"}
-              className="w-full"
-            />
-          </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
+          <FormField
+            control={control}
+            name="city"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-xs md:text-sm font-medium">
+                  {intl.formatMessage({ id: 'form.steps.personal.fields.city' })} <span className="text-red-500">*</span>
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    {...field}
+                    id="city"
+                    placeholder={intl.formatMessage({ id: 'form.steps.personal.fields.placeholders.city' })}
+                    className="w-full"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={control}
+            name="emirate"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-xs md:text-sm font-medium">
+                  {intl.formatMessage({ id: 'form.steps.personal.fields.emirate' })} <span className="text-red-500">*</span>
+                </FormLabel>
+                <Select
+                  dir={language === 'ar' ? 'rtl' : 'ltr'}
+                  value={field.value}
+                  onValueChange={field.onChange}
+                  onOpenChange={(open) => {
+                    if (!open) field.onBlur();
+                  }}
+                >
+                  <FormControl>
+                    <SelectTrigger className="w-full">
+                      <SelectValue />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="Abu Dhabi">{intl.formatMessage({ id: 'form.steps.personal.fields.emirates.abuDhabi' })}</SelectItem>
+                    <SelectItem value="Dubai">{intl.formatMessage({ id: 'form.steps.personal.fields.emirates.dubai' })}</SelectItem>
+                    <SelectItem value="Sharjah">{intl.formatMessage({ id: 'form.steps.personal.fields.emirates.sharjah' })}</SelectItem>
+                    <SelectItem value="Ajman">{intl.formatMessage({ id: 'form.steps.personal.fields.emirates.ajman' })}</SelectItem>
+                    <SelectItem value="Umm Al Quwain">{intl.formatMessage({ id: 'form.steps.personal.fields.emirates.ummAlQuwain' })}</SelectItem>
+                    <SelectItem value="Ras Al Khaimah">{intl.formatMessage({ id: 'form.steps.personal.fields.emirates.rasAlKhaimah' })}</SelectItem>
+                    <SelectItem value="Fujairah">{intl.formatMessage({ id: 'form.steps.personal.fields.emirates.fujairah' })}</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
 
         {/* Country & Postal Code - Side by Side */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <Label htmlFor="country" className="text-xs md:text-sm font-medium text-foreground mb-1.5 block">
-              {intl.formatMessage({ id: 'form.steps.personal.fields.country' })} <span className="text-red-500">*</span>
-            </Label>
-            <Input
-              id="country"
-              value={data.country}
-              onChange={(e) => onChange({ country: e.target.value })}
-              placeholder={language === 'en' ? "United Arab Emirates" : "الإمارات العربية المتحدة"}
-              className="w-full"
-            />
-          </div>
-          <div>
-            <Label htmlFor="postalCode" className="text-xs md:text-sm font-medium text-foreground mb-1.5 block">
-              {intl.formatMessage({ id: 'form.steps.personal.fields.postalCode' })}
-            </Label>
-            <Input
-              id="postalCode"
-              value={data.postalCode}
-              onChange={(e) => onChange({ postalCode: e.target.value })}
-              placeholder={language === 'en' ? "Enter postal code" : "أدخل الرمز البريدي"}
-              className="w-full"
-            />
-          </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
+          <FormField
+            control={control}
+            name="country"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-xs md:text-sm font-medium">
+                  {intl.formatMessage({ id: 'form.steps.personal.fields.country' })} <span className="text-red-500">*</span>
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    {...field}
+                    id="country"
+                    className="w-full bg-gray-50 cursor-not-allowed"
+                    disabled
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={control}
+            name="postalCode"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-xs md:text-sm font-medium">
+                  {intl.formatMessage({ id: 'form.steps.personal.fields.postalCode' })}
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    {...field}
+                    id="postalCode"
+                    placeholder={intl.formatMessage({ id: 'form.steps.personal.fields.placeholders.postalCode' })}
+                    className="w-full"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
 
         {/* Phone & Email - Side by Side */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <Label htmlFor="phoneNumber" className="text-xs md:text-sm font-medium text-foreground mb-1.5 block">
-              {intl.formatMessage({ id: 'form.steps.personal.fields.phoneNumber' })} <span className="text-red-500">*</span>
-            </Label>
-            <Input
-              id="phoneNumber"
-              type="tel"
-              value={data.phoneNumber}
-              onChange={(e) => onChange({ phoneNumber: e.target.value })}
-              placeholder="+971 XX XXX XXXX"
-              className="w-full"
-            />
-          </div>
-          <div>
-            <Label htmlFor="email" className="text-xs md:text-sm font-medium text-foreground mb-1.5 block">
-              {intl.formatMessage({ id: 'form.steps.personal.fields.email' })} <span className="text-red-500">*</span>
-            </Label>
-            <Input
-              id="email"
-              type="email"
-              value={data.email}
-              onChange={(e) => onChange({ email: e.target.value })}
-              placeholder="example@email.com"
-              className="w-full"
-            />
-          </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
+          <FormField
+            control={control}
+            name="phoneNumber"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-xs md:text-sm font-medium">
+                  {intl.formatMessage({ id: 'form.steps.personal.fields.phoneNumber' })} <span className="text-red-500">*</span>
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    {...field}
+                    id="phoneNumber"
+                    type="tel"
+                    placeholder="+971 XX XXX XXXX"
+                    className="w-full"
+                    onChange={(e) => {
+                      const formatted = formatUAEPhone(e.target.value);
+                      setValue('phoneNumber', formatted);
+                    }}
+                    maxLength={17}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-xs md:text-sm font-medium">
+                  {intl.formatMessage({ id: 'form.steps.personal.fields.email' })} <span className="text-red-500">*</span>
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    {...field}
+                    id="email"
+                    type="email"
+                    placeholder="example@email.com"
+                    className="w-full"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
       </div>
     </div>

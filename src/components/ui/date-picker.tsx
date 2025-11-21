@@ -5,26 +5,27 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { cn } from '@/lib/utils';
 import { toArabicNumerals } from '@/lib/i18n-utils';
 
-// Register Arabic locale
 registerLocale('ar', arSA);
 
 interface DatePickerProps {
   id?: string;
   value?: string;
   onChange: (date: string) => void;
+  onBlur?: () => void;
   className?: string;
   language?: 'en' | 'ar';
   placeholder?: string;
+  hasError?: boolean;
 }
 
-const CustomInput = forwardRef<HTMLInputElement, any>(({ value, onClick, placeholder, className, language }, ref) => {
-  // Convert date to Arabic numerals if language is Arabic
+const CustomInput = forwardRef<HTMLInputElement, any>(({ value, onClick, placeholder, className, language, hasError }, ref) => {
   const displayValue = language === 'ar' && value ? toArabicNumerals(value) : value;
 
   return (
     <input
       type="text"
       data-slot="input"
+      aria-invalid={hasError}
       className={cn(
         "file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input flex h-9 w-full min-w-0 rounded-md border px-3 py-1 text-base bg-input-background transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
         "focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
@@ -43,16 +44,12 @@ const CustomInput = forwardRef<HTMLInputElement, any>(({ value, onClick, placeho
 
 CustomInput.displayName = 'CustomInput';
 
-export function DatePicker({ id, value, onChange, className, language = 'en', placeholder }: DatePickerProps) {
+export function DatePicker({ id, value, onChange, onBlur, className, language = 'en', placeholder, hasError }: DatePickerProps) {
   const isRTL = language === 'ar';
-
-  // Convert string date to Date object
   const dateValue = value ? new Date(value) : null;
 
-  // Handle date change
   const handleChange = (date: Date | null) => {
     if (date) {
-      // Format as YYYY-MM-DD for the form
       const year = date.getFullYear();
       const month = String(date.getMonth() + 1).padStart(2, '0');
       const day = String(date.getDate()).padStart(2, '0');
@@ -62,12 +59,16 @@ export function DatePicker({ id, value, onChange, className, language = 'en', pl
     }
   };
 
-  // Render day numbers in Arabic numerals when Arabic is selected
+  const handleCalendarClose = () => {
+    if (onBlur) {
+      onBlur();
+    }
+  };
+
   const renderDayContents = (day: number) => {
     return <span>{language === 'ar' ? toArabicNumerals(String(day)) : day}</span>;
   };
 
-  // Render custom header with Arabic numerals for year
   const renderCustomHeader = ({
     date,
     changeYear,
@@ -141,6 +142,7 @@ export function DatePicker({ id, value, onChange, className, language = 'en', pl
       id={id}
       selected={dateValue}
       onChange={handleChange}
+      onCalendarClose={handleCalendarClose}
       locale={language}
       dateFormat="dd/MM/yyyy"
       showYearDropdown
@@ -148,7 +150,7 @@ export function DatePicker({ id, value, onChange, className, language = 'en', pl
       yearDropdownItemNumber={100}
       maxDate={new Date()}
       placeholderText={placeholder}
-      customInput={<CustomInput className={className} placeholder={placeholder} language={language} />}
+      customInput={<CustomInput className={className} placeholder={placeholder} language={language} hasError={hasError} />}
       wrapperClassName="w-full block"
       calendarClassName={isRTL ? 'rtl-calendar' : ''}
       popperPlacement={isRTL ? 'bottom-end' : 'bottom-start'}

@@ -90,7 +90,25 @@
           "city": "City",
           "emirate": "Emirate",
           "country": "Country",
-          "postalCode": "Postal Code"
+          "postalCode": "Postal Code",
+          "emirates": {
+            "abuDhabi": "Abu Dhabi",
+            "dubai": "Dubai",
+            "sharjah": "Sharjah",
+            "ajman": "Ajman",
+            "ummAlQuwain": "Umm Al Quwain",
+            "rasAlKhaimah": "Ras Al Khaimah",
+            "fujairah": "Fujairah"
+          },
+          "placeholders": {
+            "fullNameEnglish": "Enter your full name in English",
+            "fullNameArabic": "أدخل اسمك الكامل بالعربية",
+            "street": "Enter street address",
+            "city": "Enter city",
+            "emirate": "Enter emirate",
+            "country": "United Arab Emirates",
+            "postalCode": "Enter postal code"
+          }
         }
       },
       "financial": {
@@ -140,7 +158,14 @@
           "uploadDocuments": "Upload documents",
           "uploadHint": "Upload any supporting documents (Emirates ID, medical records, bills, etc.)",
           "declaration": "Declaration",
-          "declarationText": "I declare that all information provided in this application is true and accurate to the best of my knowledge."
+          "declarationText": "I declare that all information provided in this application is true and accurate to the best of my knowledge.",
+          "employmentCircumstances": "Employment Circumstances (Optional)",
+          "employmentCircumstancesPlaceholder": "Describe your employment situation...",
+          "reasonForApplying": "Specific Reason for Applying",
+          "reasonForApplyingPlaceholder": "What specific assistance are you seeking and why?",
+          "charactersMinimum": "characters (minimum 50 required)",
+          "privacyTitle": "Privacy & Confidentiality",
+          "privacyMessage": "Your information is handled with the utmost care and confidentiality. We understand this is a sensitive time, and your privacy is protected under UAE law."
         }
       },
       "review": {
@@ -153,8 +178,10 @@
   "validation": {
     "required": "This field is required",
     "invalidEmail": "Please enter a valid email address",
-    "invalidPhone": "Please enter a valid phone number",
-    "invalidEmiratesId": "Please enter a valid Emirates ID (e.g., 784-1234-1234567-1)"
+    "invalidPhone": "Please enter a valid UAE phone number (e.g., +971 XX XXX XXXX)",
+    "invalidEmiratesId": "Please enter a valid Emirates ID (e.g., 784-1234-1234567-1)",
+    "invalidNumber": "Please enter a valid number",
+    "minLength": "Please enter at least {min} characters"
   },
   "toast": {
     "previousDataRestored": "Previous application data restored",

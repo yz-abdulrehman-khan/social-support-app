@@ -90,7 +90,25 @@
           "city": "المدينة",
           "emirate": "الإمارة",
           "country": "الدولة",
-          "postalCode": "الرمز البريدي"
+          "postalCode": "الرمز البريدي",
+          "emirates": {
+            "abuDhabi": "أبو ظبي",
+            "dubai": "دبي",
+            "sharjah": "الشارقة",
+            "ajman": "عجمان",
+            "ummAlQuwain": "أم القيوين",
+            "rasAlKhaimah": "رأس الخيمة",
+            "fujairah": "الفجيرة"
+          },
+          "placeholders": {
+            "fullNameEnglish": "أدخل اسمك الكامل بالإنجليزية",
+            "fullNameArabic": "أدخل اسمك الكامل بالعربية",
+            "street": "أدخل عنوان الشارع",
+            "city": "أدخل المدينة",
+            "emirate": "أدخل الإمارة",
+            "country": "الإمارات العربية المتحدة",
+            "postalCode": "أدخل الرمز البريدي"
+          }
         }
       },
       "financial": {
@@ -140,7 +158,14 @@
           "uploadDocuments": "تحميل المستندات",
           "uploadHint": "قم بتحميل أي مستندات داعمة (الهوية الإماراتية، السجلات الطبية، الفواتير، إلخ)",
           "declaration": "إقرار",
-          "declarationText": "أقر بأن جميع المعلومات المقدمة في هذا الطلب صحيحة ودقيقة على حد علمي."
+          "declarationText": "أقر بأن جميع المعلومات المقدمة في هذا الطلب صحيحة ودقيقة على حد علمي.",
+          "employmentCircumstances": "ظروف التوظيف (اختياري)",
+          "employmentCircumstancesPlaceholder": "صف حالة عملك...",
+          "reasonForApplying": "السبب المحدد للتقديم",
+          "reasonForApplyingPlaceholder": "ما هي المساعدة المحددة التي تبحث عنها ولماذا؟",
+          "charactersMinimum": "حرف (الحد الأدنى ٥٠ حرفًا مطلوبًا)",
+          "privacyTitle": "الخصوصية والسرية",
+          "privacyMessage": "يتم التعامل مع معلوماتك بأقصى قدر من العناية والسرية. نحن ندرك أن هذا وقت حساس، وخصوصيتك محمية بموجب قانون الإمارات العربية المتحدة."
         }
       },
       "review": {
@@ -153,8 +178,10 @@
   "validation": {
     "required": "هذا الحقل مطلوب",
     "invalidEmail": "يرجى إدخال بريد إلكتروني صالح",
-    "invalidPhone": "يرجى إدخال رقم هاتف صالح",
-    "invalidEmiratesId": "يرجى إدخال رقم هوية إماراتية صالح (مثال: ٧٨٤-١٢٣٤-١٢٣٤٥٦٧-١)"
+    "invalidPhone": "يرجى إدخال رقم هاتف إماراتي صالح (مثال: +971 XX XXX XXXX)",
+    "invalidEmiratesId": "يرجى إدخال رقم هوية إماراتية صالح (مثال: ٧٨٤-١٢٣٤-١٢٣٤٥٦٧-١)",
+    "invalidNumber": "يرجى إدخال رقم صالح",
+    "minLength": "يرجى إدخال {min} حرفًا على الأقل"
   },
   "toast": {
     "previousDataRestored": "تم استعادة بيانات الطلب السابق",

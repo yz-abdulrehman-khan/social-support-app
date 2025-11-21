@@ -14,28 +14,23 @@ const messages = {
 };
 
 export type ApplicationData = {
-  // Step 1: Personal Information
   fullNameEnglish: string;
   fullNameArabic: string;
   nationalId: string;
   dateOfBirth: string;
-  gender: string;
+  gender: 'male' | 'female' | '';
   street: string;
   city: string;
-  emirate: string;
-  country: string;
-  postalCode: string;
+  emirate: 'Abu Dhabi' | 'Dubai' | 'Sharjah' | 'Ajman' | 'Umm Al Quwain' | 'Ras Al Khaimah' | 'Fujairah' | '';
+  country: 'United Arab Emirates';
+  postalCode?: string;
   phoneNumber: string;
   email: string;
-  
-  // Step 2: Family & Financial Details
-  maritalStatus: string;
+  maritalStatus: 'single' | 'married' | 'divorced' | 'widowed' | '';
   numberOfDependents: string;
-  employmentStatus: string;
+  employmentStatus: 'employed' | 'self-employed' | 'unemployed' | 'retired' | 'student' | '';
   monthlyIncome: string;
-  housingStatus: string;
-  
-  // Step 3: Situation Descriptions
+  housingStatus: 'owned' | 'rented' | 'family-owned' | 'government' | 'other' | '';
   financialSituation: string;
   employmentCircumstances: string;
   reasonForApplying: string;
@@ -54,7 +49,7 @@ export default function App() {
     gender: '',
     street: '',
     city: '',
-    emirate: '',
+    emirate: 'Abu Dhabi',
     country: 'United Arab Emirates',
     postalCode: '',
     phoneNumber: '',
@@ -74,9 +69,8 @@ export default function App() {
     setAppState('form');
   };
 
-  const handleFormSubmit = (data: ApplicationData) => {
+  const handleFormSubmit = (data: ApplicationData | any) => {
     setApplicationData(data);
-    // Generate reference number
     const refNumber = `SA${Date.now().toString().slice(-8)}`;
     setReferenceNumber(refNumber);
     setAppState('success');

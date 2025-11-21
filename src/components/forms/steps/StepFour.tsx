@@ -1,13 +1,13 @@
 import { Button } from '@/components/ui/button';
 import { Edit } from 'lucide-react';
-import type { ApplicationData } from '@/App';
 import { useIntl } from 'react-intl';
 import { toArabicNumerals, formatNumericValue } from '@/lib/i18n-utils';
+import type { CompleteFormData } from '@/lib/form-validation';
 
 type Language = 'en' | 'ar';
 
 interface StepFourProps {
-  data: ApplicationData;
+  data: CompleteFormData;
   onEdit: (step: number) => void;
   stepNumber: number;
   language?: Language;
@@ -16,7 +16,7 @@ interface StepFourProps {
 export function StepFour({ data, onEdit, stepNumber, language = 'en' }: StepFourProps) {
   const intl = useIntl();
 
-  const DataRow = ({ label, value }: { label: string; value: string }) => (
+  const DataRow = ({ label, value }: { label: string; value?: string }) => (
     <div className="mb-4">
       <div className="text-xs md:text-sm font-medium text-theme-secondary mb-0.5">
         {label}
@@ -171,7 +171,7 @@ export function StepFour({ data, onEdit, stepNumber, language = 'en' }: StepFour
             {data.employmentCircumstances && (
               <div>
                 <div className="text-xs font-medium text-theme-secondary mb-0.5">
-                  {language === 'en' ? 'Employment Circumstances' : 'ظروف التوظيف'}
+                  {intl.formatMessage({ id: 'form.steps.situation.fields.employmentCircumstances' })}
                 </div>
                 <div className="text-sm text-theme-primary leading-relaxed whitespace-pre-wrap">
                   {data.employmentCircumstances}
@@ -181,7 +181,7 @@ export function StepFour({ data, onEdit, stepNumber, language = 'en' }: StepFour
             {data.reasonForApplying && (
               <div>
                 <div className="text-xs font-medium text-theme-secondary mb-0.5">
-                  {language === 'en' ? 'Reason for Applying' : 'سبب التقديم'}
+                  {intl.formatMessage({ id: 'form.steps.situation.fields.reasonForApplying' })}
                 </div>
                 <div className="text-sm text-theme-primary leading-relaxed whitespace-pre-wrap">
                   {data.reasonForApplying}

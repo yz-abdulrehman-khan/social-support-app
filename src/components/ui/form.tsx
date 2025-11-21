@@ -12,6 +12,7 @@ import {
   type FieldPath,
   type FieldValues,
 } from "react-hook-form";
+import { useIntl } from "react-intl";
 
 import { cn } from "@/lib/utils";
 import { Label } from "@/components/ui/label";
@@ -138,17 +139,24 @@ function FormDescription({ className, ...props }: React.ComponentProps<"p">) {
 
 function FormMessage({ className, ...props }: React.ComponentProps<"p">) {
   const { error, formMessageId } = useFormField();
-  const body = error ? String(error?.message ?? "") : props.children;
+  const intl = useIntl();
 
-  if (!body) {
-    return null;
+  let body = error ? String(error?.message ?? "") : props.children;
+  if (error && typeof body === 'string' && body.includes('.')) {
+    try {
+      body = intl.formatMessage({ id: body });
+    } catch (e) {
+      body = error.message;
+    }
   }
+
+  if (!error && !props.children) return null;
 
   return (
     <p
       data-slot="form-message"
       id={formMessageId}
-      className={cn("text-destructive text-sm", className)}
+      className={cn("text-destructive text-sm mt-1", className)}
       {...props}
     >
       {body}

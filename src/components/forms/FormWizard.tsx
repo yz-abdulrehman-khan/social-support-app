@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@/components/ui/button';
+import { Form } from '@/components/ui/form';
 import { TammHeader } from '@/components/layout/TammHeader';
 import { TammFooter } from '@/components/layout/TammFooter';
 import { StepOne } from '@/components/forms/steps/StepOne';
@@ -11,12 +14,15 @@ import { ArrowLeft, ArrowRight, Check } from 'lucide-react';
 import { toast } from 'sonner';
 import { useIntl } from 'react-intl';
 import { toArabicNumerals } from '@/lib/i18n-utils';
+import { completeFormSchema, stepOneSchema, stepTwoSchema, stepThreeSchema, type CompleteFormData } from '@/lib/form-validation';
+import { z } from 'zod';
+import { makeZodI18nMap } from '@/lib/zod-i18n';
 
 type Language = 'en' | 'ar';
 
 interface FormWizardProps {
   initialData: ApplicationData;
-  onSubmit: (data: ApplicationData) => void;
+  onSubmit: (data: CompleteFormData) => void;
   language?: Language;
   onLanguageToggle?: () => void;
   onBreadcrumbHome?: () => void;
@@ -25,10 +31,21 @@ interface FormWizardProps {
 export function FormWizard({ initialData, onSubmit, language = 'en', onLanguageToggle, onBreadcrumbHome }: FormWizardProps) {
   const intl = useIntl();
   const [currentStep, setCurrentStep] = useState(1);
-  const [formData, setFormData] = useState<ApplicationData>(initialData);
 
   const totalSteps = 4;
   const isRTL = language === 'ar';
+
+  useEffect(() => {
+    const errorMap = makeZodI18nMap(intl);
+    z.setErrorMap(errorMap);
+  }, [intl]);
+
+  const form = useForm<CompleteFormData>({
+    resolver: zodResolver(completeFormSchema),
+    defaultValues: initialData as CompleteFormData,
+    mode: 'onBlur',
+    reValidateMode: 'onBlur',
+  });
 
   const steps = [
     { number: 1, label: intl.formatMessage({ id: 'form.steps.personal.title' }), completed: currentStep > 1 },
@@ -37,78 +54,71 @@ export function FormWizard({ initialData, onSubmit, language = 'en', onLanguageT
     { number: 4, label: intl.formatMessage({ id: 'form.steps.review.title' }), completed: currentStep > 4 },
   ];
 
-  // Auto-save functionality
   useEffect(() => {
-    const autoSave = setInterval(() => {
-      localStorage.setItem('financialAssistanceApplication', JSON.stringify(formData));
-    }, 30000);
+    const subscription = form.watch((formData) => {
+      const autoSave = setInterval(() => {
+        localStorage.setItem('financialAssistanceApplication', JSON.stringify(formData));
+      }, 30000);
 
-    return () => clearInterval(autoSave);
-  }, [formData]);
+      return () => clearInterval(autoSave);
+    });
 
-  // Load saved data on mount
+    return () => subscription.unsubscribe();
+  }, [form]);
+
   useEffect(() => {
     const savedData = localStorage.getItem('financialAssistanceApplication');
     if (savedData) {
       try {
         const parsed = JSON.parse(savedData);
-        setFormData(parsed);
+        form.reset(parsed);
         toast.success(intl.formatMessage({ id: 'toast.previousDataRestored' }));
       } catch (e) {
         console.error('Failed to load saved data', e);
       }
     }
-  }, []);
+  }, [form, intl]);
 
-  // Validation for each step
-  const validateStep = (step: number): boolean => {
+  const validateStep = async (step: number): Promise<boolean> => {
+    let fieldsToValidate: (keyof CompleteFormData)[] = [];
+
     switch (step) {
       case 1:
-        if (!formData.fullNameEnglish || !formData.fullNameArabic || !formData.nationalId ||
-            !formData.dateOfBirth || !formData.gender || !formData.street || !formData.city ||
-            !formData.emirate || !formData.phoneNumber || !formData.email) {
-          toast.error(intl.formatMessage({ id: 'toast.fillRequiredFields' }));
-          return false;
-        }
-        // Email validation
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(formData.email)) {
-          toast.error(intl.formatMessage({ id: 'toast.enterValidEmail' }));
-          return false;
-        }
-        // Phone validation (basic)
-        if (formData.phoneNumber.length < 9) {
-          toast.error(intl.formatMessage({ id: 'toast.enterValidPhone' }));
-          return false;
-        }
-        return true;
-
+        fieldsToValidate = Object.keys(stepOneSchema.shape) as (keyof CompleteFormData)[];
+        break;
       case 2:
-        if (!formData.maritalStatus || !formData.employmentStatus || !formData.housingStatus) {
-          toast.error(intl.formatMessage({ id: 'toast.fillRequiredFields' }));
-          return false;
-        }
-        return true;
-
+        fieldsToValidate = Object.keys(stepTwoSchema.shape) as (keyof CompleteFormData)[];
+        break;
       case 3:
-        if (!formData.financialSituation || formData.financialSituation.length < 50) {
-          toast.error(intl.formatMessage({ id: 'toast.provideDetailedDescription' }));
-          return false;
-        }
-        return true;
-
+        fieldsToValidate = Object.keys(stepThreeSchema.shape) as (keyof CompleteFormData)[];
+        break;
       default:
         return true;
     }
+
+    const result = await form.trigger(fieldsToValidate);
+
+    if (!result) {
+      const errors = form.formState.errors;
+      const firstError = fieldsToValidate.find((field) => errors[field]);
+
+      if (firstError && errors[firstError]) {
+        const errorMessage = errors[firstError]?.message;
+        if (errorMessage) {
+          toast.error(intl.formatMessage({ id: errorMessage }));
+        }
+      }
+    }
+
+    return result;
   };
 
-  const handleFormDataChange = (updates: Partial<ApplicationData>) => {
-    setFormData((prev) => ({ ...prev, ...updates }));
-  };
+  const handleNext = async () => {
+    const isValid = await validateStep(currentStep);
 
-  const handleNext = () => {
-    if (validateStep(currentStep)) {
+    if (isValid) {
       if (currentStep === totalSteps) {
+        const formData = form.getValues();
         onSubmit(formData);
         localStorage.removeItem('financialAssistanceApplication');
       } else {
@@ -134,21 +144,17 @@ export function FormWizard({ initialData, onSubmit, language = 'en', onLanguageT
       
       <div className="flex-1">
         <div className="container mx-auto px-4 sm:px-6 py-6 max-w-7xl">
-          {/* Breadcrumb */}
           <nav className="flex items-center gap-2 text-xs md:text-sm mb-5">
             <a href="#" className="text-accent hover:underline" onClick={onBreadcrumbHome}>{intl.formatMessage({ id: 'common.home' })}</a>
             <span className="text-gray-400">/</span>
             <span className="text-gray-600">{intl.formatMessage({ id: 'form.title' })}</span>
           </nav>
 
-          {/* Page Title */}
           <h1 className={`text-2xl md:text-3xl lg:text-4xl font-semibold text-foreground-dark mb-8 ${isRTL ? 'text-right' : ''}`}>
             {intl.formatMessage({ id: 'form.title' })}
           </h1>
 
-          {/* Two Column Layout - Sidebar and Content */}
           <div className="flex gap-6 items-start relative">
-            {/* Sidebar - Questions Navigator */}
             <aside className="hidden lg:block w-72 shrink-0">
               <div className="sticky top-6">
                 <div className="bg-surface-light rounded-lg p-6">
@@ -156,7 +162,6 @@ export function FormWizard({ initialData, onSubmit, language = 'en', onLanguageT
                     {intl.formatMessage({ id: 'common.questions' })}
                   </h2>
                   <nav className="relative">
-                    {/* Connecting Line */}
                     <div
                       className="absolute top-3 bottom-3 w-0.5 bg-accent"
                       style={{
@@ -174,7 +179,6 @@ export function FormWizard({ initialData, onSubmit, language = 'en', onLanguageT
                             key={step.number}
                             className="flex items-start gap-3 relative"
                           >
-                            {/* Step Circle - Show number when not completed, checkmark when completed */}
                             <div
                               className={`
                                 w-5 h-5 rounded-full flex items-center justify-center shrink-0 relative z-10 text-xs font-semibold
@@ -190,7 +194,6 @@ export function FormWizard({ initialData, onSubmit, language = 'en', onLanguageT
                                 language === 'ar' ? toArabicNumerals(String(step.number)) : step.number
                               )}
                             </div>
-                            {/* Step Label */}
                             <div className={`flex-1 min-w-0 ${isRTL ? 'text-right' : ''}`}>
                               <p
                                 className={`text-xs md:text-sm leading-tight ${
@@ -209,49 +212,47 @@ export function FormWizard({ initialData, onSubmit, language = 'en', onLanguageT
               </div>
             </aside>
 
-            {/* Main Content Area - NO CARD, directly on background */}
             <main className="flex-1 min-w-0">
-              {currentStep === 1 && (
-                <StepOne 
-                  data={formData} 
-                  onChange={handleFormDataChange}
-                  stepNumber={1}
-                  language={language}
-                />
-              )}
-              {currentStep === 2 && (
-                <StepTwo 
-                  data={formData} 
-                  onChange={handleFormDataChange}
-                  stepNumber={2}
-                  language={language}
-                />
-              )}
-              {currentStep === 3 && (
-                <StepThree
-                  data={formData}
-                  onChange={handleFormDataChange}
-                  stepNumber={3}
-                  language={language}
-                />
-              )}
-              {currentStep === 4 && (
-                <StepFour
-                  data={formData}
-                  onEdit={handleEditStep}
-                  stepNumber={4}
-                  language={language}
-                />
-              )}
+              <Form {...form}>
+                {currentStep === 1 && (
+                  <StepOne
+                    control={form.control}
+                    stepNumber={1}
+                    language={language}
+                  />
+                )}
+                {currentStep === 2 && (
+                  <StepTwo
+                    control={form.control}
+                    stepNumber={2}
+                    language={language}
+                  />
+                )}
+                {currentStep === 3 && (
+                  <StepThree
+                    control={form.control}
+                    stepNumber={3}
+                    language={language}
+                  />
+                )}
+                {currentStep === 4 && (
+                  <StepFour
+                    data={form.getValues()}
+                    onEdit={handleEditStep}
+                    stepNumber={4}
+                    language={language}
+                  />
+                )}
+              </Form>
 
-              {/* Navigation Buttons */}
               <div className="mt-8 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   {currentStep > 1 && (
                     <Button
+                      type="button"
+                      variant="subtle"
                       onClick={handlePrevious}
-                      variant="outline"
-                      className="rounded-full px-6 h-10 border-accent text-accent hover:bg-accent/5 inline-flex items-center gap-2 font-normal bg-white"
+                      className="rounded-full px-6 h-10 font-normal"
                     >
                       {isRTL ? (
                         <>
@@ -297,9 +298,10 @@ export function FormWizard({ initialData, onSubmit, language = 'en', onLanguageT
                 </div>
 
                 <Button
-                  variant="outline"
+                  type="button"
+                  variant="cancel"
                   onClick={() => currentStep === 1 && onBreadcrumbHome ? onBreadcrumbHome() : window.history.back()}
-                  className="rounded-full px-6 h-10 font-normal bg-gray-50 border-gray-200 hover:bg-gray-100 hover:border-gray-300"
+                  className="rounded-full px-6 h-10 font-normal"
                 >
                   {intl.formatMessage({ id: 'common.cancel' })}
                 </Button>
