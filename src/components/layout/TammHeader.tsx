@@ -12,11 +12,11 @@ export function TammHeader({ language = 'en', onLanguageToggle }: TammHeaderProp
   const isRTL = language === 'ar';
 
   return (
-    <header className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
+    <header className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm" dir={isRTL ? 'rtl' : 'ltr'}>
       <div className="container mx-auto px-4 md:px-6">
-        <div className={`flex items-center justify-between h-14 ${isRTL ? 'flex-row-reverse' : ''}`}>
+        <div className="flex items-center justify-between h-14">
           {/* Left Side: Logo + Navigation */}
-          <div className={`flex items-center gap-6 ${isRTL ? 'flex-row-reverse' : ''}`}>
+          <div className="flex items-center gap-6">
             {/* TAMM Logo */}
             <a href="#" className="flex items-center" onClick={(e) => e.preventDefault()}>
               {/* Mobile Logo */}
@@ -37,7 +37,7 @@ export function TammHeader({ language = 'en', onLanguageToggle }: TammHeaderProp
           </div>
 
           {/* Right Actions */}
-          <div className={`flex items-center gap-1 ${isRTL ? 'flex-row-reverse' : ''}`}>
+          <div className="flex items-center gap-1">
             <Button
               variant="ghost"
               size="sm"
