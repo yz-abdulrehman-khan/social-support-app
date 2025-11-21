@@ -16,10 +16,10 @@ export function StepTwo({ data, onChange, stepNumber, language = 'en' }: StepTwo
     <div className="space-y-8">
       {/* Question Number and Title */}
       <div className="mb-8">
-        <h2 className="text-xl md:text-2xl lg:text-3xl font-semibold text-[#1A1A1A] mb-3">
+        <h2 className="text-xl md:text-2xl lg:text-3xl font-semibold text-foreground-dark mb-3">
           {formatNumber(stepNumber, language)}. {t('step2Title', language)}
         </h2>
-        <p className="text-sm md:text-base lg:text-lg text-[#6B6B6B]">
+        <p className="text-sm md:text-base lg:text-lg text-gray-600">
           {t('step2Subtitle', language)}
         </p>
       </div>
@@ -29,7 +29,7 @@ export function StepTwo({ data, onChange, stepNumber, language = 'en' }: StepTwo
         {/* Family Status */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <Label htmlFor="maritalStatus" className="text-xs md:text-sm font-medium text-[#3F3E45] mb-1.5 block">
+            <Label htmlFor="maritalStatus" className="text-xs md:text-sm font-medium text-foreground mb-1.5 block">
               {t('maritalStatus', language)} <span className="text-red-500">*</span>
             </Label>
             <Select
@@ -50,7 +50,7 @@ export function StepTwo({ data, onChange, stepNumber, language = 'en' }: StepTwo
           </div>
 
           <div>
-            <Label htmlFor="numberOfDependents" className="text-xs md:text-sm font-medium text-[#3F3E45] mb-1.5 block">
+            <Label htmlFor="numberOfDependents" className="text-xs md:text-sm font-medium text-foreground mb-1.5 block">
               {t('numberOfDependents', language)} <span className="text-red-500">*</span>
             </Label>
             <Input
@@ -68,7 +68,7 @@ export function StepTwo({ data, onChange, stepNumber, language = 'en' }: StepTwo
         {/* Employment & Financial */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <Label htmlFor="employmentStatus" className="text-xs md:text-sm font-medium text-[#3F3E45] mb-1.5 block">
+            <Label htmlFor="employmentStatus" className="text-xs md:text-sm font-medium text-foreground mb-1.5 block">
               {t('employmentStatus', language)} <span className="text-red-500">*</span>
             </Label>
             <Select
@@ -90,7 +90,7 @@ export function StepTwo({ data, onChange, stepNumber, language = 'en' }: StepTwo
           </div>
 
           <div>
-            <Label htmlFor="monthlyIncome" className="text-xs md:text-sm font-medium text-[#3F3E45] mb-1.5 block">
+            <Label htmlFor="monthlyIncome" className="text-xs md:text-sm font-medium text-foreground mb-1.5 block">
               {t('monthlyIncome', language)} <span className="text-red-500">*</span>
             </Label>
             <Input
@@ -107,7 +107,7 @@ export function StepTwo({ data, onChange, stepNumber, language = 'en' }: StepTwo
 
         {/* Housing */}
         <div>
-          <Label htmlFor="housingStatus" className="text-xs md:text-sm font-medium text-[#3F3E45] mb-1.5 block">
+          <Label htmlFor="housingStatus" className="text-xs md:text-sm font-medium text-foreground mb-1.5 block">
             {t('housingStatus', language)} <span className="text-red-500">*</span>
           </Label>
           <Select

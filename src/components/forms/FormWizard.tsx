@@ -125,20 +125,20 @@ export function FormWizard({ initialData, onSubmit, language = 'en', onLanguageT
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#F6F6F6]" dir={isRTL ? 'rtl' : 'ltr'} lang={language}>
+    <div className="min-h-screen flex flex-col bg-background" dir={isRTL ? 'rtl' : 'ltr'} lang={language}>
       <TammHeader language={language} onLanguageToggle={onLanguageToggle} />
       
       <div className="flex-1">
         <div className="container mx-auto px-4 sm:px-6 py-6 max-w-7xl">
           {/* Breadcrumb */}
           <nav className={`flex items-center gap-2 text-xs md:text-sm mb-5 ${isRTL ? 'flex-row-reverse justify-end' : ''}`}>
-            <a href="#" className="text-[#169F9F] hover:underline" onClick={onBreadcrumbHome}>{t('home', language)}</a>
+            <a href="#" className="text-accent hover:underline" onClick={onBreadcrumbHome}>{t('home', language)}</a>
             <span className="text-gray-400">/</span>
             <span className="text-gray-600">{t('financialAssistance', language)}</span>
           </nav>
 
           {/* Page Title */}
-          <h1 className={`text-2xl md:text-3xl lg:text-4xl font-semibold text-[#1A1A1A] mb-8 ${isRTL ? 'text-right' : ''}`}>
+          <h1 className={`text-2xl md:text-3xl lg:text-4xl font-semibold text-foreground-dark mb-8 ${isRTL ? 'text-right' : ''}`}>
             {t('financialAssistance', language)}
           </h1>
 
@@ -147,14 +147,14 @@ export function FormWizard({ initialData, onSubmit, language = 'en', onLanguageT
             {/* Sidebar - Questions Navigator */}
             <aside className="hidden lg:block w-72 shrink-0">
               <div className="sticky top-6">
-                <div className="bg-[#EFEFEF] rounded-lg p-6">
-                  <h2 className="text-xs md:text-sm font-semibold text-[#1A1A1A] mb-6">
+                <div className="bg-surface-light rounded-lg p-6">
+                  <h2 className="text-xs md:text-sm font-semibold text-foreground-dark mb-6">
                     {t('questions', language)}
                   </h2>
                   <nav className="relative">
                     {/* Connecting Line */}
                     <div
-                      className="absolute top-3 bottom-3 w-0.5 bg-[#169F9F]"
+                      className="absolute top-3 bottom-3 w-0.5 bg-accent"
                       style={{
                         [isRTL ? 'right' : 'left']: '9px'
                       }}
@@ -175,8 +175,8 @@ export function FormWizard({ initialData, onSubmit, language = 'en', onLanguageT
                               className={`
                                 w-5 h-5 rounded-full flex items-center justify-center shrink-0 relative z-10 text-xs font-semibold
                                 ${isCompleted
-                                  ? 'bg-[#62C458] text-white'
-                                  : 'border-2 border-[#169F9F] bg-white text-[#169F9F]'
+                                  ? 'bg-success-light text-white'
+                                  : 'border-2 border-accent bg-white text-accent'
                                 }
                               `}
                             >
@@ -190,7 +190,7 @@ export function FormWizard({ initialData, onSubmit, language = 'en', onLanguageT
                             <div className={`flex-1 min-w-0 ${isRTL ? 'text-right' : ''}`}>
                               <p
                                 className={`text-xs md:text-sm leading-tight ${
-                                  isActive ? 'text-[#169F9F] font-medium' : 'text-[#1A1A1A]'
+                                  isActive ? 'text-accent font-medium' : 'text-foreground-dark'
                                 }`}
                               >
                                 {step.label}
@@ -247,7 +247,7 @@ export function FormWizard({ initialData, onSubmit, language = 'en', onLanguageT
                     <Button
                       onClick={handlePrevious}
                       variant="outline"
-                      className="rounded-full px-6 h-10 border-[#169F9F] text-[#169F9F] hover:bg-[#169F9F]/5 inline-flex items-center gap-2 font-normal bg-white"
+                      className="rounded-full px-6 h-10 border-accent text-accent hover:bg-accent/5 inline-flex items-center gap-2 font-normal bg-white"
                     >
                       {isRTL ? (
                         <>
@@ -295,7 +295,7 @@ export function FormWizard({ initialData, onSubmit, language = 'en', onLanguageT
                 <Button
                   variant="outline"
                   onClick={() => currentStep === 1 && onBreadcrumbHome ? onBreadcrumbHome() : window.history.back()}
-                  className="rounded-full px-6 h-10 bg-[#DCDCDD] hover:bg-[#CBCBCC] text-[#3F3E45] border-0 font-normal"
+                  className="rounded-full px-6 h-10 bg-gray-light hover:bg-gray-light-hover text-foreground border-0 font-normal"
                 >
                   {t('cancel', language)}
                 </Button>

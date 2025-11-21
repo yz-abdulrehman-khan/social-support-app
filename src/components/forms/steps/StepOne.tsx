@@ -17,10 +17,10 @@ export function StepOne({ data, onChange, stepNumber, language = 'en' }: StepOne
     <div className="space-y-8 w-full">
       {/* Question Number and Title */}
       <div className="mb-8">
-        <h2 className="text-xl md:text-2xl lg:text-3xl font-semibold text-[#1A1A1A] mb-3">
+        <h2 className="text-xl md:text-2xl lg:text-3xl font-semibold text-foreground-dark mb-3">
           {formatNumber(stepNumber, language)}. {t('step1Title', language)}
         </h2>
-        <p className="text-sm md:text-base lg:text-lg text-[#6B6B6B]">
+        <p className="text-sm md:text-base lg:text-lg text-gray-600">
           {t('step1Subtitle', language)}
         </p>
       </div>
@@ -30,7 +30,7 @@ export function StepOne({ data, onChange, stepNumber, language = 'en' }: StepOne
         {/* Full Name - English & Arabic */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <Label htmlFor="fullNameEnglish" className="text-xs md:text-sm font-medium text-[#3F3E45] mb-1.5 block">
+            <Label htmlFor="fullNameEnglish" className="text-xs md:text-sm font-medium text-foreground mb-1.5 block">
               {t('fullNameEnglish', language)} <span className="text-red-500">*</span>
             </Label>
             <Input
@@ -42,7 +42,7 @@ export function StepOne({ data, onChange, stepNumber, language = 'en' }: StepOne
             />
           </div>
           <div>
-            <Label htmlFor="fullNameArabic" className="text-xs md:text-sm font-medium text-[#3F3E45] mb-1.5 block">
+            <Label htmlFor="fullNameArabic" className="text-xs md:text-sm font-medium text-foreground mb-1.5 block">
               {t('fullNameArabic', language)} <span className="text-red-500">*</span>
             </Label>
             <Input
@@ -59,7 +59,7 @@ export function StepOne({ data, onChange, stepNumber, language = 'en' }: StepOne
         {/* Emirates ID, Date of Birth & Gender - Side by Side */}
         <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
           <div className="col-span-2">
-            <Label htmlFor="nationalId" className="text-xs md:text-sm font-medium text-[#3F3E45] mb-1.5 block">
+            <Label htmlFor="nationalId" className="text-xs md:text-sm font-medium text-foreground mb-1.5 block">
               {t('emiratesId', language)} <span className="text-red-500">*</span>
             </Label>
             <Input
@@ -71,7 +71,7 @@ export function StepOne({ data, onChange, stepNumber, language = 'en' }: StepOne
             />
           </div>
           <div className="col-span-2">
-            <Label htmlFor="dateOfBirth" className="text-xs md:text-sm font-medium text-[#3F3E45] mb-1.5 block">
+            <Label htmlFor="dateOfBirth" className="text-xs md:text-sm font-medium text-foreground mb-1.5 block">
               {t('dateOfBirth', language)} <span className="text-red-500">*</span>
             </Label>
             <DatePicker
@@ -84,7 +84,7 @@ export function StepOne({ data, onChange, stepNumber, language = 'en' }: StepOne
             />
           </div>
           <div className="md:col-span-1">
-            <Label htmlFor="gender" className="text-xs md:text-sm font-medium text-[#3F3E45] mb-1.5 block">
+            <Label htmlFor="gender" className="text-xs md:text-sm font-medium text-foreground mb-1.5 block">
               {t('gender', language)} <span className="text-red-500">*</span>
             </Label>
             <Select
@@ -105,7 +105,7 @@ export function StepOne({ data, onChange, stepNumber, language = 'en' }: StepOne
 
         {/* Street Address */}
         <div>
-          <Label htmlFor="street" className="text-xs md:text-sm font-medium text-[#3F3E45] mb-1.5 block">
+          <Label htmlFor="street" className="text-xs md:text-sm font-medium text-foreground mb-1.5 block">
             {t('street', language)} <span className="text-red-500">*</span>
           </Label>
           <Input
@@ -120,7 +120,7 @@ export function StepOne({ data, onChange, stepNumber, language = 'en' }: StepOne
         {/* City & Emirate - Side by Side */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <Label htmlFor="city" className="text-xs md:text-sm font-medium text-[#3F3E45] mb-1.5 block">
+            <Label htmlFor="city" className="text-xs md:text-sm font-medium text-foreground mb-1.5 block">
               {t('city', language)} <span className="text-red-500">*</span>
             </Label>
             <Input
@@ -132,7 +132,7 @@ export function StepOne({ data, onChange, stepNumber, language = 'en' }: StepOne
             />
           </div>
           <div>
-            <Label htmlFor="emirate" className="text-xs md:text-sm font-medium text-[#3F3E45] mb-1.5 block">
+            <Label htmlFor="emirate" className="text-xs md:text-sm font-medium text-foreground mb-1.5 block">
               {t('emirate', language)} <span className="text-red-500">*</span>
             </Label>
             <Input
@@ -148,7 +148,7 @@ export function StepOne({ data, onChange, stepNumber, language = 'en' }: StepOne
         {/* Country & Postal Code - Side by Side */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <Label htmlFor="country" className="text-xs md:text-sm font-medium text-[#3F3E45] mb-1.5 block">
+            <Label htmlFor="country" className="text-xs md:text-sm font-medium text-foreground mb-1.5 block">
               {t('country', language)} <span className="text-red-500">*</span>
             </Label>
             <Input
@@ -160,7 +160,7 @@ export function StepOne({ data, onChange, stepNumber, language = 'en' }: StepOne
             />
           </div>
           <div>
-            <Label htmlFor="postalCode" className="text-xs md:text-sm font-medium text-[#3F3E45] mb-1.5 block">
+            <Label htmlFor="postalCode" className="text-xs md:text-sm font-medium text-foreground mb-1.5 block">
               {t('postalCode', language)}
             </Label>
             <Input
@@ -176,7 +176,7 @@ export function StepOne({ data, onChange, stepNumber, language = 'en' }: StepOne
         {/* Phone & Email - Side by Side */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <Label htmlFor="phoneNumber" className="text-xs md:text-sm font-medium text-[#3F3E45] mb-1.5 block">
+            <Label htmlFor="phoneNumber" className="text-xs md:text-sm font-medium text-foreground mb-1.5 block">
               {t('phoneNumber', language)} <span className="text-red-500">*</span>
             </Label>
             <Input
@@ -189,7 +189,7 @@ export function StepOne({ data, onChange, stepNumber, language = 'en' }: StepOne
             />
           </div>
           <div>
-            <Label htmlFor="email" className="text-xs md:text-sm font-medium text-[#3F3E45] mb-1.5 block">
+            <Label htmlFor="email" className="text-xs md:text-sm font-medium text-foreground mb-1.5 block">
               {t('email', language)} <span className="text-red-500">*</span>
             </Label>
             <Input

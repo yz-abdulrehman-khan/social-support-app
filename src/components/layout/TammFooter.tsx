@@ -9,7 +9,7 @@ export function TammFooter({ language = 'en' }: TammFooterProps) {
   const isRTL = language === 'ar';
 
   return (
-    <footer className="bg-[#3A3D4A] text-white mt-auto">
+    <footer className="bg-footer text-white mt-auto">
       {/* Emergency Numbers */}
       <div className="border-b border-gray-700 py-6">
         <div className="container mx-auto px-4 md:px-6">
@@ -22,7 +22,7 @@ export function TammFooter({ language = 'en' }: TammFooterProps) {
                 <h3 className="text-xs md:text-sm font-medium text-white mb-1">{t('emergencyNumbers', language)}</h3>
                 <a
                   href="#"
-                  className="text-xs md:text-sm text-[#169F9F] hover:underline inline-flex items-center gap-1"
+                  className="text-xs md:text-sm text-accent hover:underline inline-flex items-center gap-1"
                   onClick={(e) => e.preventDefault()}
                 >
                   {t('viewAllNumbers', language)} {isRTL ? '←' : '→'}
@@ -32,19 +32,19 @@ export function TammFooter({ language = 'en' }: TammFooterProps) {
             <div className={`flex gap-8 md:gap-10 ${isRTL ? 'flex-row-reverse' : ''}`}>
               <div className="text-center">
                 <div className="text-xs md:text-sm text-gray-400 mb-1">{t('police', language)}</div>
-                <a href="tel:999" className="text-xl md:text-2xl lg:text-3xl font-semibold text-[#62C458] hover:text-[#51B53F] transition-colors block">
+                <a href="tel:999" className="text-xl md:text-2xl lg:text-3xl font-semibold text-success-light hover:text-success transition-colors block">
                   {formatNumber(999, language)}
                 </a>
               </div>
               <div className="text-center">
                 <div className="text-xs md:text-sm text-gray-400 mb-1">{t('ambulance', language)}</div>
-                <a href="tel:998" className="text-xl md:text-2xl lg:text-3xl font-semibold text-[#62C458] hover:text-[#51B53F] transition-colors block">
+                <a href="tel:998" className="text-xl md:text-2xl lg:text-3xl font-semibold text-success-light hover:text-success transition-colors block">
                   {formatNumber(998, language)}
                 </a>
               </div>
               <div className="text-center">
                 <div className="text-xs md:text-sm text-gray-400 mb-1">{t('civilDefence', language)}</div>
-                <a href="tel:997" className="text-xl md:text-2xl lg:text-3xl font-semibold text-[#62C458] hover:text-[#51B53F] transition-colors block">
+                <a href="tel:997" className="text-xl md:text-2xl lg:text-3xl font-semibold text-success-light hover:text-success transition-colors block">
                   {formatNumber(997, language)}
                 </a>
               </div>
