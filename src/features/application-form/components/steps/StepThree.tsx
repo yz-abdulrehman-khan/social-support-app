@@ -8,6 +8,7 @@ import { useIntl } from 'react-intl';
 import { toArabicNumerals } from '@/lib/i18n';
 import type { ApplicationData } from '@/features/application-form/types';
 import { AIWritingAssistant } from '@/components/modals/AIWritingAssistant';
+import { useRTL } from '@/hooks/useRTL';
 import { useLanguage } from '@/app/providers';
 
 interface StepThreeProps {
@@ -17,7 +18,7 @@ interface StepThreeProps {
 export function StepThree({ stepNumber }: StepThreeProps) {
   const intl = useIntl();
   const { language } = useLanguage();
-  const isRTL = language === 'ar';
+  const { isRTL } = useRTL();
   const { control, setValue, watch } = useFormContext<ApplicationData>();
   const [showAIAssistant, setShowAIAssistant] = useState(false);
   const [currentField, setCurrentField] = useState<keyof ApplicationData | null>(null);
@@ -40,7 +41,7 @@ export function StepThree({ stepNumber }: StepThreeProps) {
       {/* Question Number and Title */}
       <div className="mb-8">
         <h2 className="text-lg md:text-xl lg:text-2xl font-semibold text-theme-primary">
-          {language === 'ar' ? toArabicNumerals(String(stepNumber)) : stepNumber}. {intl.formatMessage({ id: 'form.steps.situation.title' })}
+          {isRTL ? toArabicNumerals(String(stepNumber)) : stepNumber}. {intl.formatMessage({ id: 'form.steps.situation.title' })}
         </h2>
         <p className="text-[11px] md:text-xs lg:text-sm text-theme-secondary">
           {intl.formatMessage({ id: 'form.steps.situation.subtitle' })}

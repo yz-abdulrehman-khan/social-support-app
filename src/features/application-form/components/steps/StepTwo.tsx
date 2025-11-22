@@ -5,7 +5,7 @@ import { FormField, FormControl, FormItem, FormLabel, FormMessage } from '@/comp
 import { useIntl } from 'react-intl';
 import { toArabicNumerals } from '@/lib/i18n';
 import type { ApplicationData } from '@/features/application-form/types';
-import { useLanguage } from '@/app/providers';
+import { useRTL } from '@/hooks/useRTL';
 import { MARITAL_STATUS_OPTIONS, EMPLOYMENT_STATUS_OPTIONS, HOUSING_STATUS_OPTIONS } from '@/config/formData';
 import { VALIDATION_CONSTRAINTS } from '@/config/validation';
 
@@ -15,14 +15,14 @@ interface StepTwoProps {
 
 export function StepTwo({ stepNumber }: StepTwoProps) {
   const intl = useIntl();
-  const { language } = useLanguage();
+  const { isRTL, dir } = useRTL();
   const { control } = useFormContext<ApplicationData>();
   return (
     <div className="space-y-8">
       {/* Question Number and Title */}
       <div className="mb-8">
         <h2 className="text-lg md:text-xl lg:text-2xl font-semibold text-foreground-dark">
-          {language === 'ar' ? toArabicNumerals(String(stepNumber)) : stepNumber}. {intl.formatMessage({ id: 'form.steps.financial.title' })}
+          {isRTL ? toArabicNumerals(String(stepNumber)) : stepNumber}. {intl.formatMessage({ id: 'form.steps.financial.title' })}
         </h2>
         <p className="text-[11px] md:text-xs lg:text-sm text-gray-600">
           {intl.formatMessage({ id: 'form.steps.financial.subtitle' })}
@@ -42,7 +42,7 @@ export function StepTwo({ stepNumber }: StepTwoProps) {
                   {intl.formatMessage({ id: 'form.steps.financial.fields.maritalStatus' })} <span className="text-red-500">*</span>
                 </FormLabel>
                 <Select
-                  dir={language === 'ar' ? 'rtl' : 'ltr'}
+                  dir={dir}
                   value={field.value}
                   onValueChange={field.onChange}
                   onOpenChange={(open) => {
@@ -101,7 +101,7 @@ export function StepTwo({ stepNumber }: StepTwoProps) {
                   {intl.formatMessage({ id: 'form.steps.financial.fields.employmentStatus' })} <span className="text-red-500">*</span>
                 </FormLabel>
                 <Select
-                  dir={language === 'ar' ? 'rtl' : 'ltr'}
+                  dir={dir}
                   value={field.value}
                   onValueChange={field.onChange}
                   onOpenChange={(open) => {
@@ -160,7 +160,7 @@ export function StepTwo({ stepNumber }: StepTwoProps) {
                   {intl.formatMessage({ id: 'form.steps.financial.fields.housingStatus' })} <span className="text-red-500">*</span>
                 </FormLabel>
                 <Select
-                  dir={language === 'ar' ? 'rtl' : 'ltr'}
+                  dir={dir}
                   value={field.value}
                   onValueChange={field.onChange}
                   onOpenChange={(open) => {

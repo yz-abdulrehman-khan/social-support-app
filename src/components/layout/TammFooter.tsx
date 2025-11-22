@@ -1,14 +1,13 @@
 import { Facebook, Twitter, Instagram, Youtube, Phone } from 'lucide-react';
 import { useIntl } from 'react-intl';
-import { useLanguage } from '@/app/providers';
+import { useRTL } from '@/hooks/useRTL';
 
 export function TammFooter() {
   const intl = useIntl();
-  const { language } = useLanguage();
-  const isRTL = language === 'ar';
+  const { isRTL, dir } = useRTL();
 
   return (
-    <footer className="bg-footer text-white mt-auto" dir={isRTL ? 'rtl' : 'ltr'}>
+    <footer className="bg-footer text-white mt-auto" dir={dir}>
       <div className="border-b border-gray-700 py-6">
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">

@@ -13,6 +13,7 @@ import { Sparkles, RotateCw, Copy, Check, AlertCircle } from 'lucide-react';
 import { useIntl } from 'react-intl';
 import { AIService } from '@/services/aiService';
 import { UI_CONSTANTS } from '@/config/constants';
+import { useRTL } from '@/hooks/useRTL';
 
 interface AIWritingAssistantProps {
   open: boolean;
@@ -28,7 +29,7 @@ export function AIWritingAssistant({
   language = 'en',
 }: AIWritingAssistantProps) {
   const intl = useIntl();
-  const isRTL = language === 'ar';
+  const { isRTL, dir } = useRTL();
   const [userInput, setUserInput] = useState('');
   const [generatedText, setGeneratedText] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
@@ -82,7 +83,7 @@ export function AIWritingAssistant({
   return (
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent
-        dir={isRTL ? 'rtl' : 'ltr'}
+        dir={dir}
         className="max-w-2xl w-[calc(100%-2rem)] sm:w-full max-h-[90vh] overflow-y-auto"
       >
         <DialogHeader className={isRTL ? 'text-right' : ''}>
@@ -106,7 +107,7 @@ export function AIWritingAssistant({
               onChange={(e) => setUserInput(e.target.value)}
               placeholder={intl.formatMessage({ id: 'aiWritingAssistant.userInputPlaceholder' })}
               className="min-h-[120px] resize-none"
-              dir={isRTL ? 'rtl' : 'ltr'}
+              dir={dir}
               disabled={isGenerating}
             />
             <p className="text-xs text-gray-500">
@@ -202,7 +203,7 @@ export function AIWritingAssistant({
                 </div>
               </div>
               <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
-                <p className="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap" dir={isRTL ? 'rtl' : 'ltr'}>
+                <p className="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap" dir={dir}>
                   {generatedText}
                 </p>
               </div>

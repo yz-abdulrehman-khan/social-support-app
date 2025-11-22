@@ -4,7 +4,7 @@ import { TammHeader } from '@/components/layout/TammHeader';
 import { TammFooter } from '@/components/layout/TammFooter';
 import { useIntl } from 'react-intl';
 import { toArabicNumerals } from '@/lib/i18n';
-import { useLanguage } from '@/app/providers';
+import { useRTL } from '@/hooks/useRTL';
 
 interface SuccessConfirmationProps {
   referenceNumber: string;
@@ -16,8 +16,7 @@ export function SuccessConfirmation({
   onStartNew,
 }: SuccessConfirmationProps) {
   const intl = useIntl();
-  const { language } = useLanguage();
-  const isRTL = language === 'ar';
+  const { isRTL, dir } = useRTL();
 
   const handleDownload = () => {
     alert('Download confirmation - Feature would generate PDF in production');
@@ -28,7 +27,7 @@ export function SuccessConfirmation({
   };
 
   return (
-    <div className="min-h-screen flex flex-col" dir={isRTL ? 'rtl' : 'ltr'} lang={language}>
+    <div className="min-h-screen flex flex-col" dir={dir}>
       <TammHeader />
 
       <div className="flex-1 py-16 bg-theme-light">
@@ -85,7 +84,7 @@ export function SuccessConfirmation({
             <div className="space-y-4">
               <div className="flex gap-4 items-start">
                 <div className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-white bg-theme-accent font-semibold">
-                  {language === 'ar' ? toArabicNumerals(String(1)) : 1}
+                  {isRTL ? toArabicNumerals(String(1)) : 1}
                 </div>
                 <div className="flex-1">
                   <h3 className="text-sm md:text-base font-semibold mb-1 text-theme-primary">{intl.formatMessage({ id: 'success.nextSteps.steps.review.title' })}</h3>
@@ -97,7 +96,7 @@ export function SuccessConfirmation({
 
               <div className="flex gap-4 items-start">
                 <div className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-white bg-theme-accent font-semibold">
-                  {language === 'ar' ? toArabicNumerals(String(2)) : 2}
+                  {isRTL ? toArabicNumerals(String(2)) : 2}
                 </div>
                 <div className="flex-1">
                   <h3 className="text-sm md:text-base font-semibold mb-1 text-theme-primary">{intl.formatMessage({ id: 'success.nextSteps.steps.assessment.title' })}</h3>
@@ -109,7 +108,7 @@ export function SuccessConfirmation({
 
               <div className="flex gap-4 items-start">
                 <div className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-white bg-theme-accent font-semibold">
-                  {language === 'ar' ? toArabicNumerals(String(3)) : 3}
+                  {isRTL ? toArabicNumerals(String(3)) : 3}
                 </div>
                 <div className="flex-1">
                   <h3 className="text-sm md:text-base font-semibold mb-1 text-theme-primary">{intl.formatMessage({ id: 'success.nextSteps.steps.notification.title' })}</h3>
@@ -121,7 +120,7 @@ export function SuccessConfirmation({
 
               <div className="flex gap-4 items-start">
                 <div className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-white bg-theme-accent font-semibold">
-                  {language === 'ar' ? toArabicNumerals(String(4)) : 4}
+                  {isRTL ? toArabicNumerals(String(4)) : 4}
                 </div>
                 <div className="flex-1">
                   <h3 className="text-sm md:text-base font-semibold mb-1 text-theme-primary">{intl.formatMessage({ id: 'success.nextSteps.steps.disbursement.title' })}</h3>

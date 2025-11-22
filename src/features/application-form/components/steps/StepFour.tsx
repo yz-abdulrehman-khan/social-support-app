@@ -4,6 +4,7 @@ import { useIntl } from 'react-intl';
 import { toArabicNumerals, formatNumericValue } from '@/lib/i18n';
 import type { ApplicationData } from '@/features/application-form/types';
 import { useLanguage } from '@/app/providers';
+import { useRTL } from '@/hooks/useRTL';
 
 interface StepFourProps {
   data: ApplicationData;
@@ -14,6 +15,7 @@ interface StepFourProps {
 export function StepFour({ data, onEdit, stepNumber }: StepFourProps) {
   const intl = useIntl();
   const { language } = useLanguage();
+  const { isRTL } = useRTL();
 
   const DataRow = ({ label, value }: { label: string; value?: string }) => (
     <div className="py-3 border-b border-gray-100 last:border-0">
@@ -59,7 +61,7 @@ export function StepFour({ data, onEdit, stepNumber }: StepFourProps) {
       {/* Question Number and Title */}
       <div className="mb-8">
         <h2 className="text-lg md:text-xl lg:text-2xl font-semibold text-theme-primary">
-          {language === 'ar' ? toArabicNumerals(String(stepNumber)) : stepNumber}. {intl.formatMessage({ id: 'form.steps.review.title' })}
+          {isRTL ? toArabicNumerals(String(stepNumber)) : stepNumber}. {intl.formatMessage({ id: 'form.steps.review.title' })}
         </h2>
         <p className="text-[11px] md:text-xs lg:text-sm text-theme-secondary">
           {intl.formatMessage({ id: 'form.steps.review.subtitle' })}
@@ -84,7 +86,7 @@ export function StepFour({ data, onEdit, stepNumber }: StepFourProps) {
           />
           <DataRow
             label={intl.formatMessage({ id: 'form.steps.personal.fields.dateOfBirth' })}
-            value={language === 'ar' && data.dateOfBirth ? toArabicNumerals(data.dateOfBirth) : data.dateOfBirth}
+            value={isRTL && data.dateOfBirth ? toArabicNumerals(data.dateOfBirth) : data.dateOfBirth}
           />
           <DataRow
             label={intl.formatMessage({ id: 'form.steps.personal.fields.gender' })}
@@ -116,7 +118,7 @@ export function StepFour({ data, onEdit, stepNumber }: StepFourProps) {
           />
           <DataRow
             label={intl.formatMessage({ id: 'form.steps.personal.fields.postalCode' })}
-            value={language === 'ar' && data.postalCode ? toArabicNumerals(data.postalCode) : data.postalCode}
+            value={isRTL && data.postalCode ? toArabicNumerals(data.postalCode) : data.postalCode}
           />
         </ReviewSection>
 
@@ -136,7 +138,7 @@ export function StepFour({ data, onEdit, stepNumber }: StepFourProps) {
           />
           <DataRow
             label={intl.formatMessage({ id: 'form.steps.financial.fields.monthlyIncome' })}
-            value={data.monthlyIncome ? `${formatNumericValue(data.monthlyIncome, language, intl)} ${language === 'ar' ? 'درهم' : 'AED'}` : '-'}
+            value={data.monthlyIncome ? `${formatNumericValue(data.monthlyIncome, language, intl)} ${isRTL ? 'درهم' : 'AED'}` : '-'}
           />
           <DataRow
             label={intl.formatMessage({ id: 'form.steps.financial.fields.housingStatus' })}

@@ -1,10 +1,11 @@
 import { Button } from '@/components/ui/button';
 import { TammHeader } from '@/components/layout/TammHeader';
 import { TammFooter } from '@/components/layout/TammFooter';
-import { Shield, Clock, FileCheck, Users, ArrowRight, ArrowLeft } from 'lucide-react';
+import { Shield, Clock, FileCheck, Users } from 'lucide-react';
 import { useIntl } from 'react-intl';
 import { toArabicNumerals } from '@/lib/i18n';
-import { useLanguage } from '@/app/providers';
+import { useRTL } from '@/hooks/useRTL';
+import { DirectionalArrow } from '@/components/ui/DirectionalArrow';
 
 interface LandingPageProps {
   onStartApplication: () => void;
@@ -12,14 +13,13 @@ interface LandingPageProps {
 
 export function LandingPage({ onStartApplication }: LandingPageProps) {
   const intl = useIntl();
-  const { language } = useLanguage();
-  const isRTL = language === 'ar';
+  const { isRTL, dir } = useRTL();
 
   const formatStepNumber = (num: number) =>
     isRTL ? toArabicNumerals(String(num)) : num;
 
   return (
-    <div className="min-h-screen flex flex-col" dir={isRTL ? 'rtl' : 'ltr'} lang={language}>
+    <div className="min-h-screen flex flex-col" dir={dir}>
       <TammHeader />
 
       {/* Hero Section */}
@@ -46,17 +46,8 @@ export function LandingPage({ onStartApplication }: LandingPageProps) {
               onClick={onStartApplication}
               className="bg-accent text-white hover:bg-accent-hover rounded-full px-8 h-11 font-medium shadow-lg hover:shadow-xl transition-all inline-flex items-center gap-2"
             >
-              {isRTL ? (
-                <>
-                  <span>{intl.formatMessage({ id: 'landing.hero.startButton' })}</span>
-                  <ArrowLeft className="w-4 h-4" />
-                </>
-              ) : (
-                <>
-                  <span>{intl.formatMessage({ id: 'landing.hero.startButton' })}</span>
-                  <ArrowRight className="w-4 h-4" />
-                </>
-              )}
+              <span>{intl.formatMessage({ id: 'landing.hero.startButton' })}</span>
+              <DirectionalArrow direction="right" />
             </Button>
           </div>
         </div>
@@ -233,17 +224,8 @@ export function LandingPage({ onStartApplication }: LandingPageProps) {
               onClick={onStartApplication}
               className="bg-accent hover:bg-accent-hover text-white rounded-full px-8 h-11 font-medium shadow-md inline-flex items-center gap-2"
             >
-              {isRTL ? (
-                <>
-                  <span>{intl.formatMessage({ id: 'landing.hero.startButton' })}</span>
-                  <ArrowLeft className="w-4 h-4" />
-                </>
-              ) : (
-                <>
-                  <span>{intl.formatMessage({ id: 'landing.hero.startButton' })}</span>
-                  <ArrowRight className="w-4 h-4" />
-                </>
-              )}
+              <span>{intl.formatMessage({ id: 'landing.hero.startButton' })}</span>
+              <DirectionalArrow direction="right" />
             </Button>
           </div>
         </div>

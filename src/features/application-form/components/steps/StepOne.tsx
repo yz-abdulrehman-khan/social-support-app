@@ -10,6 +10,7 @@ import { formatEmiratesId, formatUAEPhone } from '@/features/application-form/va
 import type { ApplicationData } from '@/features/application-form/types';
 import { AIService } from '@/services/aiService';
 import { useLanguage } from '@/app/providers';
+import { useRTL } from '@/hooks/useRTL';
 import { UAE_EMIRATES, GENDER_OPTIONS } from '@/config/formData';
 import { VALIDATION_CONSTRAINTS } from '@/config/validation';
 import { Languages } from 'lucide-react';
@@ -21,6 +22,7 @@ interface StepOneProps {
 export function StepOne({ stepNumber }: StepOneProps) {
   const intl = useIntl();
   const { language } = useLanguage();
+  const { isRTL, dir } = useRTL();
   const { control, setValue, watch } = useFormContext<ApplicationData>();
   const [isTranslating, setIsTranslating] = useState(false);
 
@@ -78,7 +80,7 @@ export function StepOne({ stepNumber }: StepOneProps) {
       {/* Question Number and Title */}
       <div className="mb-8">
         <h2 className="text-lg md:text-xl lg:text-2xl font-semibold text-foreground-dark">
-          {language === 'ar' ? toArabicNumerals(String(stepNumber)) : stepNumber}. {intl.formatMessage({ id: 'form.steps.personal.title' })}
+          {isRTL ? toArabicNumerals(String(stepNumber)) : stepNumber}. {intl.formatMessage({ id: 'form.steps.personal.title' })}
         </h2>
         <p className="text-[11px] md:text-xs lg:text-sm text-gray-600">
           {intl.formatMessage({ id: 'form.steps.personal.subtitle' })}
@@ -143,7 +145,7 @@ export function StepOne({ stepNumber }: StepOneProps) {
                   />
                 </FormControl>
                 {isTranslating && (
-                  <div className="flex items-center gap-2 text-xs text-theme-accent mt-1" dir={language === 'ar' ? 'rtl' : 'ltr'}>
+                  <div className="flex items-center gap-2 text-xs text-theme-accent mt-1" dir={dir}>
                     <Languages className="w-3 h-3 animate-pulse" />
                     <span>{intl.formatMessage({ id: 'form.steps.personal.translating' })}</span>
                   </div>
@@ -217,7 +219,7 @@ export function StepOne({ stepNumber }: StepOneProps) {
                     {intl.formatMessage({ id: 'form.steps.personal.fields.gender' })} <span className="text-red-500">*</span>
                   </FormLabel>
                   <Select
-                    dir={language === 'ar' ? 'rtl' : 'ltr'}
+                    dir={dir}
                     value={field.value}
                     onValueChange={field.onChange}
                     onOpenChange={(open) => {
@@ -299,7 +301,7 @@ export function StepOne({ stepNumber }: StepOneProps) {
                   {intl.formatMessage({ id: 'form.steps.personal.fields.emirate' })} <span className="text-red-500">*</span>
                 </FormLabel>
                 <Select
-                  dir={language === 'ar' ? 'rtl' : 'ltr'}
+                  dir={dir}
                   value={field.value}
                   onValueChange={field.onChange}
                   onOpenChange={(open) => {

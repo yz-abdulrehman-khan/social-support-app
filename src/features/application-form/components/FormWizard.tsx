@@ -17,12 +17,13 @@ import { StepTwo } from './steps/StepTwo';
 import { StepThree } from './steps/StepThree';
 import { StepFour } from './steps/StepFour';
 import type { ApplicationData } from '@/features/application-form/types';
-import { ArrowLeft, ArrowRight, Check, Save, Loader2 } from 'lucide-react';
+import { Check, Save, Loader2 } from 'lucide-react';
 import { useIntl } from 'react-intl';
 import { toArabicNumerals } from '@/lib/i18n';
 import { useFormWizard } from '@/features/application-form/hooks/useFormWizard';
 import { useApp } from '@/app/providers/AppProvider';
-import { useLanguage } from '@/app/providers';
+import { useRTL } from '@/hooks/useRTL';
+import { DirectionalArrow } from '@/components/ui/DirectionalArrow';
 
 interface FormWizardProps {
   initialData: ApplicationData;
@@ -32,9 +33,8 @@ interface FormWizardProps {
 
 export function FormWizard({ initialData, onSubmit, onBreadcrumbHome }: FormWizardProps) {
   const intl = useIntl();
-  const { language } = useLanguage();
+  const { isRTL, dir } = useRTL();
   const totalSteps = 4;
-  const isRTL = language === 'ar';
   const { navigateToLanding } = useApp();
   const [showCancelDialog, setShowCancelDialog] = useState(false);
 
@@ -89,7 +89,7 @@ export function FormWizard({ initialData, onSubmit, onBreadcrumbHome }: FormWiza
   ];
 
   return (
-    <div className="min-h-screen flex flex-col bg-background" dir={isRTL ? 'rtl' : 'ltr'} lang={language}>
+    <div className="min-h-screen flex flex-col bg-background" dir={dir}>
       <TammHeader />
 
       <div className="flex-1">
@@ -141,7 +141,7 @@ export function FormWizard({ initialData, onSubmit, onBreadcrumbHome }: FormWiza
                               {isCompleted ? (
                                 <Check className="w-3 h-3" strokeWidth={3} />
                               ) : (
-                                language === 'ar' ? toArabicNumerals(String(step.number)) : step.number
+                                isRTL ? toArabicNumerals(String(step.number)) : step.number
                               )}
                             </div>
                             <div className={`flex-1 min-w-0 ${isRTL ? 'text-right' : ''}`}>
@@ -197,17 +197,8 @@ export function FormWizard({ initialData, onSubmit, onBreadcrumbHome }: FormWiza
                       onClick={handlePrevious}
                       className="rounded-full px-6 h-10 font-normal flex-1 sm:flex-initial"
                     >
-                      {isRTL ? (
-                        <>
-                          <span className="hidden sm:inline">{intl.formatMessage({ id: 'common.previous' })}</span>
-                          <ArrowRight className="w-4 h-4" />
-                        </>
-                      ) : (
-                        <>
-                          <ArrowLeft className="w-4 h-4" />
-                          <span className="hidden sm:inline">{intl.formatMessage({ id: 'common.previous' })}</span>
-                        </>
-                      )}
+                      <DirectionalArrow direction="left" />
+                      <span className="hidden sm:inline">{intl.formatMessage({ id: 'common.previous' })}</span>
                     </Button>
                   )}
                   <Button
@@ -224,17 +215,6 @@ export function FormWizard({ initialData, onSubmit, onBreadcrumbHome }: FormWiza
                             : intl.formatMessage({ id: 'form.validating' })}
                         </span>
                       </>
-                    ) : isRTL ? (
-                      <>
-                        <span className="text-xs sm:text-sm">
-                          {currentStep === totalSteps
-                            ? intl.formatMessage({ id: 'form.navigation.submitApplication' })
-                            : currentStep === 3
-                            ? intl.formatMessage({ id: 'form.navigation.reviewSubmit' })
-                            : intl.formatMessage({ id: 'common.next' })}
-                        </span>
-                        <ArrowLeft className="w-4 h-4" />
-                      </>
                     ) : (
                       <>
                         <span className="text-xs sm:text-sm">
@@ -244,7 +224,7 @@ export function FormWizard({ initialData, onSubmit, onBreadcrumbHome }: FormWiza
                             ? intl.formatMessage({ id: 'form.navigation.reviewSubmit' })
                             : intl.formatMessage({ id: 'common.next' })}
                         </span>
-                        <ArrowRight className="w-4 h-4" />
+                        <DirectionalArrow direction="right" />
                       </>
                     )}
                   </Button>
@@ -278,7 +258,7 @@ export function FormWizard({ initialData, onSubmit, onBreadcrumbHome }: FormWiza
       <TammFooter />
 
       <AlertDialog open={showCancelDialog} onOpenChange={setShowCancelDialog}>
-        <AlertDialogContent dir={isRTL ? 'rtl' : 'ltr'} className="max-w-md">
+        <AlertDialogContent dir={dir} className="max-w-md">
           <AlertDialogHeader className={isRTL ? 'text-right' : ''}>
             <AlertDialogTitle>
               {intl.formatMessage({ id: 'cancelDialog.title' })}

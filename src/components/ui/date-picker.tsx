@@ -4,6 +4,7 @@ import { arSA } from 'date-fns/locale';
 import 'react-datepicker/dist/react-datepicker.css';
 import { cn } from '@/lib/utils';
 import { toArabicNumerals } from '@/lib/i18n';
+import { useRTL } from '@/hooks/useRTL';
 
 registerLocale('ar', arSA);
 
@@ -45,7 +46,7 @@ const CustomInput = forwardRef<HTMLInputElement, any>(({ value, onClick, placeho
 CustomInput.displayName = 'CustomInput';
 
 export function DatePicker({ id, value, onChange, onBlur, className, language = 'en', placeholder, hasError }: DatePickerProps) {
-  const isRTL = language === 'ar';
+  const { isRTL } = useRTL();
   const dateValue = value ? new Date(value) : null;
 
   const handleChange = (date: Date | null) => {
