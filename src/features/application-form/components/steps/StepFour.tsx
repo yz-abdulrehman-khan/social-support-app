@@ -130,7 +130,7 @@ export function StepFour({ data, onEdit, stepNumber }: StepFourProps) {
           />
           <DataRow
             label={intl.formatMessage({ id: 'form.steps.financial.fields.numberOfDependents' })}
-            value={data.numberOfDependents ? formatNumericValue(data.numberOfDependents, language, intl) : '-'}
+            value={data.numberOfDependents ? formatNumericValue(data.numberOfDependents, language) : '-'}
           />
           <DataRow
             label={intl.formatMessage({ id: 'form.steps.financial.fields.employmentStatus' })}
@@ -138,7 +138,7 @@ export function StepFour({ data, onEdit, stepNumber }: StepFourProps) {
           />
           <DataRow
             label={intl.formatMessage({ id: 'form.steps.financial.fields.monthlyIncome' })}
-            value={data.monthlyIncome ? `${formatNumericValue(data.monthlyIncome, language, intl)} ${isRTL ? 'درهم' : 'AED'}` : '-'}
+            value={data.monthlyIncome ? `${formatNumericValue(data.monthlyIncome, language)} ${isRTL ? 'درهم' : 'AED'}` : '-'}
           />
           <DataRow
             label={intl.formatMessage({ id: 'form.steps.financial.fields.housingStatus' })}

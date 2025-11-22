@@ -1,5 +1,3 @@
-import type { IntlShape } from 'react-intl';
-
 /**
  * Convert Western numerals (0-9) to Arabic-Indic numerals (٠-٩)
  */
@@ -9,15 +7,30 @@ export const toArabicNumerals = (str: string): string => {
 };
 
 /**
- * Format a numeric string for display based on language
+ * Format a numeric value for display based on language using Intl.NumberFormat
+ * Supports both regular numbers and currency formatting
  */
 export const formatNumericValue = (
-  value: string,
+  value: string | number,
   language: 'en' | 'ar',
-  intl: IntlShape
+  options?: Intl.NumberFormatOptions
 ): string => {
-  const num = parseInt(value, 10);
-  return language === 'ar' ? intl.formatNumber(num) : value;
+  // Parse the value to a number
+  const num = typeof value === 'string' ? parseFloat(value) : value;
+
+  // Return empty string if invalid
+  if (isNaN(num)) {
+    return '';
+  }
+
+  // Use appropriate locale
+  const locale = language === 'ar' ? 'ar-AE' : 'en-US';
+
+  // Format using Intl.NumberFormat
+  return new Intl.NumberFormat(locale, {
+    maximumFractionDigits: 2,
+    ...options,
+  }).format(num);
 };
 
 /**
