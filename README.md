@@ -1,73 +1,577 @@
-# React + TypeScript + Vite
+# 🏛️ Abu Dhabi Financial Assistance Portal
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<div align="center">
 
-Currently, two official plugins are available:
+**Production-ready bilingual government portal with AI-powered features**
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+[![React](https://img.shields.io/badge/React-19.2-61DAFB?logo=react)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-38B2AC?logo=tailwind-css)](https://tailwindcss.com/)
+[![OpenAI](https://img.shields.io/badge/OpenAI-GPT--3.5-412991?logo=openai)](https://openai.com/)
 
-## React Compiler
+[Features](#-features) • [Quick Start](#-quick-start) • [Tech Stack](#-tech-stack) • [API](#-api) • [Deployment](#-deployment)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+</div>
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🌟 Overview
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Modern, accessible web application for financial assistance applications featuring:
+- **4-step form wizard** with progress tracking
+- **AI-powered** writing assistance and auto-translation
+- **Full bilingual support** (English/Arabic with RTL)
+- **AES-256 encryption** for data security
+- **Responsive design** for all devices
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## ✨ Features
+
+### Core Functionality
+- ✅ Multi-step form with validation
+- ✅ AI writing assistant (GPT-3.5)
+- ✅ Auto-translation (English ↔ Arabic)
+- ✅ Manual save/restore progress
+- ✅ Unsaved changes detection
+- ✅ Auto-formatting (Emirates ID, phone)
+- ✅ Character counters with validation
+
+### Security
+- ✅ AES-GCM 256-bit encryption
+- ✅ Secure backend API proxy
+- ✅ Rate limiting (20 req/min)
+- ✅ Input validation (Zod schemas)
+- ✅ Security headers (Helmet.js)
+
+### Internationalization
+- ✅ 287 translation strings
+- ✅ RTL layout for Arabic
+- ✅ Arabic numerals (٠-٩)
+- ✅ Localized date picker
+- ✅ Language switching without data loss
+
+### Accessibility
+- ✅ WCAG 2.1 AA compliant
+- ✅ Keyboard navigation
+- ✅ Screen reader support
+- ✅ ARIA labels
+- ✅ Focus management
+
+---
+
+## 📸 Screenshots
+
+> **Note:** Screenshots are being added. English interface screenshots are provided below. Arabic interface screenshots will be added soon.
+
+### English Interface
+
+**Landing Page**
+![Landing Page](./screenshots/en-landing.png)
+*Hero section with features and call-to-action*
+
+**Form Step 1: Personal Information**
+![Personal Information](./screenshots/en-step1.png)
+*Personal details with auto-translation for names*
+
+**Form Step 2: Family & Financial Details**
+![Family & Financial](./screenshots/en-step2.png)
+*Household and income information*
+
+**Form Step 3: Situation Description**
+![Situation Description](./screenshots/en-step3.png)
+*AI-powered writing assistance for situation details*
+
+**AI Writing Assistant Modal**
+![AI Assistant - Empty](./screenshots/en-ai-modal-empty.png)
+*Initial state of AI writing helper*
+
+![AI Assistant - Generated](./screenshots/en-ai-modal-generated.png)
+*AI-generated professional text*
+
+![AI Assistant - Loading](./screenshots/en-ai-modal-loading.png)
+*Text generation in progress*
+
+**Form Step 4: Review & Confirm**
+![Review & Confirm](./screenshots/en-step4.png)
+*Complete application review before submission*
+
+**Success Confirmation**
+![Success Page](./screenshots/en-success.png)
+*Reference number and next steps*
+
+**Form Validation**
+![Validation Errors](./screenshots/en-validation.png)
+*Real-time field validation*
+
+### Arabic Interface (RTL)
+
+> Arabic screenshots will be added to match all English interface screens above.
+
+<!-- Arabic screenshots placeholders -->
+<!-- ./screenshots/ar-landing.png - الصفحة الرئيسية -->
+<!-- ./screenshots/ar-step1.png - الخطوة ١: المعلومات الشخصية -->
+<!-- ./screenshots/ar-step2.png - الخطوة ٢: المعلومات العائلية والمالية -->
+<!-- ./screenshots/ar-step3.png - الخطوة ٣: وصف الوضع -->
+<!-- ./screenshots/ar-ai-modal.png - مساعد الكتابة بالذكاء الاصطناعي -->
+<!-- ./screenshots/ar-step4.png - الخطوة ٤: المراجعة والتأكيد -->
+<!-- ./screenshots/ar-success.png - تأكيد الإرسال الناجح -->
+
+### Responsive Design
+
+> Responsive design screenshots (mobile, tablet, desktop) will be added.
+
+<!-- Responsive screenshots placeholders -->
+<!-- ./screenshots/mobile.png - Mobile view (320px+) -->
+<!-- ./screenshots/tablet.png - Tablet view (768px+) -->
+<!-- ./screenshots/desktop.png - Desktop view (1024px+) -->
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Node.js 18+
+- npm or yarn
+- OpenAI API key
+
+### Installation
+
+```bash
+# Clone repository
+git clone https://github.com/your-org/social-support-app.git
+cd social-support-app
+
+# Install dependencies
+npm install
+
+# Set up environment variables
+cp .env.example .env
+# Edit .env and add your OPENAI_API_KEY
+
+# Start development servers
+npm run dev          # Frontend (http://localhost:5173)
+npm run dev:server   # Backend (http://localhost:3001)
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Environment Variables
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Create `.env` in the root directory:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```env
+VITE_API_BASE_URL=http://localhost:3001
+OPENAI_API_KEY=sk-your-openai-api-key-here
+PORT=3001
 ```
+
+---
+
+## 📁 Project Structure
+
+```
+social-support-app/
+├── src/
+│   ├── app/                    # App shell
+│   │   ├── providers/          # Context providers
+│   │   └── router/             # Route management
+│   ├── features/               # Feature modules
+│   │   ├── landing/            # Landing page
+│   │   ├── application-form/   # Multi-step form
+│   │   │   ├── components/     # Form steps
+│   │   │   ├── hooks/          # Form logic
+│   │   │   └── validation/     # Zod schemas
+│   │   └── success/            # Confirmation page
+│   ├── components/             # Shared components
+│   │   ├── ui/                 # Radix UI primitives
+│   │   ├── layout/             # Layout components
+│   │   └── ErrorBoundary.tsx   # Error handling
+│   ├── lib/                    # Utilities
+│   │   ├── secureStorage.ts    # AES encryption
+│   │   └── i18n.ts             # i18n utilities
+│   ├── services/               # External services
+│   │   └── aiService.ts        # OpenAI integration
+│   ├── locales/                # Translations
+│   │   ├── en.json             # English (287 strings)
+│   │   └── ar.json             # Arabic (287 strings)
+│   └── config/                 # Configuration
+├── server/                     # Express backend
+│   ├── index.ts                # API server
+│   └── routes/                 # API routes
+└── public/                     # Static assets
+```
+
+---
+
+## 🏗️ Architecture
+
+### Frontend
+- **React 19.2** - UI framework
+- **TypeScript 5.9** - Type safety
+- **Vite 7.2** - Build tool
+- **Tailwind CSS v4** - Styling
+- **Radix UI** - Accessible components
+- **React Hook Form** - Form state
+- **Zod** - Validation
+- **React Intl** - i18n
+
+### Backend
+- **Express 5.1** - Web framework
+- **Helmet.js** - Security headers
+- **CORS** - Cross-origin requests
+- **Rate Limiting** - DoS protection
+
+### State Management
+```
+AppProvider (Global)
+  ├── LanguageProvider (i18n)
+  └── FormWizard (Form state)
+      └── useFormWizard (Logic)
+```
+
+### Error Handling
+```
+ErrorBoundary (Root)
+  └── LanguageProvider
+      └── ErrorBoundary (Language)
+          └── AppProvider
+              └── ErrorBoundary (App)
+```
+
+---
+
+## 🛠️ Tech Stack
+
+| Category | Technologies |
+|----------|-------------|
+| **Frontend** | React 19.2, TypeScript 5.9, Vite 7.2 |
+| **Styling** | Tailwind CSS v4, CSS Variables |
+| **UI Components** | Radix UI, Custom components |
+| **Forms** | React Hook Form, Zod validation |
+| **i18n** | React Intl (287 strings) |
+| **AI** | OpenAI GPT-3.5-turbo |
+| **Backend** | Express 5.1, Node.js 18+ |
+| **Security** | AES-GCM, Helmet.js, Rate limiting |
+| **Storage** | sessionStorage (encrypted) |
+
+---
+
+## 📡 API Documentation
+
+### Backend Endpoints
+
+#### POST `/api/ai/assist`
+Generate AI text for situation descriptions
+
+**Request:**
+```json
+{
+  "prompt": "Help me write about my financial hardship",
+  "language": "en",
+  "context": "financialSituation"
+}
+```
+
+**Response:**
+```json
+{
+  "text": "I am currently experiencing financial difficulties due to..."
+}
+```
+
+**Rate Limit:** 20 requests/minute per IP
+
+**Error Codes:**
+- `400` - Invalid request
+- `429` - Rate limit exceeded
+- `500` - Server error
+
+#### POST `/api/ai/translate`
+Translate text between English and Arabic
+
+**Request:**
+```json
+{
+  "text": "John Smith",
+  "targetLanguage": "ar"
+}
+```
+
+**Response:**
+```json
+{
+  "translatedText": "جون سميث"
+}
+```
+
+### Frontend API Service
+
+```typescript
+import { AIService } from '@/services/aiService';
+
+// Generate AI text
+const text = await AIService.generateText(prompt, language, context);
+
+// Translate to Arabic
+const arabic = await AIService.translateToArabic(englishText);
+
+// Translate to English
+const english = await AIService.translateToEnglish(arabicText);
+```
+
+---
+
+## 🔐 Security
+
+### Data Encryption
+- **Algorithm:** AES-GCM 256-bit
+- **Storage:** sessionStorage (auto-expires in 24h)
+- **Key Management:** Per-session cryptographic keys
+- **Implementation:** Web Crypto API
+
+### API Security
+- **API Key Protection:** Never exposed to browser
+- **Backend Proxy:** All AI requests through Express
+- **Rate Limiting:** 20 requests/minute per IP
+- **Input Validation:** Zod schemas on all inputs
+- **Security Headers:** Helmet.js (CSP, HSTS, etc.)
+
+### Best Practices
+- Never commit `.env` files
+- Rotate API keys regularly
+- Use HTTPS in production
+- Enable CORS only for trusted origins
+- Monitor rate limit violations
+
+---
+
+## 🌍 Internationalization
+
+### Supported Languages
+- **English** (`en`) - Default
+- **Arabic** (`ar`) - RTL support
+
+### Translation Files
+- `src/locales/en.json` - 287 strings
+- `src/locales/ar.json` - 287 strings
+
+### Adding Translations
+
+1. Add key to both `en.json` and `ar.json`:
+```json
+// en.json
+{
+  "feature.newKey": "New Feature"
+}
+
+// ar.json
+{
+  "feature.newKey": "ميزة جديدة"
+}
+```
+
+2. Use in components:
+```tsx
+import { useIntl } from 'react-intl';
+
+const intl = useIntl();
+const text = intl.formatMessage({ id: 'feature.newKey' });
+```
+
+### RTL Support
+- Automatic layout flip in Arabic
+- `dir="rtl"` attribute on root
+- Tailwind RTL utilities
+- Arabic numeral conversion (0-9 → ٠-٩)
+
+---
+
+## 🚢 Deployment
+
+### Option 1: Vercel (Recommended)
+
+```bash
+# Install Vercel CLI
+npm i -g vercel
+
+# Deploy
+vercel
+
+# Add environment variables in Vercel dashboard
+# OPENAI_API_KEY=your-key
+# VITE_API_BASE_URL=https://your-domain.vercel.app
+```
+
+### Option 2: Netlify
+
+```bash
+# Build
+npm run build
+
+# Deploy to Netlify
+npm install -g netlify-cli
+netlify deploy --prod --dir=dist
+
+# Add environment variables in Netlify dashboard
+```
+
+### Option 3: Docker
+
+```dockerfile
+FROM node:18-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --production
+COPY . .
+RUN npm run build
+RUN npm run build:server
+EXPOSE 3001
+CMD ["node", "dist/server/index.js"]
+```
+
+```bash
+docker build -t financial-assistance-portal .
+docker run -p 3001:3001 --env-file .env financial-assistance-portal
+```
+
+### Production Checklist
+- [ ] Set `VITE_API_BASE_URL` to production URL
+- [ ] Add `OPENAI_API_KEY` to environment
+- [ ] Enable HTTPS
+- [ ] Configure CORS for production domain
+- [ ] Set up monitoring/logging
+- [ ] Test all form steps
+- [ ] Verify AI features work
+- [ ] Check both languages
+- [ ] Test on mobile devices
+
+---
+
+## 🧪 Testing
+
+### Manual Testing Checklist
+
+**Form Functionality**
+- [ ] Fill all 4 steps and submit
+- [ ] Validate all required fields
+- [ ] Test auto-formatting (Emirates ID, phone)
+- [ ] Save and restore progress
+- [ ] Test unsaved changes dialog
+
+**AI Features**
+- [ ] Generate financial situation text
+- [ ] Generate employment situation text
+- [ ] Auto-translate English → Arabic name
+- [ ] Auto-translate Arabic → English name
+
+**Internationalization**
+- [ ] Switch language mid-form
+- [ ] Verify RTL layout in Arabic
+- [ ] Check Arabic numerals
+- [ ] Test date picker in both languages
+
+**Responsive Design**
+- [ ] Test on mobile (320px+)
+- [ ] Test on tablet (768px+)
+- [ ] Test on desktop (1024px+)
+
+**Error Handling**
+- [ ] Trigger validation errors
+- [ ] Test with offline AI service
+- [ ] Check error boundaries
+
+---
+
+## 🐛 Troubleshooting
+
+### Common Issues
+
+**AI features not working**
+```bash
+# Check backend is running
+npm run dev:server
+
+# Verify OPENAI_API_KEY is set
+echo $OPENAI_API_KEY
+
+# Check backend logs
+curl http://localhost:3001/api/ai/assist -X POST \
+  -H "Content-Type: application/json" \
+  -d '{"prompt":"test","language":"en","context":"financialSituation"}'
+```
+
+**Translations not appearing**
+- Clear browser cache
+- Check `src/locales/en.json` and `ar.json`
+- Verify translation key exists
+- Check browser console for errors
+
+**Build errors**
+```bash
+# Clear cache and reinstall
+rm -rf node_modules dist
+npm install
+npm run build
+```
+
+**Rate limit errors**
+- Wait 1 minute between requests
+- Check backend logs for rate limit info
+- Increase limit in `server/index.ts` if needed
+
+---
+
+## 🤝 Contributing
+
+### Development Workflow
+
+1. Create feature branch
+```bash
+git checkout -b feature/your-feature
+```
+
+2. Make changes and test
+```bash
+npm run dev        # Frontend
+npm run dev:server # Backend
+```
+
+3. Commit changes
+```bash
+git add .
+git commit -m "feat: your feature description"
+```
+
+4. Push and create PR
+```bash
+git push origin feature/your-feature
+```
+
+### Code Style
+- **ESLint** - Linting
+- **Prettier** - Formatting
+- **TypeScript** - Type checking
+- **Conventional Commits** - Commit messages
+
+---
+
+## 📄 License
+
+MIT License - see [LICENSE](LICENSE) for details
+
+---
+
+## 📞 Support
+
+- **Issues:** [GitHub Issues](https://github.com/your-org/social-support-app/issues)
+- **Documentation:** This README
+- **Email:** support@example.com
+
+---
+
+<div align="center">
+
+**Built with ❤️ for Abu Dhabi Government Services**
+
+[⬆ Back to Top](#️-abu-dhabi-financial-assistance-portal)
+
+</div>
