@@ -61,6 +61,9 @@ A web application where people can apply for financial assistance. It has a 4-st
 **Form Step 3: Situation Description with AI**
 ![Arabic Situation Description](./screenshots/ar-step3.png)
 
+**Exit Without Saving Dialog**
+![Arabic Exit Dialog](./screenshots/ar-exit-dialog.png)
+
 **Success Confirmation**
 ![Arabic Success Page](./screenshots/ar-success.png)
 
