@@ -8,6 +8,7 @@ import { completeFormSchema, stepOneSchema, stepTwoSchema, stepThreeSchema } fro
 import { makeZodI18nMap } from '@/lib/i18n';
 import type { ApplicationData } from '@/features/application-form/types';
 import { STORAGE_KEYS, DEFAULT_VALUES } from '@/config/constants';
+import { setSecureItem, getSecureItem, removeSecureItem } from '@/lib/secureStorage';
 
 interface UseFormWizardProps {
   initialData: ApplicationData;
@@ -33,43 +34,48 @@ export function useFormWizard({ initialData, onSubmit, totalSteps }: UseFormWiza
     reValidateMode: 'onBlur',
   });
 
-  const handleSaveProgress = () => {
+  const handleSaveProgress = async () => {
     const formData = form.getValues();
-    // Only save if there's actual data (not just empty initial values)
     const hasData = Object.values(formData).some(value =>
       value !== '' && value !== null && value !== undefined
     );
 
     if (hasData) {
-      const serializedData = JSON.stringify(formData);
-      localStorage.setItem(STORAGE_KEYS.FINANCIAL_ASSISTANCE_APPLICATION, serializedData);
-      setLastSavedData(serializedData);
-      toast.success(intl.formatMessage({ id: 'toast.progressSaved' }));
+      try {
+        await setSecureItem(STORAGE_KEYS.FINANCIAL_ASSISTANCE_APPLICATION, formData);
+        const serializedData = JSON.stringify(formData);
+        setLastSavedData(serializedData);
+        toast.success(intl.formatMessage({ id: 'toast.progressSaved' }));
+      } catch (error) {
+        console.error('Failed to save progress:', error);
+        toast.error(intl.formatMessage({ id: 'toast.saveFailed' }));
+      }
     }
   };
 
   useEffect(() => {
-    const savedData = localStorage.getItem(STORAGE_KEYS.FINANCIAL_ASSISTANCE_APPLICATION);
-    if (savedData) {
+    const loadSecureData = async () => {
       try {
-        const parsed = JSON.parse(savedData);
-        // Only restore if there's actual data (not just empty initial values)
-        const hasData = Object.values(parsed).some(value =>
-          value !== '' && value !== null && value !== undefined
-        );
+        const savedData = await getSecureItem<ApplicationData>(STORAGE_KEYS.FINANCIAL_ASSISTANCE_APPLICATION);
+        if (savedData) {
+          const hasData = Object.values(savedData).some(value =>
+            value !== '' && value !== null && value !== undefined
+          );
 
-        if (hasData) {
-          form.reset(parsed);
-          setLastSavedData(savedData);
-          toast.success(intl.formatMessage({ id: 'toast.previousDataRestored' }));
-        } else {
-          // Clean up empty data from localStorage
-          localStorage.removeItem(STORAGE_KEYS.FINANCIAL_ASSISTANCE_APPLICATION);
+          if (hasData) {
+            form.reset(savedData);
+            setLastSavedData(JSON.stringify(savedData));
+            toast.success(intl.formatMessage({ id: 'toast.previousDataRestored' }));
+          } else {
+            removeSecureItem(STORAGE_KEYS.FINANCIAL_ASSISTANCE_APPLICATION);
+          }
         }
       } catch (e) {
         console.error('Failed to load saved data', e);
       }
-    }
+    };
+
+    loadSecureData();
   }, [form, intl]);
 
   const validateStep = async (step: number): Promise<boolean> => {
@@ -115,7 +121,7 @@ export function useFormWizard({ initialData, onSubmit, totalSteps }: UseFormWiza
         if (currentStep === totalSteps) {
           const formData = form.getValues();
           onSubmit(formData);
-          localStorage.removeItem(STORAGE_KEYS.FINANCIAL_ASSISTANCE_APPLICATION);
+          removeSecureItem(STORAGE_KEYS.FINANCIAL_ASSISTANCE_APPLICATION);
         } else {
           setCurrentStep((prev) => Math.min(prev + 1, totalSteps));
           window.scrollTo({ top: 0, behavior: 'smooth' });

@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, type ReactNode } from 'react';
 import type { ApplicationData, AppState } from '@/features/application-form/types';
 import { UI_CONSTANTS, STORAGE_KEYS, DEFAULT_VALUES } from '@/config/constants';
+import { removeSecureItem, clearSecureStorage } from '@/lib/secureStorage';
 
 interface AppContextValue {
   appState: AppState;
@@ -55,28 +56,19 @@ export function AppProvider({ children }: { children: ReactNode }) {
   };
 
   const startNewApplication = () => {
-    // Clear localStorage
-    localStorage.removeItem(STORAGE_KEYS.FINANCIAL_ASSISTANCE_APPLICATION);
-    // Reset application data to initial state
+    clearSecureStorage();
     setApplicationData(initialApplicationData);
-    // Clear reference number
     setReferenceNumber('');
-    // Navigate back to landing page
     setAppState('landing');
   };
 
   const navigateToLanding = () => {
-    // Just navigate to landing page without clearing data
-    // This allows users to resume their application later
     setAppState('landing');
   };
 
   const cancelApplication = () => {
-    // Clear localStorage
-    localStorage.removeItem(STORAGE_KEYS.FINANCIAL_ASSISTANCE_APPLICATION);
-    // Reset application data to initial state
+    removeSecureItem(STORAGE_KEYS.FINANCIAL_ASSISTANCE_APPLICATION);
     setApplicationData(initialApplicationData);
-    // Navigate back to landing page
     setAppState('landing');
   };
 

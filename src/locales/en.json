@@ -202,7 +202,8 @@
     "enterValidEmail": "Please enter a valid email address",
     "enterValidPhone": "Please enter a valid phone number",
     "provideDetailedDescription": "Please provide a detailed description (minimum 50 characters)",
-    "progressSaved": "Progress saved successfully"
+    "progressSaved": "Progress saved successfully",
+    "saveFailed": "Failed to save progress. Please try again."
   },
   "success": {
     "title": "Application Successfully Submitted",

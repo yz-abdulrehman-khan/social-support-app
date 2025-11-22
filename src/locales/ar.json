@@ -218,7 +218,8 @@
     "enterValidEmail": "يرجى إدخال بريد إلكتروني صالح",
     "enterValidPhone": "يرجى إدخال رقم هاتف صالح",
     "provideDetailedDescription": "يرجى تقديم وصف مفصل (٥٠ حرفًا على الأقل)",
-    "progressSaved": "تم حفظ التقدم بنجاح"
+    "progressSaved": "تم حفظ التقدم بنجاح",
+    "saveFailed": "فشل حفظ التقدم. يرجى المحاولة مرة أخرى."
   },
   "success": {
     "title": "تم إرسال الطلب بنجاح",
