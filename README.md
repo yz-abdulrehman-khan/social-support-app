@@ -25,46 +25,85 @@ A web application where people can apply for financial assistance. It has a 4-st
 ### English Interface
 
 **Landing Page**
+
+The main landing page introduces the application with a clean hero section. Users can see what the app offers and choose their preferred language before starting.
+
 ![Landing Page](./screenshots/en-landing.png)
 
-**Form Step 1: Personal Information**
+**Step 1: Personal Information**
+
+This is where users enter basic details like name, Emirates ID, and contact info. The name fields have auto-translation - type in English and it translates to Arabic automatically (and vice versa).
+
 ![Personal Information](./screenshots/en-step1.png)
 
-**Form Step 2: Family & Financial Details**
+**Step 2: Family & Financial Details**
+
+Here users provide information about their household, employment status, and current income situation.
+
 ![Family & Financial](./screenshots/en-step2.png)
 
-**Form Step 3: Situation Description**
+**Step 3: Situation Description**
+
+This step lets users describe their financial situation and why they need assistance. There's an AI writing assistant to help write clear, professional descriptions.
+
 ![Situation Description](./screenshots/en-step3.png)
 
 **AI Writing Assistant**
+
+The AI helper can generate well-written text based on simple prompts. Just describe your situation in a few words and it creates a proper explanation for you.
+
 ![AI Assistant - Empty](./screenshots/en-ai-modal-empty.png)
 ![AI Assistant - Generated](./screenshots/en-ai-modal-generated.png)
 ![AI Assistant - Loading](./screenshots/en-ai-modal-loading.png)
 
-**Form Step 4: Review & Confirm**
+**Step 4: Review & Confirm**
+
+Before submitting, users can review everything they entered. All information is displayed clearly so they can make sure it's correct.
+
 ![Review & Confirm](./screenshots/en-step4.png)
 
-**Success Confirmation**
+**Success Page**
+
+After submission, users get a confirmation with a reference number. This number is important for tracking the application.
+
 ![Success Page](./screenshots/en-success.png)
 
 **Form Validation**
+
+The form checks for errors in real-time. If something's missing or incorrect, it shows helpful messages right below the field.
+
 ![Validation Errors](./screenshots/en-validation.png)
 
 ### Arabic Interface (RTL)
 
 **Landing Page**
+
+The entire interface flips for right-to-left languages. Everything from the layout to the text direction is designed for Arabic readers.
+
 ![Arabic Landing Page](./screenshots/ar-landing.png)
 
-**Form Step 1: Personal Information**
+**Step 1: Personal Information**
+
+Form fields work the same way in Arabic, with labels and placeholders in Arabic. The auto-translation feature helps users fill out both language versions easily.
+
 ![Arabic Personal Information](./screenshots/ar-step1.png)
 
-**Form Step 3: Situation Description with AI**
+**Step 3: Situation Description**
+
+The AI writing assistant works in Arabic too. It can help write professional descriptions in Arabic based on simple input.
+
 ![Arabic Situation Description](./screenshots/ar-step3.png)
 
-**Exit Without Saving Dialog**
+**Unsaved Changes Warning**
+
+If users try to leave with unsaved work, the app asks them to confirm. This prevents accidental loss of progress.
+
 ![Arabic Exit Dialog](./screenshots/ar-exit-dialog.png)
 
-**Success Confirmation**
+**Success Page**
+
+The confirmation page in Arabic shows the same information - reference number and next steps - but in a format comfortable for Arabic readers.
+
 ![Arabic Success Page](./screenshots/ar-success.png)
 
 ---
