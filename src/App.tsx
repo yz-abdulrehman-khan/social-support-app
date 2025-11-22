@@ -3,6 +3,8 @@ import { AppProvider } from './app/providers/AppProvider';
 import { LanguageProvider } from './app/providers/LanguageProvider';
 import { AppRouter } from './app/router/AppRouter';
 import { useRTL } from './hooks/useRTL';
+import { ErrorBoundary } from './components/ErrorBoundary';
+import { LanguageError, AppError } from './components/error/ErrorFallbacks';
 
 function AppContent() {
   const { dir } = useRTL();
@@ -28,10 +30,16 @@ function AppContent() {
 
 export default function App() {
   return (
-    <LanguageProvider>
-      <AppProvider>
-        <AppContent />
-      </AppProvider>
-    </LanguageProvider>
+    <ErrorBoundary>
+      <LanguageProvider>
+        <ErrorBoundary fallback={<LanguageError />}>
+          <AppProvider>
+            <ErrorBoundary fallback={<AppError />}>
+              <AppContent />
+            </ErrorBoundary>
+          </AppProvider>
+        </ErrorBoundary>
+      </LanguageProvider>
+    </ErrorBoundary>
   );
 }

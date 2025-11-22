@@ -205,6 +205,14 @@
     "progressSaved": "Progress saved successfully",
     "saveFailed": "Failed to save progress. Please try again."
   },
+  "error": {
+    "app": {
+      "title": "Something Went Wrong",
+      "message": "We encountered an unexpected error. Your progress is saved.",
+      "returnHome": "Return to Home",
+      "reload": "Reload Page"
+    }
+  },
   "success": {
     "title": "Application Successfully Submitted",
     "message": "Your financial assistance application has been received and is now being reviewed.",

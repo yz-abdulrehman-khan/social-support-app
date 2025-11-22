@@ -1,12 +1,10 @@
 import { lazy, Suspense } from 'react';
 import { useApp } from '../providers/AppProvider';
 
-// Lazy load route components for code splitting
 const LandingPage = lazy(() => import('@/features/landing').then(m => ({ default: m.LandingPage })));
 const FormWizard = lazy(() => import('@/features/application-form/components').then(m => ({ default: m.FormWizard })));
 const SuccessConfirmation = lazy(() => import('@/features/success').then(m => ({ default: m.SuccessConfirmation })));
 
-// Loading fallback component
 function LoadingFallback() {
   return (
     <div className="min-h-screen flex items-center justify-center">
