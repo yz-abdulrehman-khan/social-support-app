@@ -21,7 +21,6 @@ Modern, accessible web application for financial assistance applications featuri
 - **4-step form wizard** with progress tracking
 - **AI-powered** writing assistance and auto-translation
 - **Full bilingual support** (English/Arabic with RTL)
-- **AES-256 encryption** for data security
 - **Responsive design** for all devices
 
 ---
@@ -37,12 +36,6 @@ Modern, accessible web application for financial assistance applications featuri
 - ✅ Auto-formatting (Emirates ID, phone)
 - ✅ Character counters with validation
 
-### Security
-- ✅ AES-GCM 256-bit encryption
-- ✅ Secure backend API proxy
-- ✅ Rate limiting (20 req/min)
-- ✅ Input validation (Zod schemas)
-- ✅ Security headers (Helmet.js)
 
 ### Internationalization
 - ✅ 287 translation strings
@@ -250,8 +243,6 @@ ErrorBoundary (Root)
 | **i18n** | React Intl (287 strings) |
 | **AI** | OpenAI GPT-3.5-turbo |
 | **Backend** | Express 5.1, Node.js 18+ |
-| **Security** | AES-GCM, Helmet.js, Rate limiting |
-| **Storage** | sessionStorage (encrypted) |
 
 ---
 
@@ -317,30 +308,6 @@ const arabic = await AIService.translateToArabic(englishText);
 // Translate to English
 const english = await AIService.translateToEnglish(arabicText);
 ```
-
----
-
-## 🔐 Security
-
-### Data Encryption
-- **Algorithm:** AES-GCM 256-bit
-- **Storage:** sessionStorage (auto-expires in 24h)
-- **Key Management:** Per-session cryptographic keys
-- **Implementation:** Web Crypto API
-
-### API Security
-- **API Key Protection:** Never exposed to browser
-- **Backend Proxy:** All AI requests through Express
-- **Rate Limiting:** 20 requests/minute per IP
-- **Input Validation:** Zod schemas on all inputs
-- **Security Headers:** Helmet.js (CSP, HSTS, etc.)
-
-### Best Practices
-- Never commit `.env` files
-- Rotate API keys regularly
-- Use HTTPS in production
-- Enable CORS only for trusted origins
-- Monitor rate limit violations
 
 ---
 
@@ -429,7 +396,7 @@ MIT License - see [LICENSE](LICENSE) for details
 
 - **Issues:** [GitHub Issues](https://github.com/your-org/social-support-app/issues)
 - **Documentation:** This README
-- **Email:** support@example.com
+- **Email:** yz.abdulrehman.khan@gmail.com
 
 ---
 
