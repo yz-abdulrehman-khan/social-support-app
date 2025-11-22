@@ -9,7 +9,7 @@ import { useIntl } from 'react-intl';
 import { toArabicNumerals } from '@/lib/i18n';
 import { formatEmiratesId, formatUAEPhone } from '@/features/application-form/validation';
 import type { ApplicationData } from '@/features/application-form/types';
-import { translateToArabic, translateToEnglish } from '@/lib/translation';
+import { AIService } from '@/services/aiService';
 
 type Language = 'en' | 'ar';
 
@@ -40,7 +40,7 @@ export function StepOne({ control, stepNumber, language = 'en' }: StepOneProps) 
     try {
       isTranslatingRef.current = true;
       setIsTranslating(true);
-      const arabicTranslation = await translateToArabic(fullNameEnglish);
+      const arabicTranslation = await AIService.translateToArabic(fullNameEnglish);
       if (arabicTranslation) {
         setValue('fullNameArabic', arabicTranslation, { shouldValidate: false });
       }
@@ -64,7 +64,7 @@ export function StepOne({ control, stepNumber, language = 'en' }: StepOneProps) 
     try {
       isTranslatingRef.current = true;
       setIsTranslating(true);
-      const englishTranslation = await translateToEnglish(fullNameArabic);
+      const englishTranslation = await AIService.translateToEnglish(fullNameArabic);
       if (englishTranslation) {
         setValue('fullNameEnglish', englishTranslation, { shouldValidate: false });
       }

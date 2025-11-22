@@ -23,3 +23,14 @@ build
 *.njsproj
 *.sln
 *.sw?
+
+# Environment variables (IMPORTANT: Never commit these!)
+.env
+.env.local
+.env.server
+.env.server.local
+.env.production
+.env.development
+
+# Server build output
+dist/server

@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Sparkles, RotateCw, Copy, Check, AlertCircle } from 'lucide-react';
 import { useIntl } from 'react-intl';
-import { rephraseText } from '@/lib/ai-writing';
+import { AIService } from '@/services/aiService';
 
 interface AIWritingAssistantProps {
   open: boolean;
@@ -40,7 +40,7 @@ export function AIWritingAssistant({
     setIsGenerating(true);
     setError('');
     try {
-      const rephrased = await rephraseText(userInput, language);
+      const rephrased = await AIService.rephraseText(userInput, language);
       setGeneratedText(rephrased);
     } catch (error) {
       console.error('Failed to generate text:', error);
