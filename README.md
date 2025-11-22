@@ -62,7 +62,7 @@ A web application where people can apply for financial assistance. It has a 4-st
 
 ```bash
 # Clone the repo
-git clone https://github.com/your-org/social-support-app.git
+git clone https://github.com/yz-abdulrehman-khan/social-support-app.git
 cd social-support-app
 
 # Install stuff
@@ -185,7 +185,7 @@ Do whatever you want with it
 
 ## Contact
 
-- **Issues:** [GitHub Issues](https://github.com/your-org/social-support-app/issues)
+- **Issues:** [GitHub Issues](https://github.com/yz-abdulrehman-khan/social-support-app/issues)
 - **Email:** yz.abdulrehman.khan@gmail.com
 
 ---
