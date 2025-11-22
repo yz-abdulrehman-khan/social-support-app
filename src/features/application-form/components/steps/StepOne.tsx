@@ -24,14 +24,15 @@ export function StepOne({ stepNumber }: StepOneProps) {
   const { language } = useLanguage();
   const { isRTL, dir } = useRTL();
   const { control, setValue, watch } = useFormContext<ApplicationData>();
-  const [isTranslating, setIsTranslating] = useState(false);
+  const [isTranslatingEnglish, setIsTranslatingEnglish] = useState(false);
+  const [isTranslatingArabic, setIsTranslatingArabic] = useState(false);
 
   const fullNameEnglish = watch('fullNameEnglish');
   const fullNameArabic = watch('fullNameArabic');
 
   const handleEnglishBlur = async () => {
     // Prevent concurrent translation calls
-    if (isTranslating) return;
+    if (isTranslatingEnglish || isTranslatingArabic) return;
 
     // If English field is empty, clear Arabic field
     if (!fullNameEnglish?.trim()) {
@@ -40,7 +41,7 @@ export function StepOne({ stepNumber }: StepOneProps) {
     }
 
     try {
-      setIsTranslating(true);
+      setIsTranslatingArabic(true);
       const arabicTranslation = await AIService.translateToArabic(fullNameEnglish);
       if (arabicTranslation) {
         setValue('fullNameArabic', arabicTranslation, { shouldValidate: false });
@@ -48,13 +49,13 @@ export function StepOne({ stepNumber }: StepOneProps) {
     } catch (error) {
       console.error('Failed to translate to Arabic:', error);
     } finally {
-      setIsTranslating(false);
+      setIsTranslatingArabic(false);
     }
   };
 
   const handleArabicBlur = async () => {
     // Prevent concurrent translation calls
-    if (isTranslating) return;
+    if (isTranslatingEnglish || isTranslatingArabic) return;
 
     // If Arabic field is empty, clear English field
     if (!fullNameArabic?.trim()) {
@@ -63,7 +64,7 @@ export function StepOne({ stepNumber }: StepOneProps) {
     }
 
     try {
-      setIsTranslating(true);
+      setIsTranslatingEnglish(true);
       const englishTranslation = await AIService.translateToEnglish(fullNameArabic);
       if (englishTranslation) {
         setValue('fullNameEnglish', englishTranslation, { shouldValidate: false });
@@ -71,7 +72,7 @@ export function StepOne({ stepNumber }: StepOneProps) {
     } catch (error) {
       console.error('Failed to translate to English:', error);
     } finally {
-      setIsTranslating(false);
+      setIsTranslatingEnglish(false);
     }
   };
 
@@ -109,10 +110,10 @@ export function StepOne({ stepNumber }: StepOneProps) {
                       field.onBlur();
                       handleEnglishBlur();
                     }}
-                    disabled={isTranslating || language === 'ar'}
+                    disabled={(isTranslatingEnglish || isTranslatingArabic) || language === 'ar'}
                   />
                 </FormControl>
-                {isTranslating && (
+                {isTranslatingEnglish && (
                   <div className="flex items-center gap-2 text-xs text-theme-accent mt-1">
                     <Languages className="w-3 h-3 animate-pulse" />
                     <span>{intl.formatMessage({ id: 'form.steps.personal.translating' })}</span>
@@ -141,10 +142,10 @@ export function StepOne({ stepNumber }: StepOneProps) {
                       field.onBlur();
                       handleArabicBlur();
                     }}
-                    disabled={isTranslating || language === 'en'}
+                    disabled={(isTranslatingEnglish || isTranslatingArabic) || language === 'en'}
                   />
                 </FormControl>
-                {isTranslating && (
+                {isTranslatingArabic && (
                   <div className="flex items-center gap-2 text-xs text-theme-accent mt-1" dir={dir}>
                     <Languages className="w-3 h-3 animate-pulse" />
                     <span>{intl.formatMessage({ id: 'form.steps.personal.translating' })}</span>
