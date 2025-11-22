@@ -17,6 +17,7 @@ interface UseFormWizardProps {
 export function useFormWizard({ initialData, onSubmit, totalSteps }: UseFormWizardProps) {
   const intl = useIntl();
   const [currentStep, setCurrentStep] = useState(1);
+  const [lastSavedData, setLastSavedData] = useState<string | null>(null);
 
   useEffect(() => {
     const errorMap = makeZodI18nMap(intl);
@@ -38,7 +39,9 @@ export function useFormWizard({ initialData, onSubmit, totalSteps }: UseFormWiza
     );
 
     if (hasData) {
-      localStorage.setItem('financialAssistanceApplication', JSON.stringify(formData));
+      const serializedData = JSON.stringify(formData);
+      localStorage.setItem('financialAssistanceApplication', serializedData);
+      setLastSavedData(serializedData);
       toast.success(intl.formatMessage({ id: 'toast.progressSaved' }));
     }
   };
@@ -55,6 +58,7 @@ export function useFormWizard({ initialData, onSubmit, totalSteps }: UseFormWiza
 
         if (hasData) {
           form.reset(parsed);
+          setLastSavedData(savedData);
           toast.success(intl.formatMessage({ id: 'toast.previousDataRestored' }));
         } else {
           // Clean up empty data from localStorage
@@ -125,6 +129,47 @@ export function useFormWizard({ initialData, onSubmit, totalSteps }: UseFormWiza
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const hasUnsavedChanges = () => {
+    const currentFormData = form.getValues();
+
+    // Check if form has any data at all
+    const hasData = Object.values(currentFormData).some(value =>
+      value !== '' && value !== null && value !== undefined
+    );
+
+    // If no data, no unsaved changes
+    if (!hasData) {
+      return false;
+    }
+
+    // If no last saved data, then we have unsaved changes
+    if (!lastSavedData) {
+      return true;
+    }
+
+    // Compare current data with last saved data
+    const currentSerialized = JSON.stringify(currentFormData);
+    return currentSerialized !== lastSavedData;
+  };
+
+  const hasAnyData = () => {
+    const currentFormData = form.getValues();
+    return Object.values(currentFormData).some(value =>
+      value !== '' && value !== null && value !== undefined
+    );
+  };
+
+  const revertToLastSave = () => {
+    if (lastSavedData) {
+      try {
+        const parsed = JSON.parse(lastSavedData);
+        form.reset(parsed);
+      } catch (e) {
+        console.error('Failed to revert to last save', e);
+      }
+    }
+  };
+
   return {
     form,
     currentStep,
@@ -132,5 +177,8 @@ export function useFormWizard({ initialData, onSubmit, totalSteps }: UseFormWiza
     handlePrevious,
     handleEditStep,
     handleSaveProgress,
+    hasUnsavedChanges,
+    hasAnyData,
+    revertToLastSave,
   };
 }

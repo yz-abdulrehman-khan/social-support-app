@@ -7,7 +7,6 @@ import {
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
-  AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
@@ -18,7 +17,7 @@ import { StepTwo } from './steps/StepTwo';
 import { StepThree } from './steps/StepThree';
 import { StepFour } from './steps/StepFour';
 import type { ApplicationData } from '@/features/application-form/types';
-import { ArrowLeft, ArrowRight, Check } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Check, Save } from 'lucide-react';
 import { useIntl } from 'react-intl';
 import { toArabicNumerals } from '@/lib/i18n';
 import { useFormWizard } from '@/features/application-form/hooks/useFormWizard';
@@ -38,22 +37,42 @@ export function FormWizard({ initialData, onSubmit, language = 'en', onLanguageT
   const intl = useIntl();
   const totalSteps = 4;
   const isRTL = language === 'ar';
-  const { cancelApplication } = useApp();
+  const { navigateToLanding } = useApp();
   const [showCancelDialog, setShowCancelDialog] = useState(false);
 
-  const { form, currentStep, handleNext, handlePrevious, handleEditStep, handleSaveProgress } = useFormWizard({
+  const { form, currentStep, handleNext, handlePrevious, handleEditStep, handleSaveProgress, hasUnsavedChanges, hasAnyData, revertToLastSave } = useFormWizard({
     initialData,
     onSubmit,
     totalSteps,
   });
 
   const handleCancelClick = () => {
+    // If no data at all, just navigate to landing
+    if (!hasAnyData()) {
+      navigateToLanding();
+      return;
+    }
     setShowCancelDialog(true);
   };
 
   const handleConfirmCancel = () => {
     setShowCancelDialog(false);
-    cancelApplication();
+
+    // Check if there are unsaved changes
+    if (hasUnsavedChanges()) {
+      // Revert to last saved state and navigate to landing
+      revertToLastSave();
+      navigateToLanding();
+    } else {
+      // No unsaved changes, just navigate to landing
+      navigateToLanding();
+    }
+  };
+
+  const handleSaveAndExit = () => {
+    handleSaveProgress();
+    setShowCancelDialog(false);
+    navigateToLanding();
   };
 
   const steps = [
@@ -227,8 +246,9 @@ export function FormWizard({ initialData, onSubmit, language = 'en', onLanguageT
                     type="button"
                     variant="subtle"
                     onClick={handleSaveProgress}
-                    className="rounded-full px-6 h-10 font-normal flex-1 sm:flex-initial"
+                    className="rounded-full px-6 h-10 font-normal flex-1 sm:flex-initial gap-2"
                   >
+                    <Save className="w-4 h-4" />
                     {intl.formatMessage({ id: 'common.saveProgress' })}
                   </Button>
                   <Button
@@ -258,14 +278,19 @@ export function FormWizard({ initialData, onSubmit, language = 'en', onLanguageT
               {intl.formatMessage({ id: 'cancelDialog.description' })}
             </AlertDialogDescription>
           </AlertDialogHeader>
-          <AlertDialogFooter className={isRTL ? 'sm:flex-row sm:justify-start' : 'sm:flex-row sm:justify-end'}>
-            <AlertDialogCancel className="bg-theme-accent hover:bg-theme-accent-hover text-white">
+          <div className="flex flex-col gap-3">
+            <AlertDialogCancel className="bg-theme-accent hover:bg-theme-accent-hover text-white w-full">
               {intl.formatMessage({ id: 'cancelDialog.keep' })}
             </AlertDialogCancel>
-            <AlertDialogAction onClick={handleConfirmCancel}>
+            {hasUnsavedChanges() && (
+              <AlertDialogAction onClick={handleSaveAndExit} className="bg-theme-accent hover:bg-theme-accent-hover text-white w-full">
+                {intl.formatMessage({ id: 'cancelDialog.saveAndExit' })}
+              </AlertDialogAction>
+            )}
+            <AlertDialogAction onClick={handleConfirmCancel} className="w-full">
               {intl.formatMessage({ id: 'cancelDialog.confirm' })}
             </AlertDialogAction>
-          </AlertDialogFooter>
+          </div>
         </AlertDialogContent>
       </AlertDialog>
     </div>
