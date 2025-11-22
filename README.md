@@ -89,6 +89,22 @@ PORT=3001
 
 ---
 
+## Project structure
+
+```
+src/
+├── app/                    # Main app setup
+├── features/
+│   ├── landing/            # Landing page
+│   ├── application-form/   # The form
+│   └── success/            # Success page
+├── components/             # Reusable components
+├── lib/                    # Helper functions
+├── services/               # API calls
+└── locales/                # Translations (en.json, ar.json)
+```
+
+---
 
 ## Tech used
 
