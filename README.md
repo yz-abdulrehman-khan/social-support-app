@@ -259,7 +259,3 @@ Do whatever you want with it
 
 - **Issues:** [GitHub Issues](https://github.com/yz-abdulrehman-khan/social-support-app/issues)
 - **Email:** yz.abdulrehman.khan@gmail.com
-
----
-
-**Built for Abu Dhabi Government Services**
