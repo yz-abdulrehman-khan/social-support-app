@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Toaster } from '@/components/ui/sonner';
 import { AppProvider } from './app/providers/AppProvider';
 import { LanguageProvider } from './app/providers/LanguageProvider';
@@ -5,9 +6,16 @@ import { AppRouter } from './app/router/AppRouter';
 import { useRTL } from './hooks/useRTL';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { LanguageError, AppError } from './components/error/ErrorFallbacks';
+import { useIntl } from 'react-intl';
 
 function AppContent() {
   const { dir } = useRTL();
+  const intl = useIntl();
+
+  // Update document title when language changes
+  useEffect(() => {
+    document.title = intl.formatMessage({ id: 'common.pageTitle' });
+  }, [intl]);
 
   return (
     <div className="min-h-screen" dir={dir}>
