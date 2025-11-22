@@ -68,9 +68,10 @@ cd social-support-app
 # Install stuff
 npm install
 
-# Create a .env file
+# Create env files
 cp .env.example .env
-# Add your OpenAI API key to the .env file
+cp .env.server.example .env.server
+# Add your OpenAI API key to .env.server
 
 # Run it
 npm run dev          # Frontend at http://localhost:5173
@@ -79,12 +80,19 @@ npm run dev:server   # Backend at http://localhost:3001
 
 ### Environment variables
 
-Create a `.env` file:
+Create `.env` for frontend:
 
 ```env
-VITE_API_BASE_URL=http://localhost:3001
+VITE_API_URL=http://localhost:3001
+```
+
+Create `.env.server` for backend:
+
+```env
 OPENAI_API_KEY=your-key-here
 PORT=3001
+NODE_ENV=development
+FRONTEND_URL=http://localhost:3000
 ```
 
 ---
