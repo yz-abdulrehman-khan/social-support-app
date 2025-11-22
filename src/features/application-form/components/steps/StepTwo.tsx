@@ -1,4 +1,4 @@
-import type { Control } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { FormField, FormControl, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
@@ -6,15 +6,17 @@ import { useIntl } from 'react-intl';
 import { toArabicNumerals } from '@/lib/i18n';
 import type { ApplicationData } from '@/features/application-form/types';
 import { useLanguage } from '@/app/providers';
+import { MARITAL_STATUS_OPTIONS, EMPLOYMENT_STATUS_OPTIONS, HOUSING_STATUS_OPTIONS } from '@/config/formData';
+import { VALIDATION_CONSTRAINTS } from '@/config/validation';
 
 interface StepTwoProps {
-  control: Control<ApplicationData>;
   stepNumber: number;
 }
 
-export function StepTwo({ control, stepNumber }: StepTwoProps) {
+export function StepTwo({ stepNumber }: StepTwoProps) {
   const intl = useIntl();
   const { language } = useLanguage();
+  const { control } = useFormContext<ApplicationData>();
   return (
     <div className="space-y-8">
       {/* Question Number and Title */}
@@ -53,10 +55,11 @@ export function StepTwo({ control, stepNumber }: StepTwoProps) {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="single">{intl.formatMessage({ id: 'form.steps.financial.fields.single' })}</SelectItem>
-                    <SelectItem value="married">{intl.formatMessage({ id: 'form.steps.financial.fields.married' })}</SelectItem>
-                    <SelectItem value="divorced">{intl.formatMessage({ id: 'form.steps.financial.fields.divorced' })}</SelectItem>
-                    <SelectItem value="widowed">{intl.formatMessage({ id: 'form.steps.financial.fields.widowed' })}</SelectItem>
+                    {MARITAL_STATUS_OPTIONS.map((status) => (
+                      <SelectItem key={status} value={status}>
+                        {intl.formatMessage({ id: `form.steps.financial.fields.${status}` })}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -77,7 +80,7 @@ export function StepTwo({ control, stepNumber }: StepTwoProps) {
                     {...field}
                     id="numberOfDependents"
                     type="number"
-                    min="0"
+                    min={VALIDATION_CONSTRAINTS.MIN_DEPENDENTS}
                     placeholder="0"
                   />
                 </FormControl>
@@ -111,11 +114,11 @@ export function StepTwo({ control, stepNumber }: StepTwoProps) {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="employed">{intl.formatMessage({ id: 'form.steps.financial.fields.employed' })}</SelectItem>
-                    <SelectItem value="selfEmployed">{intl.formatMessage({ id: 'form.steps.financial.fields.selfEmployed' })}</SelectItem>
-                    <SelectItem value="unemployed">{intl.formatMessage({ id: 'form.steps.financial.fields.unemployed' })}</SelectItem>
-                    <SelectItem value="retired">{intl.formatMessage({ id: 'form.steps.financial.fields.retired' })}</SelectItem>
-                    <SelectItem value="student">{intl.formatMessage({ id: 'form.steps.financial.fields.student' })}</SelectItem>
+                    {EMPLOYMENT_STATUS_OPTIONS.map((status) => (
+                      <SelectItem key={status} value={status}>
+                        {intl.formatMessage({ id: `form.steps.financial.fields.${status}` })}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -136,7 +139,7 @@ export function StepTwo({ control, stepNumber }: StepTwoProps) {
                     {...field}
                     id="monthlyIncome"
                     type="number"
-                    min="0"
+                    min={VALIDATION_CONSTRAINTS.MIN_INCOME}
                     placeholder="0"
                   />
                 </FormControl>
@@ -170,11 +173,15 @@ export function StepTwo({ control, stepNumber }: StepTwoProps) {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="owned">{intl.formatMessage({ id: 'form.steps.financial.fields.owned' })}</SelectItem>
-                    <SelectItem value="rented">{intl.formatMessage({ id: 'form.steps.financial.fields.rented' })}</SelectItem>
-                    <SelectItem value="family-owned">{intl.formatMessage({ id: 'form.steps.financial.fields.familyHousing' })}</SelectItem>
-                    <SelectItem value="government">{intl.formatMessage({ id: 'form.steps.financial.fields.governmentHousing' })}</SelectItem>
-                    <SelectItem value="other">{intl.formatMessage({ id: 'common.other' })}</SelectItem>
+                    {HOUSING_STATUS_OPTIONS.map((status) => {
+                      const i18nKey = status === 'family-owned' ? 'familyHousing' : status === 'government' ? 'governmentHousing' : status === 'other' ? 'other' : status;
+                      const messageId = status === 'other' ? 'common.other' : `form.steps.financial.fields.${i18nKey}`;
+                      return (
+                        <SelectItem key={status} value={status}>
+                          {intl.formatMessage({ id: messageId })}
+                        </SelectItem>
+                      );
+                    })}
                   </SelectContent>
                 </Select>
                 <FormMessage />

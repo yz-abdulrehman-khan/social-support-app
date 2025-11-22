@@ -1,4 +1,3 @@
-import type { Control } from 'react-hook-form';
 import { useFormContext } from 'react-hook-form';
 import { useRef, useState } from 'react';
 import { Input } from '@/components/ui/input';
@@ -11,16 +10,17 @@ import { formatEmiratesId, formatUAEPhone } from '@/features/application-form/va
 import type { ApplicationData } from '@/features/application-form/types';
 import { AIService } from '@/services/aiService';
 import { useLanguage } from '@/app/providers';
+import { UAE_EMIRATES, GENDER_OPTIONS } from '@/config/formData';
+import { VALIDATION_CONSTRAINTS } from '@/config/validation';
 
 interface StepOneProps {
-  control: Control<ApplicationData>;
   stepNumber: number;
 }
 
-export function StepOne({ control, stepNumber }: StepOneProps) {
+export function StepOne({ stepNumber }: StepOneProps) {
   const intl = useIntl();
   const { language } = useLanguage();
-  const { setValue, watch } = useFormContext<ApplicationData>();
+  const { control, setValue, watch } = useFormContext<ApplicationData>();
   const isTranslatingRef = useRef(false);
   const [isTranslating, setIsTranslating] = useState(false);
 
@@ -165,7 +165,7 @@ export function StepOne({ control, stepNumber }: StepOneProps) {
                         const formatted = formatEmiratesId(e.target.value);
                         setValue('nationalId', formatted);
                       }}
-                      maxLength={18}
+                      maxLength={VALIDATION_CONSTRAINTS.EMIRATES_ID_MAX_LENGTH}
                     />
                   </FormControl>
                   <FormMessage />
@@ -220,8 +220,11 @@ export function StepOne({ control, stepNumber }: StepOneProps) {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="male">{intl.formatMessage({ id: 'form.steps.personal.fields.male' })}</SelectItem>
-                      <SelectItem value="female">{intl.formatMessage({ id: 'form.steps.personal.fields.female' })}</SelectItem>
+                      {GENDER_OPTIONS.map((gender) => (
+                        <SelectItem key={gender} value={gender}>
+                          {intl.formatMessage({ id: `form.steps.personal.fields.${gender}` })}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                   <FormMessage />
@@ -299,13 +302,22 @@ export function StepOne({ control, stepNumber }: StepOneProps) {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="Abu Dhabi">{intl.formatMessage({ id: 'form.steps.personal.fields.emirates.abuDhabi' })}</SelectItem>
-                    <SelectItem value="Dubai">{intl.formatMessage({ id: 'form.steps.personal.fields.emirates.dubai' })}</SelectItem>
-                    <SelectItem value="Sharjah">{intl.formatMessage({ id: 'form.steps.personal.fields.emirates.sharjah' })}</SelectItem>
-                    <SelectItem value="Ajman">{intl.formatMessage({ id: 'form.steps.personal.fields.emirates.ajman' })}</SelectItem>
-                    <SelectItem value="Umm Al Quwain">{intl.formatMessage({ id: 'form.steps.personal.fields.emirates.ummAlQuwain' })}</SelectItem>
-                    <SelectItem value="Ras Al Khaimah">{intl.formatMessage({ id: 'form.steps.personal.fields.emirates.rasAlKhaimah' })}</SelectItem>
-                    <SelectItem value="Fujairah">{intl.formatMessage({ id: 'form.steps.personal.fields.emirates.fujairah' })}</SelectItem>
+                    {UAE_EMIRATES.map((emirate) => {
+                      // Convert "Abu Dhabi" → "abuDhabi", "Ras Al Khaimah" → "rasAlKhaimah"
+                      const i18nKey = emirate
+                        .split(' ')
+                        .map((word, index) =>
+                          index === 0
+                            ? word.toLowerCase()
+                            : word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+                        )
+                        .join('');
+                      return (
+                        <SelectItem key={emirate} value={emirate}>
+                          {intl.formatMessage({ id: `form.steps.personal.fields.emirates.${i18nKey}` })}
+                        </SelectItem>
+                      );
+                    })}
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -379,7 +391,7 @@ export function StepOne({ control, stepNumber }: StepOneProps) {
                       const formatted = formatUAEPhone(e.target.value);
                       setValue('phoneNumber', formatted);
                     }}
-                    maxLength={17}
+                    maxLength={VALIDATION_CONSTRAINTS.UAE_PHONE_MAX_LENGTH}
                   />
                 </FormControl>
                 <FormMessage />

@@ -12,6 +12,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Sparkles, RotateCw, Copy, Check, AlertCircle } from 'lucide-react';
 import { useIntl } from 'react-intl';
 import { AIService } from '@/services/aiService';
+import { UI_CONSTANTS } from '@/config/constants';
 
 interface AIWritingAssistantProps {
   open: boolean;
@@ -58,7 +59,7 @@ export function AIWritingAssistant({
     if (generatedText) {
       await navigator.clipboard.writeText(generatedText);
       setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      setTimeout(() => setCopied(false), UI_CONSTANTS.COPY_FEEDBACK_DURATION_MS);
     }
   };
 

@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { AI_VALIDATION_CONSTRAINTS, AI_VALIDATION_MESSAGES } from '../config/validation.js';
 
 /**
  * Validation schema for rephrase endpoint
@@ -6,8 +7,8 @@ import { z } from 'zod';
 export const rephraseSchema = z.object({
   body: z.object({
     text: z.string()
-      .min(1, 'Text is required')
-      .max(2000, 'Text must be less than 2000 characters')
+      .min(1, AI_VALIDATION_MESSAGES.TEXT_REQUIRED)
+      .max(AI_VALIDATION_CONSTRAINTS.REPHRASE_MAX_LENGTH, AI_VALIDATION_MESSAGES.REPHRASE_TOO_LONG)
       .trim(),
     language: z.enum(['en', 'ar']),
   }),
@@ -19,8 +20,8 @@ export const rephraseSchema = z.object({
 export const translateSchema = z.object({
   body: z.object({
     text: z.string()
-      .min(1, 'Text is required')
-      .max(200, 'Text must be less than 200 characters')
+      .min(1, AI_VALIDATION_MESSAGES.TEXT_REQUIRED)
+      .max(AI_VALIDATION_CONSTRAINTS.TRANSLATE_MAX_LENGTH, AI_VALIDATION_MESSAGES.TRANSLATE_TOO_LONG)
       .trim(),
     direction: z.enum(['toArabic', 'toEnglish']),
   }),

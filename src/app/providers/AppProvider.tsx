@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, type ReactNode } from 'react';
 import type { ApplicationData, AppState } from '@/features/application-form/types';
+import { UI_CONSTANTS, STORAGE_KEYS, DEFAULT_VALUES } from '@/config/constants';
 
 interface AppContextValue {
   appState: AppState;
@@ -22,8 +23,8 @@ const initialApplicationData: ApplicationData = {
   gender: '',
   street: '',
   city: '',
-  emirate: 'Abu Dhabi',
-  country: 'United Arab Emirates',
+  emirate: DEFAULT_VALUES.DEFAULT_EMIRATE,
+  country: DEFAULT_VALUES.COUNTRY,
   postalCode: '',
   phoneNumber: '',
   email: '',
@@ -48,14 +49,14 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   const submitApplication = (data: ApplicationData) => {
     setApplicationData(data);
-    const refNumber = `SA${Date.now().toString().slice(-8)}`;
+    const refNumber = `${UI_CONSTANTS.REFERENCE_NUMBER_PREFIX}${Date.now().toString().slice(UI_CONSTANTS.REFERENCE_NUMBER_TIMESTAMP_SLICE)}`;
     setReferenceNumber(refNumber);
     setAppState('success');
   };
 
   const startNewApplication = () => {
     // Clear localStorage
-    localStorage.removeItem('financialAssistanceApplication');
+    localStorage.removeItem(STORAGE_KEYS.FINANCIAL_ASSISTANCE_APPLICATION);
     // Reset application data to initial state
     setApplicationData(initialApplicationData);
     // Clear reference number
@@ -72,7 +73,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   const cancelApplication = () => {
     // Clear localStorage
-    localStorage.removeItem('financialAssistanceApplication');
+    localStorage.removeItem(STORAGE_KEYS.FINANCIAL_ASSISTANCE_APPLICATION);
     // Reset application data to initial state
     setApplicationData(initialApplicationData);
     // Navigate back to landing page

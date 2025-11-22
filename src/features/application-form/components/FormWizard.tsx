@@ -166,19 +166,16 @@ export function FormWizard({ initialData, onSubmit, onBreadcrumbHome }: FormWiza
               <Form {...form}>
                 {currentStep === 1 && (
                   <StepOne
-                    control={form.control}
                     stepNumber={1}
                   />
                 )}
                 {currentStep === 2 && (
                   <StepTwo
-                    control={form.control}
                     stepNumber={2}
                   />
                 )}
                 {currentStep === 3 && (
                   <StepThree
-                    control={form.control}
                     stepNumber={3}
                   />
                 )}

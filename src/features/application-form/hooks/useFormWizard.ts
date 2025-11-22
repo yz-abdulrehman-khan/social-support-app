@@ -7,6 +7,7 @@ import { z } from 'zod';
 import { completeFormSchema, stepOneSchema, stepTwoSchema, stepThreeSchema } from '@/features/application-form/validation';
 import { makeZodI18nMap } from '@/lib/i18n';
 import type { ApplicationData } from '@/features/application-form/types';
+import { STORAGE_KEYS, DEFAULT_VALUES } from '@/config/constants';
 
 interface UseFormWizardProps {
   initialData: ApplicationData;
@@ -40,14 +41,14 @@ export function useFormWizard({ initialData, onSubmit, totalSteps }: UseFormWiza
 
     if (hasData) {
       const serializedData = JSON.stringify(formData);
-      localStorage.setItem('financialAssistanceApplication', serializedData);
+      localStorage.setItem(STORAGE_KEYS.FINANCIAL_ASSISTANCE_APPLICATION, serializedData);
       setLastSavedData(serializedData);
       toast.success(intl.formatMessage({ id: 'toast.progressSaved' }));
     }
   };
 
   useEffect(() => {
-    const savedData = localStorage.getItem('financialAssistanceApplication');
+    const savedData = localStorage.getItem(STORAGE_KEYS.FINANCIAL_ASSISTANCE_APPLICATION);
     if (savedData) {
       try {
         const parsed = JSON.parse(savedData);
@@ -62,7 +63,7 @@ export function useFormWizard({ initialData, onSubmit, totalSteps }: UseFormWiza
           toast.success(intl.formatMessage({ id: 'toast.previousDataRestored' }));
         } else {
           // Clean up empty data from localStorage
-          localStorage.removeItem('financialAssistanceApplication');
+          localStorage.removeItem(STORAGE_KEYS.FINANCIAL_ASSISTANCE_APPLICATION);
         }
       } catch (e) {
         console.error('Failed to load saved data', e);
@@ -111,7 +112,7 @@ export function useFormWizard({ initialData, onSubmit, totalSteps }: UseFormWiza
       if (currentStep === totalSteps) {
         const formData = form.getValues();
         onSubmit(formData);
-        localStorage.removeItem('financialAssistanceApplication');
+        localStorage.removeItem(STORAGE_KEYS.FINANCIAL_ASSISTANCE_APPLICATION);
       } else {
         setCurrentStep((prev) => Math.min(prev + 1, totalSteps));
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -156,7 +157,7 @@ export function useFormWizard({ initialData, onSubmit, totalSteps }: UseFormWiza
     const currentFormData = form.getValues();
 
     // Exclude default values that are set on initialization
-    const defaultValues = ['Abu Dhabi', 'United Arab Emirates'];
+    const excludedDefaults: string[] = [DEFAULT_VALUES.DEFAULT_EMIRATE, DEFAULT_VALUES.COUNTRY];
 
     return Object.entries(currentFormData).some(([, value]) => {
       // Skip if value is empty
@@ -165,7 +166,7 @@ export function useFormWizard({ initialData, onSubmit, totalSteps }: UseFormWiza
       }
 
       // Skip default values
-      if (defaultValues.includes(value as string)) {
+      if (excludedDefaults.includes(value as string)) {
         return false;
       }
 

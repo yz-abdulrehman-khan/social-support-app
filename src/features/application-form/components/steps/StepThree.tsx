@@ -1,4 +1,3 @@
-import type { Control } from 'react-hook-form';
 import { useFormContext } from 'react-hook-form';
 import { useState } from 'react';
 import { Textarea } from '@/components/ui/textarea';
@@ -12,15 +11,14 @@ import { AIWritingAssistant } from '@/components/modals/AIWritingAssistant';
 import { useLanguage } from '@/app/providers';
 
 interface StepThreeProps {
-  control: Control<ApplicationData>;
   stepNumber: number;
 }
 
-export function StepThree({ control, stepNumber }: StepThreeProps) {
+export function StepThree({ stepNumber }: StepThreeProps) {
   const intl = useIntl();
   const { language } = useLanguage();
   const isRTL = language === 'ar';
-  const { setValue, watch } = useFormContext<ApplicationData>();
+  const { control, setValue, watch } = useFormContext<ApplicationData>();
   const [showAIAssistant, setShowAIAssistant] = useState(false);
   const [currentField, setCurrentField] = useState<keyof ApplicationData | null>(null);
 

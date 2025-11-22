@@ -1,46 +1,46 @@
 import { z } from 'zod';
-
-const emiratesIdRegex = /^784-\d{4}-\d{7}-\d$/;
-const uaePhoneRegex = /^\+971\s?\d{1,2}\s?\d{3}\s?\d{4}$/;
+import { VALIDATION_PATTERNS, VALIDATION_CONSTRAINTS, VALIDATION_MESSAGES } from '@/config/validation';
+import { DEFAULT_VALUES } from '@/config/constants';
 
 export const stepOneSchema = z.object({
-  fullNameEnglish: z.string().min(1, 'validation.required'),
-  fullNameArabic: z.string().min(1, 'validation.required'),
+  fullNameEnglish: z.string().min(1, VALIDATION_MESSAGES.REQUIRED),
+  fullNameArabic: z.string().min(1, VALIDATION_MESSAGES.REQUIRED),
   nationalId: z.string()
-    .min(1, 'validation.required')
-    .regex(emiratesIdRegex, 'validation.invalidEmiratesId'),
-  dateOfBirth: z.string().min(1, 'validation.required'),
-  gender: z.string().min(1, 'validation.required'),
-  street: z.string().min(1, 'validation.required'),
-  city: z.string().min(1, 'validation.required'),
-  emirate: z.string().min(1, 'validation.required'),
-  country: z.literal('United Arab Emirates'),
+    .min(1, VALIDATION_MESSAGES.REQUIRED)
+    .regex(VALIDATION_PATTERNS.EMIRATES_ID, VALIDATION_MESSAGES.INVALID_EMIRATES_ID),
+  dateOfBirth: z.string().min(1, VALIDATION_MESSAGES.REQUIRED),
+  gender: z.string().min(1, VALIDATION_MESSAGES.REQUIRED),
+  street: z.string().min(1, VALIDATION_MESSAGES.REQUIRED),
+  city: z.string().min(1, VALIDATION_MESSAGES.REQUIRED),
+  emirate: z.string().min(1, VALIDATION_MESSAGES.REQUIRED),
+  country: z.literal(DEFAULT_VALUES.COUNTRY),
   postalCode: z.string().optional(),
   phoneNumber: z.string()
-    .min(1, 'validation.required')
-    .regex(uaePhoneRegex, 'validation.invalidPhone'),
+    .min(1, VALIDATION_MESSAGES.REQUIRED)
+    .regex(VALIDATION_PATTERNS.UAE_PHONE, VALIDATION_MESSAGES.INVALID_PHONE),
   email: z.string()
-    .min(1, 'validation.required')
-    .email('validation.invalidEmail'),
+    .min(1, VALIDATION_MESSAGES.REQUIRED)
+    .email(VALIDATION_MESSAGES.INVALID_EMAIL),
 });
 
 export const stepTwoSchema = z.object({
-  maritalStatus: z.string().min(1, 'validation.required'),
+  maritalStatus: z.string().min(1, VALIDATION_MESSAGES.REQUIRED),
   numberOfDependents: z.string()
-    .min(1, 'validation.required')
-    .regex(/^\d+$/, 'validation.invalidNumber'),
-  employmentStatus: z.string().min(1, 'validation.required'),
+    .min(1, VALIDATION_MESSAGES.REQUIRED)
+    .regex(VALIDATION_PATTERNS.NUMERIC_ONLY, VALIDATION_MESSAGES.INVALID_NUMBER),
+  employmentStatus: z.string().min(1, VALIDATION_MESSAGES.REQUIRED),
   monthlyIncome: z.string()
-    .min(1, 'validation.required')
-    .regex(/^\d+$/, 'validation.invalidNumber'),
-  housingStatus: z.string().min(1, 'validation.required'),
+    .min(1, VALIDATION_MESSAGES.REQUIRED)
+    .regex(VALIDATION_PATTERNS.NUMERIC_ONLY, VALIDATION_MESSAGES.INVALID_NUMBER),
+  housingStatus: z.string().min(1, VALIDATION_MESSAGES.REQUIRED),
 });
 
 export const stepThreeSchema = z.object({
   financialSituation: z.string()
-    .min(50, 'toast.provideDetailedDescription'),
-  employmentCircumstances: z.string(),
-  reasonForApplying: z.string(),
+    .min(VALIDATION_CONSTRAINTS.FINANCIAL_SITUATION_MIN_LENGTH, VALIDATION_MESSAGES.PROVIDE_DETAILED_DESCRIPTION),
+  employmentCircumstances: z.string().optional(),
+  reasonForApplying: z.string()
+    .min(1, VALIDATION_MESSAGES.REQUIRED),
 });
 
 export const completeFormSchema = z.object({
