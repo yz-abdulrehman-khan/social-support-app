@@ -388,7 +388,7 @@ git push origin feature/your-feature
 
 ## 📄 License
 
-MIT License - see [LICENSE](LICENSE) for details
+Do whatever you want with it
 
 ---
 
