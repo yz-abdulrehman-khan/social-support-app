@@ -130,7 +130,7 @@ cp .env.server.example .env.server
 # Add your OpenAI API key to .env.server
 
 # Run it
-npm run dev          # Frontend at http://localhost:5173
+npm run dev          # Frontend at http://localhost:3000
 npm run dev:server   # Backend at http://localhost:3001
 ```
 
