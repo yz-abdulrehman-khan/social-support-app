@@ -50,6 +50,20 @@ A web application where people can apply for financial assistance. It has a 4-st
 **Form Validation**
 ![Validation Errors](./screenshots/en-validation.png)
 
+### Arabic Interface (RTL)
+
+**Landing Page**
+![Arabic Landing Page](./screenshots/ar-landing.png)
+
+**Form Step 1: Personal Information**
+![Arabic Personal Information](./screenshots/ar-step1.png)
+
+**Form Step 3: Situation Description with AI**
+![Arabic Situation Description](./screenshots/ar-step3.png)
+
+**Success Confirmation**
+![Arabic Success Page](./screenshots/ar-success.png)
+
 ---
 
 ## How to run it
@@ -100,16 +114,72 @@ FRONTEND_URL=http://localhost:3000
 ## Project structure
 
 ```
-src/
-├── app/                    # Main app setup
-├── features/
-│   ├── landing/            # Landing page
-│   ├── application-form/   # The form
-│   └── success/            # Success page
-├── components/             # Reusable components
-├── lib/                    # Helper functions
-├── services/               # API calls
-└── locales/                # Translations (en.json, ar.json)
+social-support-app/
+├── src/
+│   ├── app/
+│   │   ├── providers/
+│   │   │   ├── AppProvider.tsx        # Global app state
+│   │   │   └── LanguageProvider.tsx   # Language switching
+│   │   └── router/
+│   │       └── AppRouter.tsx          # Route management
+│   ├── features/
+│   │   ├── landing/
+│   │   │   ├── components/
+│   │   │   │   ├── Hero.tsx           # Landing hero section
+│   │   │   │   ├── Features.tsx       # Feature cards
+│   │   │   │   └── LanguageToggle.tsx # Language switcher
+│   │   │   └── index.ts
+│   │   ├── application-form/
+│   │   │   ├── components/
+│   │   │   │   ├── FormWizard.tsx     # Main form container
+│   │   │   │   ├── ProgressBar.tsx    # Step progress indicator
+│   │   │   │   └── steps/
+│   │   │   │       ├── StepOne.tsx    # Personal info
+│   │   │   │       ├── StepTwo.tsx    # Family & financial
+│   │   │   │       ├── StepThree.tsx  # Situation description
+│   │   │   │       └── StepFour.tsx   # Review & confirm
+│   │   │   ├── hooks/
+│   │   │   │   └── useFormWizard.ts   # Form state management
+│   │   │   ├── validation/
+│   │   │   │   └── schemas.ts         # Zod validation schemas
+│   │   │   └── types/
+│   │   │       └── index.ts           # TypeScript types
+│   │   └── success/
+│   │       └── SuccessConfirmation.tsx # Success page
+│   ├── components/
+│   │   ├── ui/                        # Radix UI components
+│   │   │   ├── button.tsx
+│   │   │   ├── input.tsx
+│   │   │   ├── select.tsx
+│   │   │   ├── date-picker.tsx
+│   │   │   └── dialog.tsx
+│   │   ├── layout/
+│   │   │   ├── Header.tsx
+│   │   │   ├── Footer.tsx
+│   │   │   └── Breadcrumb.tsx
+│   │   └── ErrorBoundary.tsx
+│   ├── lib/
+│   │   ├── secureStorage.ts           # AES encryption
+│   │   └── i18n.ts                    # i18n utilities
+│   ├── services/
+│   │   └── aiService.ts               # OpenAI API calls
+│   ├── locales/
+│   │   ├── en.json                    # English translations
+│   │   └── ar.json                    # Arabic translations
+│   ├── config/
+│   │   ├── constants.ts               # App constants
+│   │   ├── formData.ts                # Form options/data
+│   │   └── validation.ts              # Validation rules
+│   └── main.tsx                       # App entry point
+├── server/
+│   ├── index.ts                       # Express server
+│   └── routes/
+│       └── ai.ts                      # AI endpoints
+├── public/                            # Static assets
+├── screenshots/                       # App screenshots
+├── .env                               # Frontend env
+├── .env.server                        # Backend env
+└── package.json
 ```
 
 ---
