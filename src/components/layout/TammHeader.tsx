@@ -1,14 +1,9 @@
 import { Globe } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useLanguage } from '@/app/providers';
 
-type Language = 'en' | 'ar';
-
-interface TammHeaderProps {
-  language?: Language;
-  onLanguageToggle?: () => void;
-}
-
-export function TammHeader({ language = 'en', onLanguageToggle }: TammHeaderProps) {
+export function TammHeader() {
+  const { language, toggleLanguage } = useLanguage();
   const isRTL = language === 'ar';
 
   return (
@@ -36,7 +31,7 @@ export function TammHeader({ language = 'en', onLanguageToggle }: TammHeaderProp
             <Button
               variant="subtle"
               size="sm"
-              onClick={onLanguageToggle}
+              onClick={toggleLanguage}
               className="language-switcher gap-1.5 text-gray-700 "
             >
               <Globe className="w-4 h-4 globe-icon" />

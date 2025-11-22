@@ -22,19 +22,17 @@ import { useIntl } from 'react-intl';
 import { toArabicNumerals } from '@/lib/i18n';
 import { useFormWizard } from '@/features/application-form/hooks/useFormWizard';
 import { useApp } from '@/app/providers/AppProvider';
-
-type Language = 'en' | 'ar';
+import { useLanguage } from '@/app/providers';
 
 interface FormWizardProps {
   initialData: ApplicationData;
   onSubmit: (data: ApplicationData) => void;
-  language?: Language;
-  onLanguageToggle?: () => void;
   onBreadcrumbHome?: () => void;
 }
 
-export function FormWizard({ initialData, onSubmit, language = 'en', onLanguageToggle, onBreadcrumbHome }: FormWizardProps) {
+export function FormWizard({ initialData, onSubmit, onBreadcrumbHome }: FormWizardProps) {
   const intl = useIntl();
+  const { language } = useLanguage();
   const totalSteps = 4;
   const isRTL = language === 'ar';
   const { navigateToLanding } = useApp();
@@ -92,7 +90,7 @@ export function FormWizard({ initialData, onSubmit, language = 'en', onLanguageT
 
   return (
     <div className="min-h-screen flex flex-col bg-background" dir={isRTL ? 'rtl' : 'ltr'} lang={language}>
-      <TammHeader language={language} onLanguageToggle={onLanguageToggle} />
+      <TammHeader />
 
       <div className="flex-1">
         <div className="container mx-auto px-4 sm:px-6 py-6 max-w-7xl">
@@ -170,21 +168,18 @@ export function FormWizard({ initialData, onSubmit, language = 'en', onLanguageT
                   <StepOne
                     control={form.control}
                     stepNumber={1}
-                    language={language}
                   />
                 )}
                 {currentStep === 2 && (
                   <StepTwo
                     control={form.control}
                     stepNumber={2}
-                    language={language}
                   />
                 )}
                 {currentStep === 3 && (
                   <StepThree
                     control={form.control}
                     stepNumber={3}
-                    language={language}
                   />
                 )}
                 {currentStep === 4 && (
@@ -192,7 +187,6 @@ export function FormWizard({ initialData, onSubmit, language = 'en', onLanguageT
                     data={form.getValues()}
                     onEdit={handleEditStep}
                     stepNumber={4}
-                    language={language}
                   />
                 )}
               </Form>
@@ -274,7 +268,7 @@ export function FormWizard({ initialData, onSubmit, language = 'en', onLanguageT
         </div>
       </div>
 
-      <TammFooter language={language} />
+      <TammFooter />
 
       <AlertDialog open={showCancelDialog} onOpenChange={setShowCancelDialog}>
         <AlertDialogContent dir={isRTL ? 'rtl' : 'ltr'} className="max-w-md">

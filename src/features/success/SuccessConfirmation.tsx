@@ -4,23 +4,19 @@ import { TammHeader } from '@/components/layout/TammHeader';
 import { TammFooter } from '@/components/layout/TammFooter';
 import { useIntl } from 'react-intl';
 import { toArabicNumerals } from '@/lib/i18n';
-
-type Language = 'en' | 'ar';
+import { useLanguage } from '@/app/providers';
 
 interface SuccessConfirmationProps {
   referenceNumber: string;
   onStartNew: () => void;
-  language?: Language;
-  onLanguageToggle?: () => void;
 }
 
 export function SuccessConfirmation({
   referenceNumber,
   onStartNew,
-  language = 'en',
-  onLanguageToggle,
 }: SuccessConfirmationProps) {
   const intl = useIntl();
+  const { language } = useLanguage();
   const isRTL = language === 'ar';
 
   const handleDownload = () => {
@@ -33,7 +29,7 @@ export function SuccessConfirmation({
 
   return (
     <div className="min-h-screen flex flex-col" dir={isRTL ? 'rtl' : 'ltr'} lang={language}>
-      <TammHeader language={language} onLanguageToggle={onLanguageToggle} />
+      <TammHeader />
 
       <div className="flex-1 py-16 bg-theme-light">
         <div className="container mx-auto px-4 md:px-6 max-w-3xl">
@@ -173,7 +169,7 @@ export function SuccessConfirmation({
         </div>
       </div>
 
-      <TammFooter language={language} />
+      <TammFooter />
     </div>
   );
 }

@@ -10,17 +10,16 @@ import { toArabicNumerals } from '@/lib/i18n';
 import { formatEmiratesId, formatUAEPhone } from '@/features/application-form/validation';
 import type { ApplicationData } from '@/features/application-form/types';
 import { AIService } from '@/services/aiService';
-
-type Language = 'en' | 'ar';
+import { useLanguage } from '@/app/providers';
 
 interface StepOneProps {
   control: Control<ApplicationData>;
   stepNumber: number;
-  language?: Language;
 }
 
-export function StepOne({ control, stepNumber, language = 'en' }: StepOneProps) {
+export function StepOne({ control, stepNumber }: StepOneProps) {
   const intl = useIntl();
+  const { language } = useLanguage();
   const { setValue, watch } = useFormContext<ApplicationData>();
   const isTranslatingRef = useRef(false);
   const [isTranslating, setIsTranslating] = useState(false);

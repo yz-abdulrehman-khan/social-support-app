@@ -3,18 +3,17 @@ import { Edit } from 'lucide-react';
 import { useIntl } from 'react-intl';
 import { toArabicNumerals, formatNumericValue } from '@/lib/i18n';
 import type { ApplicationData } from '@/features/application-form/types';
-
-type Language = 'en' | 'ar';
+import { useLanguage } from '@/app/providers';
 
 interface StepFourProps {
   data: ApplicationData;
   onEdit: (step: number) => void;
   stepNumber: number;
-  language?: Language;
 }
 
-export function StepFour({ data, onEdit, stepNumber, language = 'en' }: StepFourProps) {
+export function StepFour({ data, onEdit, stepNumber }: StepFourProps) {
   const intl = useIntl();
+  const { language } = useLanguage();
 
   const DataRow = ({ label, value }: { label: string; value?: string }) => (
     <div className="py-3 border-b border-gray-100 last:border-0">

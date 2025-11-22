@@ -1,14 +1,10 @@
 import { Facebook, Twitter, Instagram, Youtube, Phone } from 'lucide-react';
 import { useIntl } from 'react-intl';
+import { useLanguage } from '@/app/providers';
 
-type Language = 'en' | 'ar';
-
-interface TammFooterProps {
-  language?: Language;
-}
-
-export function TammFooter({ language = 'en' }: TammFooterProps) {
+export function TammFooter() {
   const intl = useIntl();
+  const { language } = useLanguage();
   const isRTL = language === 'ar';
 
   return (

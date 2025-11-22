@@ -9,17 +9,16 @@ import { useIntl } from 'react-intl';
 import { toArabicNumerals } from '@/lib/i18n';
 import type { ApplicationData } from '@/features/application-form/types';
 import { AIWritingAssistant } from '@/components/modals/AIWritingAssistant';
-
-type Language = 'en' | 'ar';
+import { useLanguage } from '@/app/providers';
 
 interface StepThreeProps {
   control: Control<ApplicationData>;
   stepNumber: number;
-  language?: Language;
 }
 
-export function StepThree({ control, stepNumber, language = 'en' }: StepThreeProps) {
+export function StepThree({ control, stepNumber }: StepThreeProps) {
   const intl = useIntl();
+  const { language } = useLanguage();
   const isRTL = language === 'ar';
   const { setValue, watch } = useFormContext<ApplicationData>();
   const [showAIAssistant, setShowAIAssistant] = useState(false);

@@ -5,17 +5,16 @@ import { FormField, FormControl, FormItem, FormLabel, FormMessage } from '@/comp
 import { useIntl } from 'react-intl';
 import { toArabicNumerals } from '@/lib/i18n';
 import type { ApplicationData } from '@/features/application-form/types';
-
-type Language = 'en' | 'ar';
+import { useLanguage } from '@/app/providers';
 
 interface StepTwoProps {
   control: Control<ApplicationData>;
   stepNumber: number;
-  language?: Language;
 }
 
-export function StepTwo({ control, stepNumber, language = 'en' }: StepTwoProps) {
+export function StepTwo({ control, stepNumber }: StepTwoProps) {
   const intl = useIntl();
+  const { language } = useLanguage();
   return (
     <div className="space-y-8">
       {/* Question Number and Title */}

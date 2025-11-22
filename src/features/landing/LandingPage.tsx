@@ -4,17 +4,15 @@ import { TammFooter } from '@/components/layout/TammFooter';
 import { Shield, Clock, FileCheck, Users, ArrowRight, ArrowLeft } from 'lucide-react';
 import { useIntl } from 'react-intl';
 import { toArabicNumerals } from '@/lib/i18n';
-
-type Language = 'en' | 'ar';
+import { useLanguage } from '@/app/providers';
 
 interface LandingPageProps {
   onStartApplication: () => void;
-  language?: Language;
-  onLanguageToggle?: () => void;
 }
 
-export function LandingPage({ onStartApplication, language = 'en', onLanguageToggle }: LandingPageProps) {
+export function LandingPage({ onStartApplication }: LandingPageProps) {
   const intl = useIntl();
+  const { language } = useLanguage();
   const isRTL = language === 'ar';
 
   const formatStepNumber = (num: number) =>
@@ -22,7 +20,7 @@ export function LandingPage({ onStartApplication, language = 'en', onLanguageTog
 
   return (
     <div className="min-h-screen flex flex-col" dir={isRTL ? 'rtl' : 'ltr'} lang={language}>
-      <TammHeader language={language} onLanguageToggle={onLanguageToggle} />
+      <TammHeader />
 
       {/* Hero Section */}
       <section className="relative text-white py-16 lg:py-16" style={{
@@ -281,7 +279,7 @@ export function LandingPage({ onStartApplication, language = 'en', onLanguageTog
         </div>
       </section>
 
-      <TammFooter language={language} />
+      <TammFooter />
     </div>
   );
 }
