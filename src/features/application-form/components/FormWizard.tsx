@@ -52,6 +52,14 @@ export function FormWizard({ initialData, onSubmit, language = 'en', onLanguageT
       navigateToLanding();
       return;
     }
+
+    // If has saved data but no unsaved changes, exit directly
+    if (!hasUnsavedChanges()) {
+      navigateToLanding();
+      return;
+    }
+
+    // Show dialog only if there are unsaved changes
     setShowCancelDialog(true);
   };
 
@@ -275,7 +283,9 @@ export function FormWizard({ initialData, onSubmit, language = 'en', onLanguageT
               {intl.formatMessage({ id: 'cancelDialog.title' })}
             </AlertDialogTitle>
             <AlertDialogDescription>
-              {intl.formatMessage({ id: 'cancelDialog.description' })}
+              {intl.formatMessage({
+                id: hasUnsavedChanges() ? 'cancelDialog.descriptionUnsaved' : 'cancelDialog.descriptionSaved'
+              })}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <div className="flex flex-col gap-3">
@@ -288,7 +298,9 @@ export function FormWizard({ initialData, onSubmit, language = 'en', onLanguageT
               </AlertDialogAction>
             )}
             <AlertDialogAction onClick={handleConfirmCancel} className="w-full">
-              {intl.formatMessage({ id: 'cancelDialog.confirm' })}
+              {intl.formatMessage({
+                id: hasUnsavedChanges() ? 'cancelDialog.discardChanges' : 'cancelDialog.exit'
+              })}
             </AlertDialogAction>
           </div>
         </AlertDialogContent>

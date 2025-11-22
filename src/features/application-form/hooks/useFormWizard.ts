@@ -154,9 +154,23 @@ export function useFormWizard({ initialData, onSubmit, totalSteps }: UseFormWiza
 
   const hasAnyData = () => {
     const currentFormData = form.getValues();
-    return Object.values(currentFormData).some(value =>
-      value !== '' && value !== null && value !== undefined
-    );
+
+    // Exclude default values that are set on initialization
+    const defaultValues = ['Abu Dhabi', 'United Arab Emirates'];
+
+    return Object.entries(currentFormData).some(([, value]) => {
+      // Skip if value is empty
+      if (value === '' || value === null || value === undefined) {
+        return false;
+      }
+
+      // Skip default values
+      if (defaultValues.includes(value as string)) {
+        return false;
+      }
+
+      return true;
+    });
   };
 
   const revertToLastSave = () => {

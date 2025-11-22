@@ -10,9 +10,11 @@
     "saveProgress": "Save Progress"
   },
   "cancelDialog": {
-    "title": "Cancel Application?",
-    "description": "All unsaved progress will be lost and cannot be recovered.",
-    "confirm": "Yes, Cancel Application",
+    "title": "Exit Application?",
+    "descriptionUnsaved": "You have unsaved changes that will be lost.",
+    "descriptionSaved": "Exit application? Your progress is saved.",
+    "discardChanges": "Discard Changes",
+    "exit": "Exit",
     "keep": "Keep Editing",
     "saveAndExit": "Save & Exit"
   },
