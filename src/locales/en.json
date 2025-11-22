@@ -71,6 +71,8 @@
   },
   "form": {
     "title": "Financial Assistance Application",
+    "submitting": "Submitting...",
+    "validating": "Validating...",
     "navigation": {
       "reviewSubmit": "Review & Submit",
       "submitApplication": "Submit Application"
@@ -79,6 +81,7 @@
       "personal": {
         "title": "Personal Information",
         "subtitle": "Please provide your basic personal details as they appear on your Emirates ID.",
+        "translating": "Translating...",
         "sections": {
           "info": "Personal Information",
           "contact": "Contact Information",
@@ -248,6 +251,7 @@
     "charactersCount": "characters",
     "generateButton": "Generate Professional Text",
     "generating": "Generating...",
+    "generatingText": "Generating professional text...",
     "generatedTextLabel": "Generated Text",
     "regenerateButton": "Regenerate",
     "copyButton": "Copy",

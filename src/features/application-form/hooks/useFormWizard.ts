@@ -19,6 +19,7 @@ export function useFormWizard({ initialData, onSubmit, totalSteps }: UseFormWiza
   const intl = useIntl();
   const [currentStep, setCurrentStep] = useState(1);
   const [lastSavedData, setLastSavedData] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     const errorMap = makeZodI18nMap(intl);
@@ -106,17 +107,22 @@ export function useFormWizard({ initialData, onSubmit, totalSteps }: UseFormWiza
   };
 
   const handleNext = async () => {
-    const isValid = await validateStep(currentStep);
+    setIsSubmitting(true);
+    try {
+      const isValid = await validateStep(currentStep);
 
-    if (isValid) {
-      if (currentStep === totalSteps) {
-        const formData = form.getValues();
-        onSubmit(formData);
-        localStorage.removeItem(STORAGE_KEYS.FINANCIAL_ASSISTANCE_APPLICATION);
-      } else {
-        setCurrentStep((prev) => Math.min(prev + 1, totalSteps));
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (isValid) {
+        if (currentStep === totalSteps) {
+          const formData = form.getValues();
+          onSubmit(formData);
+          localStorage.removeItem(STORAGE_KEYS.FINANCIAL_ASSISTANCE_APPLICATION);
+        } else {
+          setCurrentStep((prev) => Math.min(prev + 1, totalSteps));
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
       }
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -195,5 +201,6 @@ export function useFormWizard({ initialData, onSubmit, totalSteps }: UseFormWiza
     hasUnsavedChanges,
     hasAnyData,
     revertToLastSave,
+    isSubmitting,
   };
 }

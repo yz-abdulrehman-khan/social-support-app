@@ -1,5 +1,5 @@
 import { useFormContext } from 'react-hook-form';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { DatePicker } from '@/components/ui/date-picker';
@@ -12,6 +12,7 @@ import { AIService } from '@/services/aiService';
 import { useLanguage } from '@/app/providers';
 import { UAE_EMIRATES, GENDER_OPTIONS } from '@/config/formData';
 import { VALIDATION_CONSTRAINTS } from '@/config/validation';
+import { Languages } from 'lucide-react';
 
 interface StepOneProps {
   stepNumber: number;
@@ -21,14 +22,14 @@ export function StepOne({ stepNumber }: StepOneProps) {
   const intl = useIntl();
   const { language } = useLanguage();
   const { control, setValue, watch } = useFormContext<ApplicationData>();
-  const isTranslatingRef = useRef(false);
   const [isTranslating, setIsTranslating] = useState(false);
 
   const fullNameEnglish = watch('fullNameEnglish');
   const fullNameArabic = watch('fullNameArabic');
 
   const handleEnglishBlur = async () => {
-    if (isTranslatingRef.current) return;
+    // Prevent concurrent translation calls
+    if (isTranslating) return;
 
     // If English field is empty, clear Arabic field
     if (!fullNameEnglish?.trim()) {
@@ -37,7 +38,6 @@ export function StepOne({ stepNumber }: StepOneProps) {
     }
 
     try {
-      isTranslatingRef.current = true;
       setIsTranslating(true);
       const arabicTranslation = await AIService.translateToArabic(fullNameEnglish);
       if (arabicTranslation) {
@@ -46,13 +46,13 @@ export function StepOne({ stepNumber }: StepOneProps) {
     } catch (error) {
       console.error('Failed to translate to Arabic:', error);
     } finally {
-      isTranslatingRef.current = false;
       setIsTranslating(false);
     }
   };
 
   const handleArabicBlur = async () => {
-    if (isTranslatingRef.current) return;
+    // Prevent concurrent translation calls
+    if (isTranslating) return;
 
     // If Arabic field is empty, clear English field
     if (!fullNameArabic?.trim()) {
@@ -61,7 +61,6 @@ export function StepOne({ stepNumber }: StepOneProps) {
     }
 
     try {
-      isTranslatingRef.current = true;
       setIsTranslating(true);
       const englishTranslation = await AIService.translateToEnglish(fullNameArabic);
       if (englishTranslation) {
@@ -70,7 +69,6 @@ export function StepOne({ stepNumber }: StepOneProps) {
     } catch (error) {
       console.error('Failed to translate to English:', error);
     } finally {
-      isTranslatingRef.current = false;
       setIsTranslating(false);
     }
   };
@@ -112,6 +110,12 @@ export function StepOne({ stepNumber }: StepOneProps) {
                     disabled={isTranslating}
                   />
                 </FormControl>
+                {isTranslating && (
+                  <div className="flex items-center gap-2 text-xs text-theme-accent mt-1">
+                    <Languages className="w-3 h-3 animate-pulse" />
+                    <span>{intl.formatMessage({ id: 'form.steps.personal.translating' })}</span>
+                  </div>
+                )}
                 <FormMessage />
               </FormItem>
             )}
@@ -138,6 +142,12 @@ export function StepOne({ stepNumber }: StepOneProps) {
                     disabled={isTranslating}
                   />
                 </FormControl>
+                {isTranslating && (
+                  <div className="flex items-center gap-2 text-xs text-theme-accent mt-1" dir={language === 'ar' ? 'rtl' : 'ltr'}>
+                    <Languages className="w-3 h-3 animate-pulse" />
+                    <span>{intl.formatMessage({ id: 'form.steps.personal.translating' })}</span>
+                  </div>
+                )}
                 <FormMessage />
               </FormItem>
             )}

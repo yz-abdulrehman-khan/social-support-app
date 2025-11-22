@@ -71,6 +71,8 @@
   },
   "form": {
     "title": "طلب المساعدة المالية",
+    "submitting": "جاري الإرسال...",
+    "validating": "جاري التحقق...",
     "navigation": {
       "reviewSubmit": "مراجعة وإرسال",
       "submitApplication": "إرسال الطلب"
@@ -79,6 +81,7 @@
       "personal": {
         "title": "المعلومات الشخصية",
         "subtitle": "يرجى تقديم تفاصيلك الشخصية الأساسية كما تظهر في هويتك الإماراتية.",
+        "translating": "جاري الترجمة...",
         "sections": {
           "info": "المعلومات الشخصية",
           "contact": "معلومات الاتصال",
@@ -201,6 +204,7 @@
     "charactersCount": "حرف",
     "generateButton": "إنشاء نص احترافي",
     "generating": "جاري الإنشاء...",
+    "generatingText": "جاري إنشاء نص احترافي...",
     "generatedTextLabel": "النص المُنشأ",
     "regenerateButton": "إعادة الإنشاء",
     "copyButton": "نسخ",

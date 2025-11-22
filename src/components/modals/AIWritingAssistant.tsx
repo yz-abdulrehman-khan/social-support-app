@@ -52,6 +52,7 @@ export function AIWritingAssistant({
   };
 
   const handleRegenerate = async () => {
+    setGeneratedText(''); // Clear existing text to show skeleton
     await handleGenerate();
   };
 
@@ -139,6 +140,28 @@ export function AIWritingAssistant({
               </>
             )}
           </Button>
+
+          {/* Loading Skeleton */}
+          {isGenerating && !generatedText && (
+            <div className="space-y-2 pt-4 border-t">
+              <label className="text-sm font-medium text-foreground-dark">
+                {intl.formatMessage({ id: 'aiWritingAssistant.generatedTextLabel' })}
+              </label>
+              <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                <div className="space-y-3">
+                  <div className="h-4 bg-gray-200 rounded animate-pulse w-full"></div>
+                  <div className="h-4 bg-gray-200 rounded animate-pulse w-5/6"></div>
+                  <div className="h-4 bg-gray-200 rounded animate-pulse w-4/5"></div>
+                  <div className="h-4 bg-gray-200 rounded animate-pulse w-full"></div>
+                  <div className="h-4 bg-gray-200 rounded animate-pulse w-3/4"></div>
+                </div>
+              </div>
+              <div className="flex items-center gap-2 text-xs text-theme-accent">
+                <RotateCw className="w-3 h-3 animate-spin" />
+                <span>{intl.formatMessage({ id: 'aiWritingAssistant.generatingText' })}</span>
+              </div>
+            </div>
+          )}
 
           {/* Generated Text Section */}
           {generatedText && (

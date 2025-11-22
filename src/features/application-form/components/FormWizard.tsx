@@ -17,7 +17,7 @@ import { StepTwo } from './steps/StepTwo';
 import { StepThree } from './steps/StepThree';
 import { StepFour } from './steps/StepFour';
 import type { ApplicationData } from '@/features/application-form/types';
-import { ArrowLeft, ArrowRight, Check, Save } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Check, Save, Loader2 } from 'lucide-react';
 import { useIntl } from 'react-intl';
 import { toArabicNumerals } from '@/lib/i18n';
 import { useFormWizard } from '@/features/application-form/hooks/useFormWizard';
@@ -38,7 +38,7 @@ export function FormWizard({ initialData, onSubmit, onBreadcrumbHome }: FormWiza
   const { navigateToLanding } = useApp();
   const [showCancelDialog, setShowCancelDialog] = useState(false);
 
-  const { form, currentStep, handleNext, handlePrevious, handleEditStep, handleSaveProgress, hasUnsavedChanges, hasAnyData, revertToLastSave } = useFormWizard({
+  const { form, currentStep, handleNext, handlePrevious, handleEditStep, handleSaveProgress, hasUnsavedChanges, hasAnyData, revertToLastSave, isSubmitting } = useFormWizard({
     initialData,
     onSubmit,
     totalSteps,
@@ -212,9 +212,19 @@ export function FormWizard({ initialData, onSubmit, onBreadcrumbHome }: FormWiza
                   )}
                   <Button
                     onClick={handleNext}
+                    disabled={isSubmitting}
                     className="rounded-full px-6 h-10 font-normal inline-flex items-center gap-2 bg-theme-accent hover:bg-theme-accent-hover text-white flex-1 sm:flex-initial"
                   >
-                    {isRTL ? (
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <span className="text-xs sm:text-sm">
+                          {currentStep === totalSteps
+                            ? intl.formatMessage({ id: 'form.submitting' })
+                            : intl.formatMessage({ id: 'form.validating' })}
+                        </span>
+                      </>
+                    ) : isRTL ? (
                       <>
                         <span className="text-xs sm:text-sm">
                           {currentStep === totalSteps
