@@ -109,7 +109,7 @@ export function StepOne({ stepNumber }: StepOneProps) {
                       field.onBlur();
                       handleEnglishBlur();
                     }}
-                    disabled={isTranslating}
+                    disabled={isTranslating || language === 'ar'}
                   />
                 </FormControl>
                 {isTranslating && (
@@ -141,7 +141,7 @@ export function StepOne({ stepNumber }: StepOneProps) {
                       field.onBlur();
                       handleArabicBlur();
                     }}
-                    disabled={isTranslating}
+                    disabled={isTranslating || language === 'en'}
                   />
                 </FormControl>
                 {isTranslating && (
