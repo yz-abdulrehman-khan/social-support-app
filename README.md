@@ -117,72 +117,32 @@ FRONTEND_URL=http://localhost:3000
 ## Project structure
 
 ```
-social-support-app/
-├── src/
-│   ├── app/
-│   │   ├── providers/
-│   │   │   ├── AppProvider.tsx        # Global app state
-│   │   │   └── LanguageProvider.tsx   # Language switching
-│   │   └── router/
-│   │       └── AppRouter.tsx          # Route management
-│   ├── features/
-│   │   ├── landing/
-│   │   │   ├── components/
-│   │   │   │   ├── Hero.tsx           # Landing hero section
-│   │   │   │   ├── Features.tsx       # Feature cards
-│   │   │   │   └── LanguageToggle.tsx # Language switcher
-│   │   │   └── index.ts
-│   │   ├── application-form/
-│   │   │   ├── components/
-│   │   │   │   ├── FormWizard.tsx     # Main form container
-│   │   │   │   ├── ProgressBar.tsx    # Step progress indicator
-│   │   │   │   └── steps/
-│   │   │   │       ├── StepOne.tsx    # Personal info
-│   │   │   │       ├── StepTwo.tsx    # Family & financial
-│   │   │   │       ├── StepThree.tsx  # Situation description
-│   │   │   │       └── StepFour.tsx   # Review & confirm
-│   │   │   ├── hooks/
-│   │   │   │   └── useFormWizard.ts   # Form state management
-│   │   │   ├── validation/
-│   │   │   │   └── schemas.ts         # Zod validation schemas
-│   │   │   └── types/
-│   │   │       └── index.ts           # TypeScript types
-│   │   └── success/
-│   │       └── SuccessConfirmation.tsx # Success page
-│   ├── components/
-│   │   ├── ui/                        # Radix UI components
-│   │   │   ├── button.tsx
-│   │   │   ├── input.tsx
-│   │   │   ├── select.tsx
-│   │   │   ├── date-picker.tsx
-│   │   │   └── dialog.tsx
-│   │   ├── layout/
-│   │   │   ├── Header.tsx
-│   │   │   ├── Footer.tsx
-│   │   │   └── Breadcrumb.tsx
-│   │   └── ErrorBoundary.tsx
-│   ├── lib/
-│   │   ├── secureStorage.ts           # AES encryption
-│   │   └── i18n.ts                    # i18n utilities
-│   ├── services/
-│   │   └── aiService.ts               # OpenAI API calls
-│   ├── locales/
-│   │   ├── en.json                    # English translations
-│   │   └── ar.json                    # Arabic translations
-│   ├── config/
-│   │   ├── constants.ts               # App constants
-│   │   ├── formData.ts                # Form options/data
-│   │   └── validation.ts              # Validation rules
-│   └── main.tsx                       # App entry point
-├── server/
-│   ├── index.ts                       # Express server
-│   └── routes/
-│       └── ai.ts                      # AI endpoints
-├── public/                            # Static assets
-├── screenshots/                       # App screenshots
-├── .env                               # Frontend env
-├── .env.server                        # Backend env
-└── package.json
+src/
+├── app/
+│   ├── providers/          # App state & language context
+│   └── router/             # Route management
+│
+├── features/
+│   ├── landing/            # Landing page components
+│   ├── application-form/   # Multi-step form wizard
+│   │   ├── components/     # FormWizard, ProgressBar, Steps 1-4
+│   │   ├── hooks/          # useFormWizard
+│   │   ├── validation/     # Zod schemas
+│   │   └── types/          # TypeScript types
+│   └── success/            # Success page
+│
+├── components/
+│   ├── ui/                 # Buttons, inputs, selects, etc.
+│   └── layout/             # Header, footer, breadcrumb
+│
+├── lib/                    # Utilities (encryption, i18n)
+├── services/               # OpenAI API integration
+├── locales/                # en.json, ar.json (287 translations)
+└── config/                 # Constants & validation
+
+server/
+├── index.ts                # Express server
+└── routes/ai.ts            # AI endpoints
 ```
 
 ---
