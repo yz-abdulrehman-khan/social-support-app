@@ -13,7 +13,11 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Load environment variables from project root
-dotenv.config({ path: path.join(__dirname, '../../.env.server') });
+// In dev mode (tsx), __dirname is server/, in prod it's dist/server/
+const envPath = process.env.NODE_ENV === 'production'
+  ? path.join(__dirname, '../../.env.server')
+  : path.join(__dirname, '../.env.server');
+dotenv.config({ path: envPath });
 
 const app = express();
 const PORT = process.env.PORT || 3001;
