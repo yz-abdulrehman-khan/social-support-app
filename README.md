@@ -20,107 +20,25 @@ A web application where people can apply for financial assistance. It has a 4-st
 
 ---
 
-## Screenshots
+## What's Inside
 
-### English Interface
+**Stack:**
 
-**Landing Page**
-
-The main landing page introduces the application with a clean hero section. Users can see what the app offers and choose their preferred language before starting.
-
-![Landing Page](./screenshots/en-landing.png)
-
-**Step 1: Personal Information**
-
-This is where users enter basic details like name, Emirates ID, and contact info. The name fields have auto-translation - type in English and it translates to Arabic automatically (and vice versa).
-
-![Personal Information](./screenshots/en-step1.png)
-
-**Step 2: Family & Financial Details**
-
-Here users provide information about their household, employment status, and current income situation.
-
-![Family & Financial](./screenshots/en-step2.png)
-
-**Step 3: Situation Description**
-
-This step lets users describe their financial situation and why they need assistance. There's an AI writing assistant to help write clear, professional descriptions.
-
-![Situation Description](./screenshots/en-step3.png)
-
-**AI Writing Assistant**
-
-The AI helper can generate well-written text based on simple prompts. Just describe your situation in a few words and it creates a proper explanation for you.
-
-![AI Assistant - Empty](./screenshots/en-ai-modal-empty.png)
-![AI Assistant - Generated](./screenshots/en-ai-modal-generated.png)
-![AI Assistant - Loading](./screenshots/en-ai-modal-loading.png)
-
-**Step 4: Review & Confirm**
-
-Before submitting, users can review everything they entered. All information is displayed clearly so they can make sure it's correct.
-
-![Review & Confirm](./screenshots/en-step4.png)
-
-**Success Page**
-
-After submission, users get a confirmation with a reference number. This number is important for tracking the application.
-
-![Success Page](./screenshots/en-success.png)
-
-**Form Validation**
-
-The form checks for errors in real-time. If something's missing or incorrect, it shows helpful messages right below the field.
-
-![Validation Errors](./screenshots/en-validation.png)
-
-### Arabic Interface (RTL)
-
-**Landing Page**
-
-The entire interface flips for right-to-left languages. Everything from the layout to the text direction is designed for Arabic readers.
-
-![Arabic Landing Page](./screenshots/ar-landing.png)
-
-**Step 1: Personal Information**
-
-Form fields work the same way in Arabic, with labels and placeholders in Arabic. The auto-translation feature helps users fill out both language versions easily.
-
-![Arabic Personal Information](./screenshots/ar-step1.png)
-
-**Step 3: Situation Description**
-
-The AI writing assistant works in Arabic too. It can help write professional descriptions in Arabic based on simple input.
-
-![Arabic Situation Description](./screenshots/ar-step3.png)
-
-**Unsaved Changes Warning**
-
-If users try to leave with unsaved work, the app asks them to confirm. This prevents accidental loss of progress.
-
-![Arabic Exit Dialog](./screenshots/ar-exit-dialog.png)
-
-**Success Page**
-
-The confirmation page in Arabic shows the same information - reference number and next steps - but in a format comfortable for Arabic readers.
-
-![Arabic Success Page](./screenshots/ar-success.png)
+- React 19 with hooks
+- TypeScript 5.9 (strict mode)
+- Tailwind CSS v4 for styling
+- ShadCN UI components
+- Vite for fast builds
+- Zod for validation
+- react-hook-form for form management
+- react-intl for English/Arabic support with RTL
+- OpenAI GPT-3.5 for AI features
 
 ---
 
-## How to run it
-
-### What you need
-- Node.js 18 or newer
-- An OpenAI API key
-
-### Setup
+## How to Run
 
 ```bash
-# Clone the repo
-git clone https://github.com/yz-abdulrehman-khan/social-support-app.git
-cd social-support-app
-
 # Install stuff
 npm install
 
@@ -129,21 +47,23 @@ cp .env.example .env
 cp .env.server.example .env.server
 # Add your OpenAI API key to .env.server
 
-# Run it
-npm run dev          # Frontend at http://localhost:3000
-npm run dev:server   # Backend at http://localhost:3001
+# Start the backend (runs on port 3001)
+npm run dev:server
+
+# Start the frontend (runs on port 3000)
+npm run dev
 ```
 
-### Environment variables
+Open http://localhost:3000 and you're good to go.
 
-Create `.env` for frontend:
+### Environment Variables
 
+**.env** (frontend):
 ```env
 VITE_API_URL=http://localhost:3001
 ```
 
-Create `.env.server` for backend:
-
+**.env.server** (backend):
 ```env
 OPENAI_API_KEY=your-key-here
 PORT=3001
@@ -198,132 +118,203 @@ src/
 │   │   ├── AppProvider     # Navigation state, form data, app lifecycle
 │   │   └── LanguageProvider# i18n context, RTL, locale switching
 │   └── router/             # State-based routing (no react-router)
-│       └── AppRouter       # Lazy-loaded route components
 │
 ├── features/               # Feature-based vertical slices
 │   ├── landing/            # Landing page with hero, features, CTA
 │   ├── application-form/   # Multi-step form wizard
 │   │   ├── components/     # FormWizard, Steps 1-4
 │   │   ├── hooks/          # useFormWizard (validation, persistence)
-│   │   ├── validation/     # Zod schemas, formatters
-│   │   └── types/          # TypeScript types, shared constants
+│   │   ├── validation/     # Zod schemas
+│   │   └── types/          # TypeScript types
 │   └── success/            # Success confirmation page
 │
 ├── components/
-│   ├── ui/                 # Reusable UI primitives
-│   │   ├── button, input, select, textarea
-│   │   ├── form (react-hook-form integration)
-│   │   ├── date-picker (react-datepicker + RTL)
-│   │   ├── dialog, alert-dialog
-│   │   └── TypingText (typewriter animation)
-│   ├── layout/             # Header, footer
+│   ├── ui/                 # Reusable UI (Button, Input, Select, etc.)
+│   ├── layout/             # Header, Footer
 │   ├── modals/             # AIWritingAssistant
-│   └── error/              # Error fallback components
+│   └── error/              # Error fallbacks
 │
-├── hooks/                  # Shared custom hooks
-│   └── useRTL              # RTL direction utilities
-│
-├── lib/                    # Utilities
-│   ├── i18n/               # Internationalization utilities
-│   │   ├── utils           # Arabic numerals, formatting
-│   │   └── zod-adapter     # Zod-to-react-intl error mapping
-│   ├── secureStorage       # AES-256-GCM encrypted storage
-│   └── utils               # cn() classname utility
-│
-├── services/               # API layer
-│   ├── apiClient           # Axios client with error handling
-│   └── aiService           # OpenAI service wrapper
-│
-├── config/                 # Application configuration
-│   ├── constants           # UI constants, storage keys
-│   ├── validation          # Validation patterns, messages
-│   └── formData            # GCC countries, cities, options
-│
-└── locales/                # i18n translation files
-    ├── en.json             # English (287 keys)
-    └── ar.json             # Arabic (287 keys)
+├── hooks/                  # Custom hooks (useRTL)
+├── lib/                    # Utilities (i18n, storage, utils)
+├── services/               # API client, AI service
+├── config/                 # Constants, validation, form data
+└── locales/                # en.json, ar.json (287 keys each)
 
 server/
 ├── index.ts                # Express server entry
 ├── routes/ai.ts            # AI API routes
 ├── controllers/            # Request handlers
-│   └── aiController        # Rephrase, translate
-├── middleware/             # Express middleware
-│   ├── errorHandler        # Global error handling
-│   ├── requestLogger       # Request logging
-│   └── validation          # Zod validation middleware
-├── validators/             # Request validation schemas
-└── utils/errors.ts         # Custom error classes
+├── middleware/             # Error handler, logger, validation
+└── validators/             # Zod schemas
 ```
 
 ---
 
-## Tech used
+## How It Works
 
-- **Frontend:** React, TypeScript, Vite, Tailwind CSS
-- **Form handling:** React Hook Form with validation
-- **Languages:** English and Arabic (287 translations each)
-- **AI:** OpenAI GPT-3.5 for text generation and translation
-- **Backend:** Express server
+### Data Flow
+
+1. Components use react-hook-form for form state
+2. Validation happens with Zod schemas (per step + complete form)
+3. AI features call the Express backend
+4. Backend calls OpenAI for translation/rephrasing
+5. Progress saves to session storage (24h TTL)
+
+No global state library. Just React Context for app state and language. Simple and predictable.
+
+### Why No Redux/Zustand?
+
+The app is small enough that Context + react-hook-form work fine. Form state lives in react-hook-form, app navigation in AppProvider, language in LanguageProvider. If this grew bigger, I'd add React Query before reaching for Redux.
+
+### Translations
+
+Two JSON files with 287 keys each:
+- `locales/en.json` - English
+- `locales/ar.json` - Arabic
+
+react-intl handles formatting and RTL direction flips automatically.
+
+---
+
+## Features
+
+- ✅ 4-step form wizard with validation
+- ✅ AI writing assistant (GPT-3.5)
+- ✅ Auto name translation (EN ↔ AR)
+- ✅ Save progress & resume later
+- ✅ English/Arabic with full RTL support
+- ✅ Form validation with Zod
+- ✅ Responsive design (mobile, tablet, desktop)
+- ✅ Error boundaries with fallbacks
+- ✅ Lazy-loaded routes
+
+---
+
+## Design Decisions
+
+### State-Based Routing
+
+No react-router. Just a simple switch on `appState`:
+- `landing` → Landing page
+- `form` → Form wizard
+- `success` → Success page
+
+For a 3-page app, this is simpler than setting up a router.
+
+### Session Storage for Progress
+
+Form progress saves to session storage with 24h TTL. Closes when browser closes, expires after a day. No server-side sessions needed.
+
+### Feature-Based Structure
+
+Each feature (`landing`, `application-form`, `success`) has its own folder with components, hooks, validation, and types. When you work on the form, everything you need is in one place.
+
+### AI on the Backend
+
+OpenAI calls go through Express, not directly from the browser. Keeps the API key secure and lets us add rate limiting later.
+
+---
+
+## Screenshots
+
+### English Interface
+
+**Landing Page**
+
+![Landing Page](./screenshots/en-landing.png)
+
+**Step 1: Personal Information**
+
+Name fields have auto-translation - type in English and it translates to Arabic automatically.
+
+![Personal Information](./screenshots/en-step1.png)
+
+**Step 2: Family & Financial Details**
+
+![Family & Financial](./screenshots/en-step2.png)
+
+**Step 3: Situation Description**
+
+AI writing assistant helps write professional descriptions.
+
+![Situation Description](./screenshots/en-step3.png)
+
+**AI Writing Assistant**
+
+![AI Assistant - Empty](./screenshots/en-ai-modal-empty.png)
+![AI Assistant - Generated](./screenshots/en-ai-modal-generated.png)
+
+**Step 4: Review & Confirm**
+
+![Review & Confirm](./screenshots/en-step4.png)
+
+**Success Page**
+
+![Success Page](./screenshots/en-success.png)
+
+### Arabic Interface (RTL)
+
+The entire interface flips for right-to-left languages.
+
+![Arabic Landing Page](./screenshots/ar-landing.png)
+![Arabic Personal Information](./screenshots/ar-step1.png)
+![Arabic Situation Description](./screenshots/ar-step3.png)
+![Arabic Success Page](./screenshots/ar-success.png)
 
 ---
 
 ## API
 
-### Generate AI text
+### Rephrase Text (Writing Assistant)
 
 ```
-POST /api/ai/assist
+POST /api/ai/rephrase
 ```
 
-Request:
 ```json
 {
-  "prompt": "Help me write about my financial situation",
-  "language": "en",
-  "context": "financialSituation"
+  "text": "i need money because lost job",
+  "language": "en"
 }
 ```
 
-### Translate text
+Returns professionally written text.
+
+### Translate Name
 
 ```
 POST /api/ai/translate
 ```
 
-Request:
 ```json
 {
   "text": "John Smith",
-  "targetLanguage": "ar"
+  "direction": "toArabic"
 }
 ```
 
+Returns translated name.
+
 ---
 
+## What I'd Add Next
 
-## Contributing
+If this were a real product:
 
-```bash
-# Create a branch
-git checkout -b your-feature
-
-# Make changes
-npm run dev
-
-# Commit
-git add .
-git commit -m "what you did"
-
-# Push
-git push origin your-feature
-```
+- **React Query** - Better caching for API calls
+- **Tests** - Jest + React Testing Library
+- **Storybook** - Component documentation
+- **Dark mode** - Because everyone wants dark mode
+- **File uploads** - Supporting documents
+- **Admin panel** - Review submitted applications
+- **Email notifications** - Confirmation emails
+- **PDF export** - Download application as PDF
 
 ---
 
 ## License
 
-Do whatever you want with it
+Do whatever you want with it.
 
 ---
 
