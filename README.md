@@ -157,40 +157,35 @@ FRONTEND_URL=http://localhost:3000
 
 ```mermaid
 flowchart TB
-    subgraph Frontend["Frontend (React + Vite)"]
-        Landing["Landing Page"]
-        Form["Form Wizard<br/>(4 Steps)"]
-        Success["Success Page"]
-        Storage[("Session Storage<br/>(24h TTL)")]
+    subgraph Client["Frontend (React + Vite + TypeScript)"]
+        direction LR
+        Landing[Landing Page] --> Form[Form Wizard]
+        Form --> Success[Success Page]
 
-        Landing --> Form
-        Form --> Success
-        Form <-.-> Storage
+        subgraph FormSteps[4-Step Form]
+            S1[Personal Info] --> S2[Financial] --> S3[Situation] --> S4[Review]
+        end
     end
 
-    subgraph Backend["Backend (Express)"]
-        API["REST API"]
-        Rephrase["/api/ai/rephrase"]
-        Translate["/api/ai/translate"]
-
-        API --> Rephrase
-        API --> Translate
+    subgraph Data["Data Layer"]
+        Storage[(Session Storage<br/>24h TTL)]
+        i18n[(Locales<br/>EN / AR)]
     end
 
-    subgraph External["External"]
-        OpenAI["OpenAI API<br/>(GPT-3.5)"]
+    subgraph Server["Backend (Express)"]
+        Translate["api/ai/translate"]
+        Rephrase["api/ai/rephrase"]
     end
 
-    Form -->|"AI Writing<br/>Assistant"| API
-    API --> OpenAI
+    OpenAI([OpenAI GPT-3.5])
+
+    Form --> FormSteps
+    Form <--> |Save/Resume| Storage
+    Client <--> i18n
+    S1 -.-> |Name Translation| Translate
+    S3 -.-> |Writing Assistant| Rephrase
+    Translate & Rephrase --> OpenAI
 ```
-
-**Key Features:**
-- Bilingual (EN/AR) with full RTL support
-- 4-step form wizard with Zod validation
-- AI-powered writing assistant & auto-translation
-- Session storage for resume journey (24h TTL)
-- React Hook Form + react-intl for i18n
 
 ---
 
