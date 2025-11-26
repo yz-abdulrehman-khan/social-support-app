@@ -74,9 +74,10 @@ export const stepTwoSchema = z.object({
 export const stepThreeSchema = z.object({
   financialSituation: z.string()
     .min(VALIDATION_CONSTRAINTS.FINANCIAL_SITUATION_MIN_LENGTH, VALIDATION_MESSAGES.PROVIDE_DETAILED_DESCRIPTION),
-  employmentCircumstances: z.string().optional(),
+  employmentCircumstances: z.string()
+    .min(VALIDATION_CONSTRAINTS.FINANCIAL_SITUATION_MIN_LENGTH, VALIDATION_MESSAGES.PROVIDE_DETAILED_DESCRIPTION),
   reasonForApplying: z.string()
-    .min(1, VALIDATION_MESSAGES.REQUIRED),
+    .min(VALIDATION_CONSTRAINTS.FINANCIAL_SITUATION_MIN_LENGTH, VALIDATION_MESSAGES.PROVIDE_DETAILED_DESCRIPTION),
 });
 
 // Complete form schema combining all steps
@@ -102,8 +103,8 @@ export const completeFormSchema = z.object({
   housingStatus: z.string().min(1, VALIDATION_MESSAGES.REQUIRED),
   // Step 3 fields
   financialSituation: z.string().min(VALIDATION_CONSTRAINTS.FINANCIAL_SITUATION_MIN_LENGTH, VALIDATION_MESSAGES.PROVIDE_DETAILED_DESCRIPTION),
-  employmentCircumstances: z.string().optional(),
-  reasonForApplying: z.string().min(1, VALIDATION_MESSAGES.REQUIRED),
+  employmentCircumstances: z.string().min(VALIDATION_CONSTRAINTS.FINANCIAL_SITUATION_MIN_LENGTH, VALIDATION_MESSAGES.PROVIDE_DETAILED_DESCRIPTION),
+  reasonForApplying: z.string().min(VALIDATION_CONSTRAINTS.FINANCIAL_SITUATION_MIN_LENGTH, VALIDATION_MESSAGES.PROVIDE_DETAILED_DESCRIPTION),
 }).superRefine((data, ctx) => {
   const { country, phoneNumber, nationalId } = data;
 

@@ -223,7 +223,7 @@
           "uploadHint": "قم بتحميل أي مستندات داعمة (الهوية الإماراتية، السجلات الطبية، الفواتير، إلخ)",
           "declaration": "إقرار",
           "declarationText": "أقر بأن جميع المعلومات المقدمة في هذا الطلب صحيحة ودقيقة على حد علمي.",
-          "employmentCircumstances": "ظروف التوظيف (اختياري)",
+          "employmentCircumstances": "ظروف التوظيف",
           "employmentCircumstancesPlaceholder": "صف حالة عملك...",
           "reasonForApplying": "السبب المحدد للتقديم",
           "reasonForApplyingPlaceholder": "ما هي المساعدة المحددة التي تبحث عنها ولماذا؟",

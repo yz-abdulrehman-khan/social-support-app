@@ -223,7 +223,7 @@
           "uploadHint": "Upload any supporting documents (Emirates ID, medical records, bills, etc.)",
           "declaration": "Declaration",
           "declarationText": "I declare that all information provided in this application is true and accurate to the best of my knowledge.",
-          "employmentCircumstances": "Employment Circumstances (Optional)",
+          "employmentCircumstances": "Employment Circumstances",
           "employmentCircumstancesPlaceholder": "Describe your employment situation...",
           "reasonForApplying": "Specific Reason for Applying",
           "reasonForApplyingPlaceholder": "What specific assistance are you seeking and why?",

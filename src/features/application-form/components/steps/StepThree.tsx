@@ -35,6 +35,8 @@ export function StepThree({ stepNumber }: StepThreeProps) {
   };
 
   const financialSituationValue = watch('financialSituation');
+  const employmentCircumstancesValue = watch('employmentCircumstances');
+  const reasonForApplyingValue = watch('reasonForApplying');
 
   return (
     <div className="space-y-8">
@@ -91,15 +93,27 @@ export function StepThree({ stepNumber }: StepThreeProps) {
           )}
         />
 
-        {/* Employment Circumstances (Optional) */}
+        {/* Employment Circumstances */}
         <FormField
           control={control}
           name="employmentCircumstances"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-xs md:text-sm font-medium">
-                {intl.formatMessage({ id: 'form.steps.situation.fields.employmentCircumstances' })}
-              </FormLabel>
+              <div className="flex items-center justify-between">
+                <FormLabel className="text-xs md:text-sm font-medium">
+                  {intl.formatMessage({ id: 'form.steps.situation.fields.employmentCircumstances' })} <span className="text-red-500">*</span>
+                </FormLabel>
+                <Button
+                  type="button"
+                  variant="subtle"
+                  size="sm"
+                  onClick={() => handleAIClick('employmentCircumstances')}
+                  className="gap-2 text-theme-accent hover:text-theme-accent-hover rounded-full h-8 px-3"
+                >
+                  <Sparkles className="w-4 h-4" />
+                  <span className="text-sm">{intl.formatMessage({ id: 'form.steps.situation.fields.helpMeWrite' })}</span>
+                </Button>
+              </div>
               <FormControl>
                 <Textarea
                   {...field}
@@ -110,7 +124,12 @@ export function StepThree({ stepNumber }: StepThreeProps) {
                   dir={isRTL ? 'rtl' : 'ltr'}
                 />
               </FormControl>
-              <FormMessage />
+              <div className="flex items-center justify-between">
+                <FormMessage />
+                <p className="text-xs text-theme-secondary">
+                  {employmentCircumstancesValue?.length || 0} {intl.formatMessage({ id: 'form.steps.situation.fields.charactersMinimum' })}
+                </p>
+              </div>
             </FormItem>
           )}
         />
@@ -121,9 +140,21 @@ export function StepThree({ stepNumber }: StepThreeProps) {
           name="reasonForApplying"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-xs md:text-sm font-medium">
-                {intl.formatMessage({ id: 'form.steps.situation.fields.reasonForApplying' })} <span className="text-red-500">*</span>
-              </FormLabel>
+              <div className="flex items-center justify-between">
+                <FormLabel className="text-xs md:text-sm font-medium">
+                  {intl.formatMessage({ id: 'form.steps.situation.fields.reasonForApplying' })} <span className="text-red-500">*</span>
+                </FormLabel>
+                <Button
+                  type="button"
+                  variant="subtle"
+                  size="sm"
+                  onClick={() => handleAIClick('reasonForApplying')}
+                  className="gap-2 text-theme-accent hover:text-theme-accent-hover rounded-full h-8 px-3"
+                >
+                  <Sparkles className="w-4 h-4" />
+                  <span className="text-sm">{intl.formatMessage({ id: 'form.steps.situation.fields.helpMeWrite' })}</span>
+                </Button>
+              </div>
               <FormControl>
                 <Textarea
                   {...field}
@@ -134,7 +165,12 @@ export function StepThree({ stepNumber }: StepThreeProps) {
                   dir={isRTL ? 'rtl' : 'ltr'}
                 />
               </FormControl>
-              <FormMessage />
+              <div className="flex items-center justify-between">
+                <FormMessage />
+                <p className="text-xs text-theme-secondary">
+                  {reasonForApplyingValue?.length || 0} {intl.formatMessage({ id: 'form.steps.situation.fields.charactersMinimum' })}
+                </p>
+              </div>
             </FormItem>
           )}
         />

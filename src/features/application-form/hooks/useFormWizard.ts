@@ -62,7 +62,7 @@ export function useFormWizard({ initialData, onSubmit, totalSteps }: UseFormWiza
       }
       case 3: {
         // Step 3: Situation Description - check required fields
-        const step3Fields = ['financialSituation', 'reasonForApplying'] as const;
+        const step3Fields = ['financialSituation', 'employmentCircumstances', 'reasonForApplying'] as const;
         return step3Fields.every(field => data[field] && data[field].trim() !== '');
       }
       default:
