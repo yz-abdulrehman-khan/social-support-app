@@ -153,35 +153,455 @@ FRONTEND_URL=http://localhost:3000
 
 ---
 
-## Project structure
+## Architecture
+
+### High-Level Architecture Diagram
+
+```
+┌─────────────────────────────────────────────────────────────────────────────────────┐
+│                                    BROWSER                                          │
+├─────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                     │
+│  ┌─────────────────────────────────────────────────────────────────────────────┐   │
+│  │                           REACT APPLICATION                                  │   │
+│  │                                                                              │   │
+│  │  ┌────────────────────── PROVIDER LAYER ──────────────────────┐             │   │
+│  │  │                                                             │             │   │
+│  │  │  ErrorBoundary → LanguageProvider → AppProvider            │             │   │
+│  │  │        ↓              ↓ IntlProvider    ↓                   │             │   │
+│  │  │   Error UI        i18n Context     App State               │             │   │
+│  │  │                   (EN/AR + RTL)    (navigation)            │             │   │
+│  │  └─────────────────────────────────────────────────────────────┘             │   │
+│  │                              ↓                                               │   │
+│  │  ┌────────────────────── ROUTER LAYER ────────────────────────┐             │   │
+│  │  │                                                             │             │   │
+│  │  │  AppRouter (State-based routing with React.lazy)           │             │   │
+│  │  │     │                                                       │             │   │
+│  │  │     ├── 'landing'  → LandingPage                           │             │   │
+│  │  │     ├── 'form'     → FormWizard (Steps 1-4)                │             │   │
+│  │  │     └── 'success'  → SuccessConfirmation                   │             │   │
+│  │  │                                                             │             │   │
+│  │  └─────────────────────────────────────────────────────────────┘             │   │
+│  │                              ↓                                               │   │
+│  │  ┌─────────────────── FEATURE MODULES ────────────────────────┐             │   │
+│  │  │                                                             │             │   │
+│  │  │  ┌─────────────┐  ┌─────────────────────┐  ┌────────────┐  │             │   │
+│  │  │  │  Landing    │  │  Application Form   │  │  Success   │  │             │   │
+│  │  │  │             │  │                     │  │            │  │             │   │
+│  │  │  │ • Hero      │  │ • FormWizard        │  │ • Confirm  │  │             │   │
+│  │  │  │ • Features  │  │ • StepOne (Personal)│  │ • RefNum   │  │             │   │
+│  │  │  │ • Process   │  │ • StepTwo (Finance) │  │ • Actions  │  │             │   │
+│  │  │  │ • CTA       │  │ • StepThree (Story) │  │            │  │             │   │
+│  │  │  │             │  │ • StepFour (Review) │  │            │  │             │   │
+│  │  │  └─────────────┘  │                     │  └────────────┘  │             │   │
+│  │  │                   │ hooks/useFormWizard │                   │             │   │
+│  │  │                   │ validation/schemas  │                   │             │   │
+│  │  │                   │ types/index         │                   │             │   │
+│  │  │                   └─────────────────────┘                   │             │   │
+│  │  └─────────────────────────────────────────────────────────────┘             │   │
+│  │                              ↓                                               │   │
+│  │  ┌──────────────────── SHARED LAYERS ─────────────────────────┐             │   │
+│  │  │                                                             │             │   │
+│  │  │  ┌─ Components ──┐  ┌─── Hooks ───┐  ┌──── Config ────┐   │             │   │
+│  │  │  │ ui/           │  │ useRTL      │  │ constants      │   │             │   │
+│  │  │  │ • Button      │  │ useLanguage │  │ validation     │   │             │   │
+│  │  │  │ • Input       │  │ useApp      │  │ formData       │   │             │   │
+│  │  │  │ • Select      │  └─────────────┘  └────────────────┘   │             │   │
+│  │  │  │ • DatePicker  │                                         │             │   │
+│  │  │  │ • Dialog      │  ┌─── Lib ─────┐  ┌──── Services ──┐   │             │   │
+│  │  │  │ • Form        │  │ i18n/       │  │ apiClient      │   │             │   │
+│  │  │  │ • TypingText  │  │ • utils     │  │ aiService      │   │             │   │
+│  │  │  │ layout/       │  │ • zod-adapt │  └────────────────┘   │             │   │
+│  │  │  │ • Header      │  │ secureStore │           ↓            │             │   │
+│  │  │  │ • Footer      │  │ utils       │     HTTP/REST          │             │   │
+│  │  │  │ modals/       │  └─────────────┘           ↓            │             │   │
+│  │  │  │ • AIAssist    │                                         │             │   │
+│  │  │  └───────────────┘                                         │             │   │
+│  │  └─────────────────────────────────────────────────────────────┘             │   │
+│  │                                                                              │   │
+│  └──────────────────────────────────────────────────────────────────────────────┘   │
+│                              ↓                              ↓                       │
+│  ┌────────────────────────────────┐    ┌────────────────────────────────────────┐  │
+│  │     SESSION STORAGE            │    │         LOCALES (i18n)                 │  │
+│  │                                │    │                                        │  │
+│  │  AES-256-GCM Encrypted Data   │    │  en.json ←→ ar.json                    │  │
+│  │  • Form progress              │    │  (287 translation keys)                │  │
+│  │  • Current step               │    │  • Flattened for react-intl            │  │
+│  │  • 24h TTL expiry             │    │                                        │  │
+│  └────────────────────────────────┘    └────────────────────────────────────────┘  │
+│                                                                                     │
+└─────────────────────────────────────────────────────────────────────────────────────┘
+                                         │
+                                         │ HTTPS
+                                         ↓
+┌─────────────────────────────────────────────────────────────────────────────────────┐
+│                                EXPRESS SERVER                                        │
+├─────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                     │
+│  ┌───────────────────────── MIDDLEWARE PIPELINE ────────────────────────────────┐  │
+│  │                                                                               │  │
+│  │  Request → helmet → cors → bodyParser → requestLogger → routes → errorHandler│  │
+│  │              ↓        ↓         ↓             ↓            ↓          ↓       │  │
+│  │          Security   CORS    JSON Parse     Logging      API       Error      │  │
+│  │          Headers   Config    (10mb)                    Handler    Handler    │  │
+│  │                                                                               │  │
+│  └───────────────────────────────────────────────────────────────────────────────┘  │
+│                                         ↓                                           │
+│  ┌───────────────────────── API ROUTES ─────────────────────────────────────────┐  │
+│  │                                                                               │  │
+│  │  /health           GET   → Health check endpoint                             │  │
+│  │                                                                               │  │
+│  │  /api/ai/rephrase  POST  → aiController.rephraseText                        │  │
+│  │                           • Input validation (Zod schema)                    │  │
+│  │                           • GPT-3.5-turbo (temp: 0.7, max: 500 tokens)      │  │
+│  │                           • Professional text rephrasing                     │  │
+│  │                                                                               │  │
+│  │  /api/ai/translate POST  → aiController.translateText                       │  │
+│  │                           • EN ↔ AR name translation                        │  │
+│  │                           • GPT-3.5-turbo (temp: 0.3, max: 100 tokens)      │  │
+│  │                                                                               │  │
+│  └───────────────────────────────────────────────────────────────────────────────┘  │
+│                                         │                                           │
+└─────────────────────────────────────────│───────────────────────────────────────────┘
+                                         │
+                                         │ HTTPS
+                                         ↓
+                              ┌─────────────────────┐
+                              │   OPENAI API        │
+                              │   (GPT-3.5-turbo)   │
+                              └─────────────────────┘
+```
+
+### Data Flow Diagram
+
+```
+┌──────────────────────────────────────────────────────────────────────────────────┐
+│                              USER JOURNEY FLOW                                    │
+└──────────────────────────────────────────────────────────────────────────────────┘
+
+     ┌─────────┐         ┌─────────────┐         ┌──────────────┐
+     │  User   │────────→│  Landing    │────────→│  FormWizard  │
+     │         │         │   Page      │ Start   │              │
+     └─────────┘         └─────────────┘         └──────┬───────┘
+                                                        │
+           ┌────────────────────────────────────────────┼────────────────────┐
+           │                                            │                    │
+           ↓                                            ↓                    ↓
+    ┌──────────────┐                           ┌──────────────┐      ┌──────────────┐
+    │   Step 1     │                           │   Step 2     │      │   Step 3     │
+    │   Personal   │──────────────────────────→│   Financial  │─────→│   Situation  │
+    │              │                           │              │      │              │
+    │ • Names (EN) │ AI Auto-translate         │ • Marital    │      │ • Financial  │
+    │ • Names (AR) │←─────────────────────────→│ • Dependents │      │ • Employment │
+    │ • National ID│                           │ • Employment │      │ • Reason     │
+    │ • Contact    │                           │ • Income     │      │              │
+    │ • Address    │                           │ • Housing    │      │ AI Writing   │
+    └──────────────┘                           └──────────────┘      │ Assistant    │
+           │                                                         └──────┬───────┘
+           │                                                                │
+           │  ┌─────────────────────────────────────────────────────────────┘
+           │  │
+           ↓  ↓
+    ┌──────────────┐         ┌──────────────┐         ┌──────────────┐
+    │   Step 4     │────────→│   Submit     │────────→│   Success    │
+    │   Review     │         │              │         │              │
+    │              │         │ Clear secure │         │ • Ref number │
+    │ • All data   │         │ storage      │         │ • Next steps │
+    │ • Edit links │         │              │         │ • New app    │
+    └──────────────┘         └──────────────┘         └──────────────┘
+           ↑
+           │ Save Progress (at any step)
+           │
+    ┌──────────────┐
+    │  Encrypted   │
+    │  Session     │
+    │  Storage     │
+    │              │
+    │ • Form data  │
+    │ • Step #     │
+    │ • Timestamp  │
+    │ • 24h TTL    │
+    └──────────────┘
+
+
+┌──────────────────────────────────────────────────────────────────────────────────┐
+│                              FORM VALIDATION FLOW                                 │
+└──────────────────────────────────────────────────────────────────────────────────┘
+
+    User Input                    Validation Layer                    Outcome
+    ──────────                    ────────────────                    ───────
+
+    ┌─────────┐     onBlur      ┌─────────────────────┐
+    │  Field  │────────────────→│  React Hook Form    │
+    │  Input  │                 │  + Zod Resolver     │
+    └─────────┘                 └──────────┬──────────┘
+                                           │
+                                           ↓
+                                ┌─────────────────────┐
+                                │   Step Schema       │
+                                │                     │
+                                │ • stepOneSchema     │──→ Cross-field validation
+                                │ • stepTwoSchema     │    (phone by country,
+                                │ • stepThreeSchema   │     ID format by country)
+                                │ • completeFormSchema│
+                                └──────────┬──────────┘
+                                           │
+                          ┌────────────────┴────────────────┐
+                          │                                 │
+                          ↓                                 ↓
+                   ┌─────────────┐                  ┌─────────────┐
+                   │   Valid     │                  │   Invalid   │
+                   │             │                  │             │
+                   │ Proceed to  │                  │ • Field err │
+                   │ next step   │                  │ • Toast msg │
+                   │             │                  │ • i18n key  │
+                   └─────────────┘                  └─────────────┘
+
+
+┌──────────────────────────────────────────────────────────────────────────────────┐
+│                              STATE MANAGEMENT FLOW                                │
+└──────────────────────────────────────────────────────────────────────────────────┘
+
+    ┌─────────────────────────────────────────────────────────────────┐
+    │                     REACT CONTEXT PROVIDERS                      │
+    └─────────────────────────────────────────────────────────────────┘
+
+    LanguageProvider                              AppProvider
+    ────────────────                              ───────────
+    ┌────────────────┐                            ┌────────────────┐
+    │                │                            │                │
+    │ • language     │                            │ • appState     │
+    │   ('en'|'ar')  │                            │   (landing|    │
+    │                │                            │    form|       │
+    │ • setLanguage  │                            │    success)    │
+    │                │                            │                │
+    │ • toggleLang   │                            │ • appData      │
+    │                │                            │                │
+    │ ───────────────│                            │ • refNumber    │
+    │                │                            │                │
+    │ IntlProvider   │                            │ • hasSaved     │
+    │ (react-intl)   │                            │                │
+    │                │                            │ Navigation:    │
+    │ RTL direction  │                            │ • startApp     │
+    │ localStorage   │                            │ • submitApp    │
+    │                │                            │ • startNew     │
+    └────────────────┘                            │ • navToLanding │
+           ↓                                      └────────────────┘
+           │                                             ↓
+    ┌──────────────────────────────────────────────────────────────┐
+    │                                                              │
+    │  useLanguage()  │  useRTL()  │  useApp()  │  useIntl()      │
+    │                                                              │
+    └──────────────────────────────────────────────────────────────┘
+```
+
+### Component Architecture
+
+```
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                           COMPONENT HIERARCHY                                    │
+└─────────────────────────────────────────────────────────────────────────────────┘
+
+App
+ │
+ ├── ErrorBoundary ─────────────────────────────────────────┐
+ │    │                                                     │
+ │    └── LanguageProvider                                  │ Fallback:
+ │         │                                                │ ErrorFallbacks
+ │         └── ErrorBoundary                                │
+ │              │                                           │
+ │              └── AppProvider                             │
+ │                   │                                      │
+ │                   └── ErrorBoundary                      │
+ │                        │                                 │
+ │                        └── AppContent ──────────────────────────────────┐
+ │                             │                                           │
+ │                             ├── Toaster (sonner)                        │
+ │                             │                                           │
+ │                             └── AppRouter                               │
+ │                                  │                                      │
+ │                                  ├── LandingPage ───────────────────────│──┐
+ │                                  │    ├── TammHeader                    │  │
+ │                                  │    ├── TypingText (hero)             │  │
+ │                                  │    ├── FeatureCard[] (memo)          │  │
+ │                                  │    ├── ProcessStepCard[] (memo)      │  │
+ │                                  │    └── TammFooter                    │  │
+ │                                  │                                      │  │
+ │                                  ├── FormWizard ────────────────────────│──│──┐
+ │                                  │    ├── TammHeader                    │  │  │
+ │                                  │    ├── Breadcrumb                    │  │  │
+ │                                  │    ├── StepIndicator                 │  │  │
+ │                                  │    ├── Form (react-hook-form)        │  │  │
+ │                                  │    │    └── StepOne|Two|Three|Four   │  │  │
+ │                                  │    ├── NavigationButtons             │  │  │
+ │                                  │    ├── AlertDialog (cancel)          │  │  │
+ │                                  │    └── TammFooter                    │  │  │
+ │                                  │                                      │  │  │
+ │                                  └── SuccessConfirmation ───────────────│──│──│──┐
+ │                                       ├── TammHeader                    │  │  │  │
+ │                                       ├── SuccessIcon                   │  │  │  │
+ │                                       ├── ReferenceNumber               │  │  │  │
+ │                                       └── TammFooter                    │  │  │  │
+ │                                                                         │  │  │  │
+ └─────────────────────────────────────────────────────────────────────────┘  │  │  │
+                                                                               │  │  │
+┌─────────────────────────── SHARED UI COMPONENTS ─────────────────────────────┘──┘──┘
+│
+├── Layout Components
+│    ├── TammHeader (language switcher)
+│    └── TammFooter
+│
+├── Form Components
+│    ├── Form, FormField, FormItem, FormLabel, FormControl, FormMessage
+│    ├── Input, Textarea
+│    ├── Select, SelectTrigger, SelectContent, SelectItem
+│    └── DatePicker (react-datepicker + custom styling)
+│
+├── Feedback Components
+│    ├── Button (variants: default, subtle, cancel)
+│    ├── Dialog, AlertDialog
+│    └── Toaster (sonner)
+│
+└── Utility Components
+     ├── DirectionalArrow (RTL-aware)
+     ├── TypingText (typewriter animation)
+     └── AIWritingAssistant (modal)
+```
+
+### Security Architecture
+
+```
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                           SECURITY LAYERS                                        │
+└─────────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────── CLIENT-SIDE SECURITY ───────────────────────┐
+│                                                                     │
+│  ┌─────────────────────────────────────────────────────────────┐   │
+│  │                    SECURE STORAGE                            │   │
+│  │                                                              │   │
+│  │  ┌──────────────┐      ┌──────────────┐      ┌───────────┐  │   │
+│  │  │  Plain Data  │─────→│  AES-256-GCM │─────→│  Session  │  │   │
+│  │  │  (JSON)      │      │  Encryption  │      │  Storage  │  │   │
+│  │  └──────────────┘      └──────────────┘      └───────────┘  │   │
+│  │                               ↑                              │   │
+│  │                        ┌──────────────┐                      │   │
+│  │                        │  Crypto Key  │                      │   │
+│  │                        │  (per-session│                      │   │
+│  │                        │   JWK in     │                      │   │
+│  │                        │   session)   │                      │   │
+│  │                        └──────────────┘                      │   │
+│  │                                                              │   │
+│  │  Features:                                                   │   │
+│  │  • 24-hour TTL expiration                                   │   │
+│  │  • Session-scoped encryption key                            │   │
+│  │  • Automatic cleanup on corruption                          │   │
+│  │  • No sensitive data persists after session                 │   │
+│  └──────────────────────────────────────────────────────────────┘   │
+│                                                                     │
+│  ┌─────────────────────────────────────────────────────────────┐   │
+│  │                    INPUT VALIDATION                          │   │
+│  │                                                              │   │
+│  │  • Zod schemas with custom refinements                      │   │
+│  │  • Cross-field validation (country-specific patterns)       │   │
+│  │  • Real-time validation on blur                             │   │
+│  │  • i18n error messages                                       │   │
+│  └──────────────────────────────────────────────────────────────┘   │
+│                                                                     │
+└─────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────── SERVER-SIDE SECURITY ───────────────────────┐
+│                                                                     │
+│  ┌─────────────────────────────────────────────────────────────┐   │
+│  │                    MIDDLEWARE CHAIN                          │   │
+│  │                                                              │   │
+│  │  helmet()          → Security headers (CSP, XSS, etc.)      │   │
+│  │  cors()            → Origin whitelist, credentials           │   │
+│  │  express.json()    → Body size limit (10MB)                  │   │
+│  │  validation()      → Zod schema validation                   │   │
+│  │  errorHandler()    → Safe error responses                    │   │
+│  └──────────────────────────────────────────────────────────────┘   │
+│                                                                     │
+│  ┌─────────────────────────────────────────────────────────────┐   │
+│  │                    API PROTECTION                            │   │
+│  │                                                              │   │
+│  │  • Request body validation (Zod schemas)                    │   │
+│  │  • Character length limits                                   │   │
+│  │  • Timeout handling (20-30s)                                │   │
+│  │  • No sensitive data logging                                 │   │
+│  │  • Graceful error responses                                  │   │
+│  └──────────────────────────────────────────────────────────────┘   │
+│                                                                     │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Project Structure
 
 ```
 src/
 ├── app/
 │   ├── providers/          # App state & language context
-│   └── router/             # Route management
+│   │   ├── AppProvider     # Navigation state, form data, app lifecycle
+│   │   └── LanguageProvider# i18n context, RTL, locale switching
+│   └── router/             # State-based routing (no react-router)
+│       └── AppRouter       # Lazy-loaded route components
 │
-├── features/
-│   ├── landing/            # Landing page components
+├── features/               # Feature-based vertical slices
+│   ├── landing/            # Landing page with hero, features, CTA
 │   ├── application-form/   # Multi-step form wizard
-│   │   ├── components/     # FormWizard, ProgressBar, Steps 1-4
-│   │   ├── hooks/          # useFormWizard
-│   │   ├── validation/     # Zod schemas
-│   │   └── types/          # TypeScript types
-│   └── success/            # Success page
+│   │   ├── components/     # FormWizard, Steps 1-4
+│   │   ├── hooks/          # useFormWizard (validation, persistence)
+│   │   ├── validation/     # Zod schemas, formatters
+│   │   └── types/          # TypeScript types, shared constants
+│   └── success/            # Success confirmation page
 │
 ├── components/
-│   ├── ui/                 # Buttons, inputs, selects, etc.
-│   └── layout/             # Header, footer, breadcrumb
+│   ├── ui/                 # Reusable UI primitives
+│   │   ├── button, input, select, textarea
+│   │   ├── form (react-hook-form integration)
+│   │   ├── date-picker (react-datepicker + RTL)
+│   │   ├── dialog, alert-dialog
+│   │   └── TypingText (typewriter animation)
+│   ├── layout/             # Header, footer
+│   ├── modals/             # AIWritingAssistant
+│   └── error/              # Error fallback components
 │
-├── lib/                    # Utilities (encryption, i18n)
-├── services/               # OpenAI API integration
-├── locales/                # en.json, ar.json (287 translations)
-└── config/                 # Constants & validation
+├── hooks/                  # Shared custom hooks
+│   └── useRTL              # RTL direction utilities
+│
+├── lib/                    # Utilities
+│   ├── i18n/               # Internationalization utilities
+│   │   ├── utils           # Arabic numerals, formatting
+│   │   └── zod-adapter     # Zod-to-react-intl error mapping
+│   ├── secureStorage       # AES-256-GCM encrypted storage
+│   └── utils               # cn() classname utility
+│
+├── services/               # API layer
+│   ├── apiClient           # Axios client with error handling
+│   └── aiService           # OpenAI service wrapper
+│
+├── config/                 # Application configuration
+│   ├── constants           # UI constants, storage keys
+│   ├── validation          # Validation patterns, messages
+│   └── formData            # GCC countries, cities, options
+│
+└── locales/                # i18n translation files
+    ├── en.json             # English (287 keys)
+    └── ar.json             # Arabic (287 keys)
 
 server/
-├── index.ts                # Express server
-└── routes/ai.ts            # AI endpoints
+├── index.ts                # Express server entry
+├── routes/ai.ts            # AI API routes
+├── controllers/            # Request handlers
+│   └── aiController        # Rephrase, translate
+├── middleware/             # Express middleware
+│   ├── errorHandler        # Global error handling
+│   ├── requestLogger       # Request logging
+│   └── validation          # Zod validation middleware
+├── validators/             # Request validation schemas
+└── utils/errors.ts         # Custom error classes
 ```
 
 ---
