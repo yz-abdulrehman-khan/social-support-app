@@ -21,7 +21,7 @@ export interface CountryConfig {
   regionLabelKey: string; // i18n key for region label (emirate, province, etc.)
   cities: Record<string, readonly string[]>; // Cities per region
   idLabelKey: string; // i18n key for ID label (Emirates ID, National ID, etc.)
-  idFormat: string; // Display format hint for ID
+  idPlaceholderKey: string; // i18n key for ID placeholder
   idPattern: RegExp; // Validation pattern for ID
   idMaxLength: number; // Max length for ID input (including formatting chars)
 }
@@ -53,7 +53,7 @@ export const GCC_COUNTRIES: Record<string, CountryConfig> = {
       'Fujairah': ['Fujairah City', 'Dibba Al Fujairah', 'Masafi', 'Al Bidiyah'],
     },
     idLabelKey: 'form.steps.personal.fields.emiratesId',
-    idFormat: '784-XXXX-XXXXXXX-X',
+    idPlaceholderKey: 'form.steps.personal.fields.placeholders.emiratesId',
     idPattern: /^\d{3}-\d{4}-\d{7}-\d{1}$/,
     idMaxLength: 18, // 15 digits + 3 dashes
   },
@@ -95,7 +95,7 @@ export const GCC_COUNTRIES: Record<string, CountryConfig> = {
       'Qassim': ['Buraydah', 'Unaizah', 'Al Rass', 'Al Bukayriyah'],
     },
     idLabelKey: 'form.steps.personal.fields.nationalId',
-    idFormat: 'XXXXXXXXXX (10 digits)',
+    idPlaceholderKey: 'form.steps.personal.fields.placeholders.nationalId',
     idPattern: /^\d{10}$/,
     idMaxLength: 10,
   },
@@ -127,7 +127,7 @@ export const GCC_COUNTRIES: Record<string, CountryConfig> = {
       'Al Shahaniya': ['Al Shahaniya City', 'Dukhan'],
     },
     idLabelKey: 'form.steps.personal.fields.qatarId',
-    idFormat: 'XXXXXXXXXXX (11 digits)',
+    idPlaceholderKey: 'form.steps.personal.fields.placeholders.qatarId',
     idPattern: /^\d{11}$/,
     idMaxLength: 11,
   },
@@ -151,7 +151,7 @@ export const GCC_COUNTRIES: Record<string, CountryConfig> = {
       'Muharraq Governorate': ['Muharraq City', 'Hidd', 'Busaiteen', 'Galali', 'Amwaj Islands'],
     },
     idLabelKey: 'form.steps.personal.fields.cpr',
-    idFormat: 'XXXXXXXXX (9 digits)',
+    idPlaceholderKey: 'form.steps.personal.fields.placeholders.cpr',
     idPattern: /^\d{9}$/,
     idMaxLength: 9,
   },

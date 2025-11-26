@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, type ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from 'react';
 import { IntlProvider } from 'react-intl';
 import { flattenMessages } from '@/lib/i18n';
 import enMessages from '@/locales/en.json';
@@ -8,8 +8,13 @@ type Language = 'en' | 'ar';
 
 interface LanguageContextValue {
   language: Language;
+  setLanguage: (lang: Language) => void;
   toggleLanguage: () => void;
 }
+
+const STORAGE_KEY = 'app-language';
+const DEFAULT_LANGUAGE: Language = 'en';
+const SUPPORTED_LANGUAGES: Language[] = ['en', 'ar'];
 
 const LanguageContext = createContext<LanguageContextValue | undefined>(undefined);
 
@@ -18,15 +23,47 @@ const messages = {
   ar: flattenMessages(arMessages),
 };
 
-export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [language, setLanguage] = useState<Language>('en');
+/**
+ * Get initial language from localStorage or browser preference
+ */
+function getInitialLanguage(): Language {
+  // Check localStorage first
+  const stored = localStorage.getItem(STORAGE_KEY);
+  if (stored && SUPPORTED_LANGUAGES.includes(stored as Language)) {
+    return stored as Language;
+  }
 
-  const toggleLanguage = () => {
-    setLanguage((prev) => (prev === 'en' ? 'ar' : 'en'));
-  };
+  // Fall back to browser language preference
+  const browserLang = navigator.language.split('-')[0];
+  if (SUPPORTED_LANGUAGES.includes(browserLang as Language)) {
+    return browserLang as Language;
+  }
+
+  return DEFAULT_LANGUAGE;
+}
+
+export function LanguageProvider({ children }: { children: ReactNode }) {
+  const [language, setLanguageState] = useState<Language>(getInitialLanguage);
+
+  // Persist language to localStorage when it changes
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, language);
+    document.documentElement.lang = language;
+    document.documentElement.dir = language === 'ar' ? 'rtl' : 'ltr';
+  }, [language]);
+
+  const setLanguage = useCallback((lang: Language) => {
+    if (SUPPORTED_LANGUAGES.includes(lang)) {
+      setLanguageState(lang);
+    }
+  }, []);
+
+  const toggleLanguage = useCallback(() => {
+    setLanguageState((prev) => (prev === 'en' ? 'ar' : 'en'));
+  }, []);
 
   return (
-    <LanguageContext.Provider value={{ language, toggleLanguage }}>
+    <LanguageContext.Provider value={{ language, setLanguage, toggleLanguage }}>
       <IntlProvider locale={language} messages={messages[language]} defaultLocale="en">
         {children}
       </IntlProvider>

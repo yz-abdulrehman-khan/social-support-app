@@ -171,7 +171,11 @@
             "city": "Enter city",
             "emirate": "Enter emirate",
             "country": "United Arab Emirates",
-            "postalCode": "Enter postal code"
+            "postalCode": "Enter postal code",
+            "emiratesId": "784-XXXX-XXXXXXX-X",
+            "nationalId": "10 digits",
+            "qatarId": "11 digits",
+            "cpr": "9 digits"
           }
         }
       },

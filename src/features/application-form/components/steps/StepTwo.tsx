@@ -24,7 +24,7 @@ export function StepTwo({ stepNumber }: StepTwoProps) {
         <h2 className="text-lg md:text-xl lg:text-2xl font-semibold text-foreground-dark">
           {isRTL ? toArabicNumerals(String(stepNumber)) : stepNumber}. {intl.formatMessage({ id: 'form.steps.financial.title' })}
         </h2>
-        <p className="text-[11px] md:text-xs lg:text-sm text-gray-600">
+        <p className="hidden md:block text-xs lg:text-sm text-gray-600">
           {intl.formatMessage({ id: 'form.steps.financial.subtitle' })}
         </p>
       </div>

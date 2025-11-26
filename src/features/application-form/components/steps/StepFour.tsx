@@ -1,6 +1,7 @@
+import { memo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Edit } from 'lucide-react';
-import { useIntl } from 'react-intl';
+import { useIntl, type IntlShape } from 'react-intl';
 import { toArabicNumerals, formatNumericValue } from '@/lib/i18n';
 import type { ApplicationData } from '@/features/application-form/types';
 import { useLanguage } from '@/app/providers';
@@ -12,6 +13,49 @@ interface StepFourProps {
   onEdit: (step: number) => void;
   stepNumber: number;
 }
+
+// Memoized data row component - defined outside to prevent recreation
+const DataRow = memo(function DataRow({ label, value }: { label: string; value?: string }) {
+  return (
+    <div className="py-3 border-b border-gray-100 last:border-0">
+      <div className="text-xs text-theme-secondary mb-1">{label}</div>
+      <div className="text-sm text-theme-primary">{value || '-'}</div>
+    </div>
+  );
+});
+
+// Memoized review section component
+const ReviewSection = memo(function ReviewSection({
+  title,
+  step,
+  onEdit,
+  intl,
+  children
+}: {
+  title: string;
+  step: number;
+  onEdit: (step: number) => void;
+  intl: IntlShape;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="mb-8">
+      <div className="flex items-center justify-between mb-4 pb-3 border-b-2 border-gray-200">
+        <h3 className="text-base font-semibold text-theme-primary">{title}</h3>
+        <Button
+          onClick={() => onEdit(step)}
+          variant="subtle"
+          size="sm"
+          className="gap-2 text-theme-accent hover:text-theme-accent-hover press-effect"
+        >
+          <Edit className="w-4 h-4" />
+          {intl.formatMessage({ id: 'common.edit' })}
+        </Button>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12">{children}</div>
+    </div>
+  );
+});
 
 export function StepFour({ data, onEdit, stepNumber }: StepFourProps) {
   const intl = useIntl();
@@ -41,45 +85,6 @@ export function StepFour({ data, onEdit, stepNumber }: StepFourProps) {
     return '-';
   };
 
-  const DataRow = ({ label, value }: { label: string; value?: string }) => (
-    <div className="py-3 border-b border-gray-100 last:border-0">
-      <div className="text-xs text-theme-secondary mb-1">
-        {label}
-      </div>
-      <div className="text-sm text-theme-primary">
-        {value || '-'}
-      </div>
-    </div>
-  );
-
-  const ReviewSection = ({
-    title,
-    step,
-    children
-  }: {
-    title: string;
-    step: number;
-    children: React.ReactNode;
-  }) => (
-    <div className="mb-8">
-      <div className="flex items-center justify-between mb-4 pb-3 border-b-2 border-gray-200">
-        <h3 className="text-base font-semibold text-theme-primary">{title}</h3>
-        <Button
-          onClick={() => onEdit(step)}
-          variant="subtle"
-          size="sm"
-          className="gap-2 text-theme-accent hover:text-theme-accent-hover"
-        >
-          <Edit className="w-4 h-4" />
-          {intl.formatMessage({ id: 'common.edit' })}
-        </Button>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12">
-        {children}
-      </div>
-    </div>
-  );
-
   return (
     <div className="space-y-8 w-full">
       {/* Question Number and Title */}
@@ -87,7 +92,7 @@ export function StepFour({ data, onEdit, stepNumber }: StepFourProps) {
         <h2 className="text-lg md:text-xl lg:text-2xl font-semibold text-theme-primary">
           {isRTL ? toArabicNumerals(String(stepNumber)) : stepNumber}. {intl.formatMessage({ id: 'form.steps.review.title' })}
         </h2>
-        <p className="text-[11px] md:text-xs lg:text-sm text-theme-secondary">
+        <p className="hidden md:block text-xs lg:text-sm text-theme-secondary">
           {intl.formatMessage({ id: 'form.steps.review.subtitle' })}
         </p>
       </div>
@@ -95,7 +100,7 @@ export function StepFour({ data, onEdit, stepNumber }: StepFourProps) {
       {/* Review Sections */}
       <div>
         {/* Step 1: Personal Information */}
-        <ReviewSection title={intl.formatMessage({ id: 'form.steps.personal.title' })} step={1}>
+        <ReviewSection title={intl.formatMessage({ id: 'form.steps.personal.title' })} step={1} onEdit={onEdit} intl={intl}>
           <DataRow
             label={intl.formatMessage({ id: 'form.steps.personal.fields.fullNameEnglish' })}
             value={data.fullNameEnglish}
@@ -149,7 +154,7 @@ export function StepFour({ data, onEdit, stepNumber }: StepFourProps) {
         </ReviewSection>
 
         {/* Step 2: Family & Financial Details */}
-        <ReviewSection title={intl.formatMessage({ id: 'form.steps.financial.title' })} step={2}>
+        <ReviewSection title={intl.formatMessage({ id: 'form.steps.financial.title' })} step={2} onEdit={onEdit} intl={intl}>
           <DataRow
             label={intl.formatMessage({ id: 'form.steps.financial.fields.maritalStatus' })}
             value={data.maritalStatus ? intl.formatMessage({ id: `form.steps.financial.fields.${data.maritalStatus}` }) : '-'}
@@ -180,7 +185,7 @@ export function StepFour({ data, onEdit, stepNumber }: StepFourProps) {
               onClick={() => onEdit(3)}
               variant="subtle"
               size="sm"
-              className="gap-2 text-theme-accent hover:text-theme-accent-hover"
+              className="gap-2 text-theme-accent hover:text-theme-accent-hover press-effect"
             >
               <Edit className="w-4 h-4" />
               {intl.formatMessage({ id: 'common.edit' })}

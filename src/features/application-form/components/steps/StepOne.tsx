@@ -158,7 +158,7 @@ export function StepOne({ stepNumber }: StepOneProps) {
         <h2 className="text-lg md:text-xl lg:text-2xl font-semibold text-foreground-dark">
           {isRTL ? toArabicNumerals(String(stepNumber)) : stepNumber}. {intl.formatMessage({ id: 'form.steps.personal.title' })}
         </h2>
-        <p className="text-[11px] md:text-xs lg:text-sm text-gray-600">
+        <p className="hidden md:block text-xs lg:text-sm text-gray-600">
           {intl.formatMessage({ id: 'form.steps.personal.subtitle' })}
         </p>
       </div>
@@ -166,12 +166,12 @@ export function StepOne({ stepNumber }: StepOneProps) {
       {/* Form Fields */}
       <div className="space-y-6 w-full">
         {/* Full Name - English & Arabic */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
+        <div className={`flex flex-col md:flex-row gap-4 items-start ${isRTL ? 'md:flex-row-reverse' : ''}`}>
           <FormField
             control={control}
             name="fullNameEnglish"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="w-full md:flex-1">
                 <FormLabel className="text-xs md:text-sm font-medium">
                   {intl.formatMessage({ id: 'form.steps.personal.fields.fullNameEnglish' })} <span className="text-red-500">*</span>
                 </FormLabel>
@@ -202,7 +202,7 @@ export function StepOne({ stepNumber }: StepOneProps) {
             control={control}
             name="fullNameArabic"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="w-full md:flex-1">
                 <FormLabel className="text-xs md:text-sm font-medium">
                   {intl.formatMessage({ id: 'form.steps.personal.fields.fullNameArabic' })} <span className="text-red-500">*</span>
                 </FormLabel>
@@ -233,12 +233,12 @@ export function StepOne({ stepNumber }: StepOneProps) {
         </div>
 
         {/* Country & Region Selection */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
+        <div className="flex flex-col md:flex-row gap-4 items-start">
           <FormField
             control={control}
             name="country"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="w-full md:flex-1">
                 <FormLabel className="text-xs md:text-sm font-medium">
                   {intl.formatMessage({ id: 'form.steps.personal.fields.country' })} <span className="text-red-500">*</span>
                 </FormLabel>
@@ -269,7 +269,7 @@ export function StepOne({ stepNumber }: StepOneProps) {
             control={control}
             name="emirate"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="w-full md:flex-1">
                 <FormLabel className="text-xs md:text-sm font-medium">
                   {regionLabel} <span className="text-red-500">*</span>
                 </FormLabel>
@@ -315,8 +315,9 @@ export function StepOne({ stepNumber }: StepOneProps) {
                       <Input
                         {...field}
                         id="nationalId"
-                        placeholder={countryConfig?.idFormat || 'Enter ID number'}
-                        className="w-full"
+                        placeholder={countryConfig?.idPlaceholderKey ? intl.formatMessage({ id: countryConfig.idPlaceholderKey }) : ''}
+                        className={`w-full ${isRTL ? 'text-right' : ''}`}
+                        dir="ltr"
                         onChange={(e) => handleNationalIdChange(e.target.value)}
                         maxLength={countryConfig?.idMaxLength || 18}
                       />
@@ -409,12 +410,12 @@ export function StepOne({ stepNumber }: StepOneProps) {
         />
 
         {/* City & Postal Code */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
+        <div className={`flex flex-col md:flex-row gap-4 items-start ${isRTL ? 'md:flex-row-reverse' : ''}`}>
           <FormField
             control={control}
             name="city"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="w-full md:flex-1">
                 <FormLabel className="text-xs md:text-sm font-medium">
                   {intl.formatMessage({ id: 'form.steps.personal.fields.city' })} <span className="text-red-500">*</span>
                 </FormLabel>
@@ -446,7 +447,7 @@ export function StepOne({ stepNumber }: StepOneProps) {
             control={control}
             name="postalCode"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="w-full md:flex-1">
                 <FormLabel className="text-xs md:text-sm font-medium">
                   {intl.formatMessage({ id: 'form.steps.personal.fields.postalCode' })}
                 </FormLabel>
@@ -465,12 +466,12 @@ export function StepOne({ stepNumber }: StepOneProps) {
         </div>
 
         {/* Phone & Email */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
+        <div className={`flex flex-col md:flex-row gap-4 items-start ${isRTL ? 'md:flex-row-reverse' : ''}`}>
           <FormField
             control={control}
             name="phoneNumber"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="w-full md:flex-1">
                 <FormLabel className="text-xs md:text-sm font-medium">
                   {intl.formatMessage({ id: 'form.steps.personal.fields.phoneNumber' })} <span className="text-red-500">*</span>
                 </FormLabel>
@@ -480,7 +481,7 @@ export function StepOne({ stepNumber }: StepOneProps) {
                     id="phoneNumber"
                     type="tel"
                     placeholder={countryConfig?.phoneFormat || '+XXX XX XXX XXXX'}
-                    className="w-full"
+                    className={`w-full ${isRTL ? 'text-right' : ''}`}
                     onChange={(e) => handlePhoneChange(e.target.value)}
                     maxLength={countryConfig?.phoneMaxLength || VALIDATION_CONSTRAINTS.GCC_PHONE_MAX_LENGTH}
                     disabled={!selectedCountry}
@@ -494,7 +495,7 @@ export function StepOne({ stepNumber }: StepOneProps) {
             control={control}
             name="email"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="w-full md:flex-1">
                 <FormLabel className="text-xs md:text-sm font-medium">
                   {intl.formatMessage({ id: 'form.steps.personal.fields.email' })} <span className="text-red-500">*</span>
                 </FormLabel>

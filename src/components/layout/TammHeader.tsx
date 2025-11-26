@@ -1,4 +1,3 @@
-import { Globe } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/app/providers';
 import { useRTL } from '@/hooks/useRTL';
@@ -28,15 +27,18 @@ export function TammHeader() {
             </a>
           </div>
 
-          <div className="flex items-center gap-1">
+          <div className="flex items-center">
             <Button
               variant="subtle"
               size="sm"
               onClick={toggleLanguage}
-              className="language-switcher gap-1.5 text-gray-700 "
+              className="language-switcher text-gray-700 font-medium hover:text-accent transition-colors"
             >
-              <Globe className="w-4 h-4 globe-icon" />
-              <span>{language === 'en' ? 'العربية' : 'English'}</span>
+              {language === 'en' ? (
+                <span className="text-lg">العربية</span>
+              ) : (
+                <span className="text-sm">English</span>
+              )}
             </Button>
           </div>
         </div>

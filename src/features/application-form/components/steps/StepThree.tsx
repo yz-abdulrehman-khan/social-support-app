@@ -45,7 +45,7 @@ export function StepThree({ stepNumber }: StepThreeProps) {
         <h2 className="text-lg md:text-xl lg:text-2xl font-semibold text-theme-primary">
           {isRTL ? toArabicNumerals(String(stepNumber)) : stepNumber}. {intl.formatMessage({ id: 'form.steps.situation.title' })}
         </h2>
-        <p className="text-[11px] md:text-xs lg:text-sm text-theme-secondary">
+        <p className="hidden md:block text-xs lg:text-sm text-theme-secondary">
           {intl.formatMessage({ id: 'form.steps.situation.subtitle' })}
         </p>
       </div>
@@ -67,7 +67,7 @@ export function StepThree({ stepNumber }: StepThreeProps) {
                   variant="subtle"
                   size="sm"
                   onClick={() => handleAIClick('financialSituation')}
-                  className="gap-2 text-theme-accent hover:text-theme-accent-hover rounded-full h-8 px-3"
+                  className="gap-2 text-theme-accent hover:text-theme-accent-hover rounded-full h-8 px-3 press-effect hover-glow"
                 >
                   <Sparkles className="w-4 h-4" />
                   <span className="text-sm">{intl.formatMessage({ id: 'form.steps.situation.fields.helpMeWrite' })}</span>
@@ -108,7 +108,7 @@ export function StepThree({ stepNumber }: StepThreeProps) {
                   variant="subtle"
                   size="sm"
                   onClick={() => handleAIClick('employmentCircumstances')}
-                  className="gap-2 text-theme-accent hover:text-theme-accent-hover rounded-full h-8 px-3"
+                  className="gap-2 text-theme-accent hover:text-theme-accent-hover rounded-full h-8 px-3 press-effect hover-glow"
                 >
                   <Sparkles className="w-4 h-4" />
                   <span className="text-sm">{intl.formatMessage({ id: 'form.steps.situation.fields.helpMeWrite' })}</span>
@@ -149,7 +149,7 @@ export function StepThree({ stepNumber }: StepThreeProps) {
                   variant="subtle"
                   size="sm"
                   onClick={() => handleAIClick('reasonForApplying')}
-                  className="gap-2 text-theme-accent hover:text-theme-accent-hover rounded-full h-8 px-3"
+                  className="gap-2 text-theme-accent hover:text-theme-accent-hover rounded-full h-8 px-3 press-effect hover-glow"
                 >
                   <Sparkles className="w-4 h-4" />
                   <span className="text-sm">{intl.formatMessage({ id: 'form.steps.situation.fields.helpMeWrite' })}</span>

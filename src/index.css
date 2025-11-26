@@ -195,6 +195,7 @@
     @apply outline-none;
     border-color: var(--primary);
     box-shadow: 0 0 0 1px var(--primary), 0 0 8px rgba(14, 236, 218, 0.2);
+    transform: translateY(-1px);
   }
 
   input[type="text"]:hover,
@@ -247,9 +248,352 @@
   a:hover {
     color: var(--link-active);
   }
+
+  /*
+   * Arabic (RTL) Typography - Based on Official Guidelines
+   * Sources: UAE Design System, Dubai Design System, Material Design
+   *
+   * Key principles:
+   * - Arabic requires ~23% larger font size than Latin for equal readability
+   * - Fluid typography using clamp() for smooth scaling between breakpoints
+   * - Line-height: minimum 1.5x (WCAG), recommended 1.6-1.8 for Arabic
+   * - Form inputs: minimum 16px (prevents iOS zoom)
+   *
+   * Fluid formula: clamp(min, preferred, max)
+   * - min: mobile size (320px viewport)
+   * - preferred: scales with viewport (using vw)
+   * - max: desktop size (1024px viewport)
+   *
+   * English base: xs=12px, sm=14px, base=16px, lg=18px, xl=20px, 2xl=24px, 3xl=30px
+   * Arabic (+23%): xs=14.76px, sm=17.22px, base=19.68px, lg=22.14px, xl=24.6px, 2xl=29.52px, 3xl=36.9px
+   */
+
+  [dir="rtl"] {
+    line-height: 1.6;
+  }
+
+  [dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3,
+  [dir="rtl"] h4, [dir="rtl"] h5, [dir="rtl"] h6 {
+    line-height: 1.4;
+  }
+
+  [dir="rtl"] p, [dir="rtl"] li, [dir="rtl"] label {
+    line-height: 1.7;
+  }
+
+  /* Form inputs - 16px minimum per iOS guidelines, fluid up to 18px */
+  [dir="rtl"] input,
+  [dir="rtl"] select,
+  [dir="rtl"] textarea {
+    font-size: clamp(1rem, 0.9rem + 0.5vw, 1.125rem) !important;
+  }
+
+  /* Fluid Arabic sizes (+23% from English, smooth scaling) */
+  [dir="rtl"] .text-\[11px\] { font-size: clamp(0.8rem, 0.74rem + 0.28vw, 0.92rem) !important; }        /* 12.8-14.7px (11 * 1.23) */
+  [dir="rtl"] .text-xs { font-size: clamp(0.86rem, 0.79rem + 0.35vw, 0.98rem) !important; }             /* 13.8-15.7px (12 * 1.23) */
+  [dir="rtl"] .text-sm { font-size: clamp(0.98rem, 0.89rem + 0.45vw, 1.16rem) !important; }             /* 15.7-18.6px (14 * 1.23) */
+  [dir="rtl"] .text-base { font-size: clamp(1.1rem, 0.98rem + 0.55vw, 1.34rem) !important; }            /* 17.6-21.4px (16 * 1.23) */
+  [dir="rtl"] .text-lg { font-size: clamp(1.23rem, 1.08rem + 0.65vw, 1.48rem) !important; }             /* 19.7-23.7px (18 * 1.23) */
+  [dir="rtl"] .text-xl { font-size: clamp(1.35rem, 1.18rem + 0.85vw, 1.72rem) !important; }             /* 21.6-27.5px (20 * 1.23) */
+  [dir="rtl"] .text-2xl { font-size: clamp(1.6rem, 1.38rem + 1.05vw, 2.06rem) !important; }             /* 25.6-33px (24 * 1.23) */
+  [dir="rtl"] .text-3xl { font-size: clamp(1.96rem, 1.67rem + 1.4vw, 2.56rem) !important; }             /* 31.4-41px (30 * 1.23) */
+
+  /* Custom pixel sizes used in hero section (+23%) */
+  [dir="rtl"] .text-\[20px\] { font-size: 1.5375rem !important; }     /* 24.6px (20 * 1.23) */
+  [dir="rtl"] .text-\[26px\] { font-size: 1.99875rem !important; }    /* 31.98px (26 * 1.23) */
+  [dir="rtl"] .text-\[32px\] { font-size: 2.46rem !important; }       /* 39.36px (32 * 1.23) */
+  [dir="rtl"] .text-\[44px\] { font-size: 3.3825rem !important; }     /* 54.12px (44 * 1.23) */
+
+  /* Responsive class overrides - fluid within their breakpoint context */
+  @media (min-width: 640px) {
+    [dir="rtl"] .sm\:text-xs { font-size: clamp(0.86rem, 0.81rem + 0.28vw, 0.98rem) !important; }
+    [dir="rtl"] .sm\:text-sm { font-size: clamp(0.98rem, 0.93rem + 0.38vw, 1.16rem) !important; }
+    [dir="rtl"] .sm\:text-base { font-size: clamp(1.1rem, 1.03rem + 0.48vw, 1.34rem) !important; }
+    [dir="rtl"] .sm\:text-lg { font-size: clamp(1.23rem, 1.13rem + 0.58vw, 1.48rem) !important; }
+    [dir="rtl"] .sm\:text-xl { font-size: clamp(1.35rem, 1.25rem + 0.68vw, 1.72rem) !important; }
+  }
+
+  @media (min-width: 768px) {
+    [dir="rtl"] .md\:text-xs { font-size: clamp(0.92rem, 0.86rem + 0.28vw, 1.04rem) !important; }
+    [dir="rtl"] .md\:text-sm { font-size: clamp(1.04rem, 0.98rem + 0.38vw, 1.22rem) !important; }
+    [dir="rtl"] .md\:text-base { font-size: clamp(1.23rem, 1.1rem + 0.48vw, 1.41rem) !important; }
+    [dir="rtl"] .md\:text-lg { font-size: clamp(1.35rem, 1.23rem + 0.58vw, 1.6rem) !important; }
+    [dir="rtl"] .md\:text-xl { font-size: clamp(1.48rem, 1.35rem + 0.68vw, 1.84rem) !important; }
+    [dir="rtl"] .md\:text-2xl { font-size: clamp(1.72rem, 1.48rem + 0.95vw, 2.21rem) !important; }
+    /* Custom pixel sizes - responsive */
+    [dir="rtl"] .md\:text-\[26px\] { font-size: 1.99875rem !important; }  /* 31.98px */
+  }
+
+  @media (min-width: 1024px) {
+    [dir="rtl"] .lg\:text-xs { font-size: 0.9225rem !important; }      /* 14.76px (12 * 1.23) */
+    [dir="rtl"] .lg\:text-sm { font-size: 1.07625rem !important; }     /* 17.22px (14 * 1.23) */
+    [dir="rtl"] .lg\:text-base { font-size: 1.23rem !important; }      /* 19.68px (16 * 1.23) */
+    [dir="rtl"] .lg\:text-lg { font-size: 1.38375rem !important; }     /* 22.14px (18 * 1.23) */
+    [dir="rtl"] .lg\:text-xl { font-size: 1.5375rem !important; }      /* 24.6px (20 * 1.23) */
+    [dir="rtl"] .lg\:text-2xl { font-size: 1.845rem !important; }      /* 29.52px (24 * 1.23) */
+    [dir="rtl"] .lg\:text-3xl { font-size: 2.30625rem !important; }    /* 36.9px (30 * 1.23) */
+    /* Custom pixel sizes - responsive */
+    [dir="rtl"] .lg\:text-\[32px\] { font-size: 2.46rem !important; }  /* 39.36px */
+  }
+
+  @media (min-width: 1280px) {
+    /* Custom pixel sizes - xl breakpoint */
+    [dir="rtl"] .xl\:text-\[44px\] { font-size: 3.3825rem !important; }  /* 54.12px */
+  }
+
+  /* Buttons - consistent */
+  [dir="rtl"] button {
+    font-size: inherit;
+  }
 }
 
 @layer utilities {
+  /* ========================================
+     PROFESSIONAL ANIMATIONS
+     Simple, gentle, and elegant
+     ======================================== */
+
+  /* Keyframe Definitions */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeInDown {
+    from {
+      opacity: 0;
+      transform: translateY(-16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes scaleIn {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes slideInRight {
+    from {
+      opacity: 0;
+      transform: translateX(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes slideInLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes successPulse {
+    0% {
+      transform: scale(0);
+      opacity: 0;
+    }
+    50% {
+      transform: scale(1.1);
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  @keyframes checkmarkDraw {
+    0% {
+      stroke-dashoffset: 100;
+    }
+    100% {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-4px);
+    }
+  }
+
+  /* Animation Classes */
+  .animate-fade-in {
+    animation: fadeIn 0.3s ease-out forwards;
+  }
+
+  .animate-fade-in-up {
+    animation: fadeInUp 0.4s ease-out forwards;
+  }
+
+  .animate-fade-in-down {
+    animation: fadeInDown 0.4s ease-out forwards;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 0.3s ease-out forwards;
+  }
+
+  .animate-slide-in-right {
+    animation: slideInRight 0.4s ease-out forwards;
+  }
+
+  .animate-slide-in-left {
+    animation: slideInLeft 0.4s ease-out forwards;
+  }
+
+  .animate-success-pulse {
+    animation: successPulse 0.5s ease-out forwards;
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  /* Staggered Animation Delays */
+  .animation-delay-100 {
+    animation-delay: 100ms;
+  }
+  .animation-delay-200 {
+    animation-delay: 200ms;
+  }
+  .animation-delay-300 {
+    animation-delay: 300ms;
+  }
+  .animation-delay-400 {
+    animation-delay: 400ms;
+  }
+  .animation-delay-500 {
+    animation-delay: 500ms;
+  }
+
+  /* Transition Utilities */
+  .transition-smooth {
+    transition: all 0.2s ease-out;
+  }
+
+  .transition-medium {
+    transition: all 0.3s ease-out;
+  }
+
+  /* Hover Effects */
+  .hover-lift {
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+
+  .hover-scale {
+    transition: transform 0.15s ease-out;
+  }
+
+  .hover-scale:hover {
+    transform: scale(1.02);
+  }
+
+  .hover-glow {
+    transition: box-shadow 0.2s ease-out;
+  }
+
+  .hover-glow:hover {
+    box-shadow: 0 0 0 3px rgba(14, 236, 218, 0.15);
+  }
+
+  /* Button Press Effect */
+  .press-effect {
+    transition: transform 0.1s ease-out;
+  }
+
+  .press-effect:active {
+    transform: scale(0.98);
+  }
+
+  /* Card Animations */
+  .card-animated {
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out, border-color 0.2s ease-out;
+  }
+
+  .card-animated:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+    border-color: var(--accent);
+  }
+
+  /* Form Field Focus Animation */
+  .input-animated {
+    transition: border-color 0.2s ease-out, box-shadow 0.2s ease-out, transform 0.1s ease-out;
+  }
+
+  .input-animated:focus {
+    transform: translateY(-1px);
+  }
+
+  /* Step Progress Animation */
+  .step-indicator {
+    transition: all 0.3s ease-out;
+  }
+
+  .step-indicator.completed {
+    animation: scaleIn 0.3s ease-out;
+  }
+
+  /* Loading Shimmer */
+  .shimmer {
+    background: linear-gradient(
+      90deg,
+      var(--bg-light) 25%,
+      var(--bg-dark) 50%,
+      var(--bg-light) 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+
   /* Professional Card */
   .card-professional {
     @apply bg-white rounded-lg;
@@ -276,19 +620,6 @@
     box-shadow: 0 0 0 1px var(--primary), 0 0 12px rgba(14, 236, 218, 0.4);
   }
 
-  /* Globe rotation animation */
-  @keyframes globe-rotate {
-    from {
-      transform: rotateY(0deg);
-    }
-    to {
-      transform: rotateY(360deg);
-    }
-  }
-
-  .language-switcher:hover .globe-icon {
-    animation: globe-rotate 1.5s linear infinite;
-  }
 
   /* Theme Color Utilities */
   .bg-theme-light {
@@ -371,5 +702,26 @@
     background-color: var(--bg-light);
     color: var(--text-primary);
     outline: none;
+  }
+
+  /* Select Trigger Focus Animation */
+  [data-slot="select-trigger"] {
+    transition: border-color 0.2s ease-out, box-shadow 0.2s ease-out, transform 0.15s ease-out;
+  }
+
+  [data-slot="select-trigger"]:focus,
+  [data-slot="select-trigger"][data-state="open"] {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 1px var(--primary), 0 0 8px rgba(14, 236, 218, 0.2);
+    transform: translateY(-1px);
+  }
+
+  [data-slot="select-trigger"]:hover:not(:focus):not([data-state="open"]) {
+    border-color: var(--border-hover);
+  }
+
+  /* Select Content Animation */
+  [data-slot="select-content"] {
+    animation: scaleIn 0.15s ease-out;
   }
 }
