@@ -80,6 +80,22 @@ export function StepOne({ stepNumber }: StepOneProps) {
     }
   };
 
+  // Get city i18n key (e.g., "Abu Dhabi City" → "abuDhabiCity")
+  const getCityI18nKey = (city: string): string => {
+    const key = toI18nKey(city);
+    const countryKey = selectedCountry.toLowerCase();
+    return `form.steps.personal.fields.cities.${countryKey}.${key}`;
+  };
+
+  const getTranslatedCityName = (city: string): string => {
+    if (!selectedCountry) return city;
+    try {
+      return intl.formatMessage({ id: getCityI18nKey(city) });
+    } catch {
+      return city;
+    }
+  };
+
   // Handler for country change - clears dependent fields ONLY on user interaction
   const handleCountryChange = (newCountry: string) => {
     setValue('country', newCountry);
@@ -434,7 +450,7 @@ export function StepOne({ stepNumber }: StepOneProps) {
                   <SelectContent>
                     {cities.map((city) => (
                       <SelectItem key={city} value={city}>
-                        {city}
+                        {getTranslatedCityName(city)}
                       </SelectItem>
                     ))}
                   </SelectContent>
