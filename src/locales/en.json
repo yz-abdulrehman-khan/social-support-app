@@ -23,7 +23,8 @@
     "hero": {
       "title": "Financial Assistance Application Portal",
       "subtitle": "Access government financial support securely and with dignity.",
-      "startButton": "Start Your Application"
+      "startButton": "Start Your Application",
+      "resumeButton": "Resume Your Application"
     },
     "features": {
       "title": "Why Apply Through Our Portal",
@@ -254,7 +255,8 @@
     "enterValidPhone": "Please enter a valid phone number",
     "provideDetailedDescription": "Please provide a detailed description (minimum 50 characters)",
     "progressSaved": "Progress saved successfully",
-    "saveFailed": "Failed to save progress. Please try again."
+    "saveFailed": "Failed to save progress. Please try again.",
+    "resumingFromStep": "Resuming from step {step}"
   },
   "error": {
     "app": {

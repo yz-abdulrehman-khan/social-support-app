@@ -9,9 +9,10 @@ import { DirectionalArrow } from '@/components/ui/DirectionalArrow';
 
 interface LandingPageProps {
   onStartApplication: () => void;
+  hasSavedApplication?: boolean;
 }
 
-export function LandingPage({ onStartApplication }: LandingPageProps) {
+export function LandingPage({ onStartApplication, hasSavedApplication = false }: LandingPageProps) {
   const intl = useIntl();
   const { isRTL, dir } = useRTL();
 
@@ -46,7 +47,7 @@ export function LandingPage({ onStartApplication }: LandingPageProps) {
               onClick={onStartApplication}
               className="bg-accent text-white hover:bg-accent-hover rounded-full px-8 h-11 font-medium shadow-lg hover:shadow-xl transition-all inline-flex items-center gap-2"
             >
-              <span>{intl.formatMessage({ id: 'landing.hero.startButton' })}</span>
+              <span>{intl.formatMessage({ id: hasSavedApplication ? 'landing.hero.resumeButton' : 'landing.hero.startButton' })}</span>
               <DirectionalArrow direction="right" />
             </Button>
           </div>
@@ -224,7 +225,7 @@ export function LandingPage({ onStartApplication }: LandingPageProps) {
               onClick={onStartApplication}
               className="bg-accent hover:bg-accent-hover text-white rounded-full px-8 h-11 font-medium shadow-md inline-flex items-center gap-2"
             >
-              <span>{intl.formatMessage({ id: 'landing.hero.startButton' })}</span>
+              <span>{intl.formatMessage({ id: hasSavedApplication ? 'landing.hero.resumeButton' : 'landing.hero.startButton' })}</span>
               <DirectionalArrow direction="right" />
             </Button>
           </div>

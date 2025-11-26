@@ -18,6 +18,7 @@ export function AppRouter() {
     appState,
     applicationData,
     referenceNumber,
+    hasSavedApplication,
     startApplication,
     submitApplication,
     startNewApplication,
@@ -30,6 +31,7 @@ export function AppRouter() {
         return (
           <LandingPage
             onStartApplication={startApplication}
+            hasSavedApplication={hasSavedApplication}
           />
         );
 
