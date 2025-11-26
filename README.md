@@ -155,45 +155,41 @@ FRONTEND_URL=http://localhost:3000
 
 ## Architecture
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                         FRONTEND (React + Vite)                  │
-│                                                                  │
-│  ┌──────────────────────────────────────────────────────────┐   │
-│  │                        App Flow                           │   │
-│  │                                                           │   │
-│  │   Landing ──→ Form Wizard ──→ Success                    │   │
-│  │     Page      (4 Steps)        Page                       │   │
-│  │                   │                                       │   │
-│  │                   ↓                                       │   │
-│  │         ┌─────────────────┐                              │   │
-│  │         │ Encrypted       │  (AES-256, 24h TTL)          │   │
-│  │         │ Session Storage │                               │   │
-│  │         └─────────────────┘                              │   │
-│  └──────────────────────────────────────────────────────────┘   │
-│                              │                                   │
-│                              │ REST API                          │
-└──────────────────────────────│───────────────────────────────────┘
-                               ↓
-┌─────────────────────────────────────────────────────────────────┐
-│                       BACKEND (Express)                          │
-│                                                                  │
-│  POST /api/ai/rephrase   →  AI Writing Assistant                │
-│  POST /api/ai/translate  →  EN ↔ AR Name Translation            │
-│                              │                                   │
-└──────────────────────────────│───────────────────────────────────┘
-                               ↓
-                    ┌─────────────────────┐
-                    │   OpenAI API        │
-                    │   (GPT-3.5-turbo)   │
-                    └─────────────────────┘
+```mermaid
+flowchart TB
+    subgraph Frontend["Frontend (React + Vite)"]
+        Landing["Landing Page"]
+        Form["Form Wizard<br/>(4 Steps)"]
+        Success["Success Page"]
+        Storage[("Session Storage<br/>(24h TTL)")]
+
+        Landing --> Form
+        Form --> Success
+        Form <-.-> Storage
+    end
+
+    subgraph Backend["Backend (Express)"]
+        API["REST API"]
+        Rephrase["/api/ai/rephrase"]
+        Translate["/api/ai/translate"]
+
+        API --> Rephrase
+        API --> Translate
+    end
+
+    subgraph External["External"]
+        OpenAI["OpenAI API<br/>(GPT-3.5)"]
+    end
+
+    Form -->|"AI Writing<br/>Assistant"| API
+    API --> OpenAI
 ```
 
 **Key Features:**
 - Bilingual (EN/AR) with full RTL support
 - 4-step form wizard with Zod validation
 - AI-powered writing assistant & auto-translation
-- Encrypted client-side storage for resume journey
+- Session storage for resume journey (24h TTL)
 - React Hook Form + react-intl for i18n
 
 ---

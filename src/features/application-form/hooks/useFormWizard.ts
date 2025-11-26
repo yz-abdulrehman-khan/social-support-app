@@ -107,89 +107,76 @@ export function useFormWizard({ initialData, onSubmit, totalSteps }: UseFormWiza
     );
   };
 
-  const handleSaveProgress = async () => {
+  const handleSaveProgress = () => {
     const formData = form.getValues();
     const hasData = Object.values(formData).some(value =>
       value !== '' && value !== null && value !== undefined
     );
 
     if (hasData) {
-      try {
-        // Save both form data and current step for resume journey
-        const sessionData: SavedFormSession = {
-          formData,
-          currentStep,
-          lastModified: Date.now(),
-        };
-        await setSecureItem(STORAGE_KEYS.FINANCIAL_ASSISTANCE_APPLICATION, sessionData);
-        const serializedData = JSON.stringify(formData);
-        setLastSavedData(serializedData);
-        toast.success(intl.formatMessage({ id: 'toast.progressSaved' }));
-      } catch (error) {
-        console.error('Failed to save progress:', error);
-        toast.error(intl.formatMessage({ id: 'toast.saveFailed' }));
-      }
+      // Save both form data and current step for resume journey
+      const sessionData: SavedFormSession = {
+        formData,
+        currentStep,
+        lastModified: Date.now(),
+      };
+      setSecureItem(STORAGE_KEYS.FINANCIAL_ASSISTANCE_APPLICATION, sessionData);
+      const serializedData = JSON.stringify(formData);
+      setLastSavedData(serializedData);
+      toast.success(intl.formatMessage({ id: 'toast.progressSaved' }));
     }
   };
 
   useEffect(() => {
-    const loadSecureData = async () => {
-      try {
-        // Try to load saved data - could be new format (SavedFormSession) or legacy format (ApplicationData)
-        const savedData = await getSecureItem<SavedFormSession | ApplicationData>(STORAGE_KEYS.FINANCIAL_ASSISTANCE_APPLICATION);
+    // Try to load saved data - could be new format (SavedFormSession) or legacy format (ApplicationData)
+    const savedData = getSecureItem<SavedFormSession | ApplicationData>(STORAGE_KEYS.FINANCIAL_ASSISTANCE_APPLICATION);
 
-        if (!savedData) return;
+    if (!savedData) return;
 
-        let formData: ApplicationData;
-        let savedStep = 1;
+    let formData: ApplicationData;
+    let savedStep = 1;
 
-        // Handle both new and legacy data formats for backwards compatibility
-        if (isSavedFormSession(savedData)) {
-          // New format: extract form data and step
-          formData = savedData.formData;
-          savedStep = savedData.currentStep;
-        } else {
-          // Legacy format: data is the form data itself, default to step 1
-          formData = savedData as ApplicationData;
-        }
+    // Handle both new and legacy data formats for backwards compatibility
+    if (isSavedFormSession(savedData)) {
+      // New format: extract form data and step
+      formData = savedData.formData;
+      savedStep = savedData.currentStep;
+    } else {
+      // Legacy format: data is the form data itself, default to step 1
+      formData = savedData as ApplicationData;
+    }
 
-        // Check if form data has any meaningful content
-        const hasData = Object.values(formData).some(value =>
-          value !== '' && value !== null && value !== undefined
-        );
+    // Check if form data has any meaningful content
+    const hasData = Object.values(formData).some(value =>
+      value !== '' && value !== null && value !== undefined
+    );
 
-        if (!hasData) {
-          removeSecureItem(STORAGE_KEYS.FINANCIAL_ASSISTANCE_APPLICATION);
-          return;
-        }
+    if (!hasData) {
+      removeSecureItem(STORAGE_KEYS.FINANCIAL_ASSISTANCE_APPLICATION);
+      return;
+    }
 
-        // Restore form data
-        form.reset(formData);
-        setLastSavedData(JSON.stringify(formData));
+    // Restore form data
+    form.reset(formData);
+    setLastSavedData(JSON.stringify(formData));
 
-        // Determine valid resume step (validate previous steps are complete)
-        const validResumeStep = getValidResumeStep(savedStep, formData);
+    // Determine valid resume step (validate previous steps are complete)
+    const validResumeStep = getValidResumeStep(savedStep, formData);
 
-        // Only change step if we have a valid step > 1
-        if (validResumeStep > 1) {
-          setCurrentStep(validResumeStep);
-          // Show resume toast with step info
-          toast.success(
-            intl.formatMessage(
-              { id: 'toast.resumingFromStep' },
-              { step: validResumeStep }
-            )
-          );
-        } else {
-          // Just restored data, starting from step 1
-          toast.success(intl.formatMessage({ id: 'toast.previousDataRestored' }));
-        }
-      } catch (e) {
-        console.error('Failed to load saved data', e);
-      }
-    };
-
-    loadSecureData();
+    // Only change step if we have a valid step > 1
+    if (validResumeStep > 1) {
+      setCurrentStep(validResumeStep);
+      // Show resume toast with step info
+      toast.success(
+        intl.formatMessage(
+          { id: 'toast.resumingFromStep' },
+          { step: validResumeStep }
+        )
+      );
+    } else {
+      // Just restored data, starting from step 1
+      toast.success(intl.formatMessage({ id: 'toast.previousDataRestored' }));
+    }
   }, [form, intl, getValidResumeStep]);
 
   const validateStep = async (step: number): Promise<boolean> => {

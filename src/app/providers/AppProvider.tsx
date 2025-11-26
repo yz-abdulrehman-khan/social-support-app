@@ -48,15 +48,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   // Check for saved application on mount
   useEffect(() => {
-    const checkSavedApplication = async () => {
-      try {
-        const savedData = await getSecureItem(STORAGE_KEYS.FINANCIAL_ASSISTANCE_APPLICATION);
-        setHasSavedApplication(savedData !== null);
-      } catch {
-        setHasSavedApplication(false);
-      }
-    };
-    checkSavedApplication();
+    const savedData = getSecureItem(STORAGE_KEYS.FINANCIAL_ASSISTANCE_APPLICATION);
+    setHasSavedApplication(savedData !== null);
   }, []);
 
   const startApplication = () => {
@@ -78,14 +71,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setAppState(APP_STATES.LANDING);
   };
 
-  const navigateToLanding = async () => {
+  const navigateToLanding = () => {
     // Re-check for saved application when navigating to landing
-    try {
-      const savedData = await getSecureItem(STORAGE_KEYS.FINANCIAL_ASSISTANCE_APPLICATION);
-      setHasSavedApplication(savedData !== null);
-    } catch {
-      setHasSavedApplication(false);
-    }
+    const savedData = getSecureItem(STORAGE_KEYS.FINANCIAL_ASSISTANCE_APPLICATION);
+    setHasSavedApplication(savedData !== null);
     setAppState(APP_STATES.LANDING);
   };
 
