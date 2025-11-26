@@ -169,7 +169,7 @@ export function useFormWizard({ initialData, onSubmit, totalSteps }: UseFormWiza
     const currentFormData = form.getValues();
 
     // Exclude default values that are set on initialization
-    const excludedDefaults: string[] = [DEFAULT_VALUES.DEFAULT_EMIRATE, DEFAULT_VALUES.COUNTRY];
+    const excludedDefaults: string[] = [DEFAULT_VALUES.DEFAULT_REGION, DEFAULT_VALUES.COUNTRY];
 
     return Object.entries(currentFormData).some(([, value]) => {
       // Skip if value is empty

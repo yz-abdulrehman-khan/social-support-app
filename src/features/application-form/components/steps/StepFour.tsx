@@ -5,6 +5,7 @@ import { toArabicNumerals, formatNumericValue } from '@/lib/i18n';
 import type { ApplicationData } from '@/features/application-form/types';
 import { useLanguage } from '@/app/providers';
 import { useRTL } from '@/hooks/useRTL';
+import { getCountryConfig } from '@/config/formData';
 
 interface StepFourProps {
   data: ApplicationData;
@@ -16,6 +17,29 @@ export function StepFour({ data, onEdit, stepNumber }: StepFourProps) {
   const intl = useIntl();
   const { language } = useLanguage();
   const { isRTL } = useRTL();
+
+  // Get country config for dynamic labels
+  const countryConfig = getCountryConfig(data.country);
+
+  // Get region label based on country
+  const getRegionLabel = () => {
+    if (countryConfig?.regionLabelKey) {
+      return intl.formatMessage({ id: countryConfig.regionLabelKey });
+    }
+    return intl.formatMessage({ id: 'form.steps.personal.fields.region' });
+  };
+
+  // Get translated country name
+  const getCountryDisplayName = () => {
+    if (data.country) {
+      try {
+        return intl.formatMessage({ id: `form.steps.personal.fields.countries.${data.country.toLowerCase()}` });
+      } catch {
+        return data.country;
+      }
+    }
+    return '-';
+  };
 
   const DataRow = ({ label, value }: { label: string; value?: string }) => (
     <div className="py-3 border-b border-gray-100 last:border-0">
@@ -81,9 +105,19 @@ export function StepFour({ data, onEdit, stepNumber }: StepFourProps) {
             value={data.fullNameArabic}
           />
           <DataRow
-            label={intl.formatMessage({ id: 'form.steps.personal.fields.emiratesId' })}
-            value={data.nationalId}
+            label={intl.formatMessage({ id: 'form.steps.personal.fields.country' })}
+            value={getCountryDisplayName()}
           />
+          <DataRow
+            label={getRegionLabel()}
+            value={data.emirate}
+          />
+          {data.nationalId && (
+            <DataRow
+              label={countryConfig?.idLabelKey ? intl.formatMessage({ id: countryConfig.idLabelKey }) : intl.formatMessage({ id: 'form.steps.personal.fields.nationalId' })}
+              value={data.nationalId}
+            />
+          )}
           <DataRow
             label={intl.formatMessage({ id: 'form.steps.personal.fields.dateOfBirth' })}
             value={isRTL && data.dateOfBirth ? toArabicNumerals(data.dateOfBirth) : data.dateOfBirth}
@@ -107,14 +141,6 @@ export function StepFour({ data, onEdit, stepNumber }: StepFourProps) {
           <DataRow
             label={intl.formatMessage({ id: 'form.steps.personal.fields.city' })}
             value={data.city}
-          />
-          <DataRow
-            label={intl.formatMessage({ id: 'form.steps.personal.fields.emirate' })}
-            value={data.emirate}
-          />
-          <DataRow
-            label={intl.formatMessage({ id: 'form.steps.personal.fields.country' })}
-            value={data.country}
           />
           <DataRow
             label={intl.formatMessage({ id: 'form.steps.personal.fields.postalCode' })}

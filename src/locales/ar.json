@@ -92,9 +92,15 @@
           "fullNameEnglish": "الاسم الكامل (بالإنجليزية)",
           "fullNameArabic": "الاسم الكامل (بالعربية)",
           "emiratesId": "رقم الهوية الإماراتية",
+          "nationalId": "رقم الهوية الوطنية",
+          "qatarId": "رقم الهوية القطرية",
+          "cpr": "رقم السجل السكاني",
           "dateOfBirth": "تاريخ الميلاد",
           "gender": "الجنس",
           "selectGender": "اختر الجنس",
+          "selectCountry": "اختر الدولة",
+          "selectRegion": "اختر المنطقة",
+          "selectCity": "اختر المدينة",
           "male": "ذكر",
           "female": "أنثى",
           "nationality": "الجنسية",
@@ -103,8 +109,18 @@
           "street": "عنوان الشارع",
           "city": "المدينة",
           "emirate": "الإمارة",
+          "province": "المنطقة",
+          "municipality": "البلدية",
+          "governorate": "المحافظة",
+          "region": "المنطقة",
           "country": "الدولة",
           "postalCode": "الرمز البريدي",
+          "countries": {
+            "uae": "الإمارات العربية المتحدة",
+            "sau": "المملكة العربية السعودية",
+            "qat": "قطر",
+            "bhr": "البحرين"
+          },
           "emirates": {
             "abuDhabi": "أبو ظبي",
             "dubai": "دبي",
@@ -113,6 +129,39 @@
             "ummAlQuwain": "أم القيوين",
             "rasAlKhaimah": "رأس الخيمة",
             "fujairah": "الفجيرة"
+          },
+          "regions": {
+            "sau": {
+              "riyadh": "الرياض",
+              "makkah": "مكة المكرمة",
+              "madinah": "المدينة المنورة",
+              "easternProvince": "المنطقة الشرقية",
+              "asir": "عسير",
+              "tabuk": "تبوك",
+              "hail": "حائل",
+              "northernBorders": "الحدود الشمالية",
+              "jazan": "جازان",
+              "najran": "نجران",
+              "alBahah": "الباحة",
+              "alJawf": "الجوف",
+              "qassim": "القصيم"
+            },
+            "qat": {
+              "doha": "الدوحة",
+              "alRayyan": "الريان",
+              "alWakrah": "الوكرة",
+              "alKhor": "الخور",
+              "alShamal": "الشمال",
+              "alDaayen": "الضعاين",
+              "ummSalal": "أم صلال",
+              "alShahaniya": "الشحانية"
+            },
+            "bhr": {
+              "capitalGovernorate": "محافظة العاصمة",
+              "northernGovernorate": "المحافظة الشمالية",
+              "southernGovernorate": "المحافظة الجنوبية",
+              "muharraqGovernorate": "محافظة المحرق"
+            }
           },
           "placeholders": {
             "fullNameEnglish": "أدخل اسمك الكامل بالإنجليزية",
@@ -192,8 +241,9 @@
   "validation": {
     "required": "هذا الحقل مطلوب",
     "invalidEmail": "يرجى إدخال بريد إلكتروني صالح",
-    "invalidPhone": "يرجى إدخال رقم هاتف إماراتي صالح (مثال: +971 XX XXX XXXX)",
+    "invalidPhone": "يرجى إدخال رقم هاتف صالح",
     "invalidEmiratesId": "يرجى إدخال رقم هوية إماراتية صالح (مثال: ٧٨٤-١٢٣٤-١٢٣٤٥٦٧-١)",
+    "invalidNationalId": "يرجى إدخال رقم هوية صالح",
     "invalidNumber": "يرجى إدخال رقم صالح",
     "minLength": "يرجى إدخال {min} حرفًا على الأقل"
   },

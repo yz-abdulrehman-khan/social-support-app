@@ -92,9 +92,15 @@
           "fullNameEnglish": "Full Name (English)",
           "fullNameArabic": "Full Name (Arabic)",
           "emiratesId": "Emirates ID Number",
+          "nationalId": "National ID Number",
+          "qatarId": "Qatar ID Number",
+          "cpr": "CPR Number",
           "dateOfBirth": "Date of Birth",
           "gender": "Gender",
           "selectGender": "Select gender",
+          "selectCountry": "Select country",
+          "selectRegion": "Select region",
+          "selectCity": "Select city",
           "male": "Male",
           "female": "Female",
           "nationality": "Nationality",
@@ -103,8 +109,18 @@
           "street": "Street Address",
           "city": "City",
           "emirate": "Emirate",
+          "province": "Province",
+          "municipality": "Municipality",
+          "governorate": "Governorate",
+          "region": "Region",
           "country": "Country",
           "postalCode": "Postal Code",
+          "countries": {
+            "uae": "United Arab Emirates",
+            "sau": "Saudi Arabia",
+            "qat": "Qatar",
+            "bhr": "Bahrain"
+          },
           "emirates": {
             "abuDhabi": "Abu Dhabi",
             "dubai": "Dubai",
@@ -113,6 +129,39 @@
             "ummAlQuwain": "Umm Al Quwain",
             "rasAlKhaimah": "Ras Al Khaimah",
             "fujairah": "Fujairah"
+          },
+          "regions": {
+            "sau": {
+              "riyadh": "Riyadh",
+              "makkah": "Makkah",
+              "madinah": "Madinah",
+              "easternProvince": "Eastern Province",
+              "asir": "Asir",
+              "tabuk": "Tabuk",
+              "hail": "Hail",
+              "northernBorders": "Northern Borders",
+              "jazan": "Jazan",
+              "najran": "Najran",
+              "alBahah": "Al Bahah",
+              "alJawf": "Al Jawf",
+              "qassim": "Qassim"
+            },
+            "qat": {
+              "doha": "Doha",
+              "alRayyan": "Al Rayyan",
+              "alWakrah": "Al Wakrah",
+              "alKhor": "Al Khor",
+              "alShamal": "Al Shamal",
+              "alDaayen": "Al Daayen",
+              "ummSalal": "Umm Salal",
+              "alShahaniya": "Al Shahaniya"
+            },
+            "bhr": {
+              "capitalGovernorate": "Capital Governorate",
+              "northernGovernorate": "Northern Governorate",
+              "southernGovernorate": "Southern Governorate",
+              "muharraqGovernorate": "Muharraq Governorate"
+            }
           },
           "placeholders": {
             "fullNameEnglish": "Enter your full name in English",
@@ -192,8 +241,9 @@
   "validation": {
     "required": "This field is required",
     "invalidEmail": "Please enter a valid email address",
-    "invalidPhone": "Please enter a valid UAE phone number (e.g., +971 XX XXX XXXX)",
+    "invalidPhone": "Please enter a valid phone number",
     "invalidEmiratesId": "Please enter a valid Emirates ID (e.g., 784-1234-1234567-1)",
+    "invalidNationalId": "Please enter a valid ID number",
     "invalidNumber": "Please enter a valid number",
     "minLength": "Please enter at least {min} characters"
   },

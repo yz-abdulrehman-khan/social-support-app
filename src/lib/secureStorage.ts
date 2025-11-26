@@ -121,7 +121,3 @@ export function clearSecureStorage(): void {
   sessionStorage.clear();
 }
 
-export async function hasSecureItem(key: string): Promise<boolean> {
-  const item = await getSecureItem(key);
-  return item !== null;
-}

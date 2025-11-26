@@ -1,19 +1,21 @@
 import { useFormContext } from 'react-hook-form';
 import { useState } from 'react';
+import { useIntl } from 'react-intl';
+import { Languages } from 'lucide-react';
+
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { DatePicker } from '@/components/ui/date-picker';
 import { FormField, FormControl, FormItem, FormMessage, FormLabel } from '@/components/ui/form';
-import { useIntl } from 'react-intl';
+
 import { toArabicNumerals } from '@/lib/i18n';
-import { formatEmiratesId, formatUAEPhone } from '@/features/application-form/validation';
+import { formatNationalId, formatGCCPhone } from '@/features/application-form/validation';
 import type { ApplicationData } from '@/features/application-form/types';
 import { AIService } from '@/services/aiService';
 import { useLanguage } from '@/app/providers';
 import { useRTL } from '@/hooks/useRTL';
-import { UAE_EMIRATES, GENDER_OPTIONS } from '@/config/formData';
+import { GCC_COUNTRY_CODES, GENDER_OPTIONS, getCountryConfig, getCitiesForRegion } from '@/config/formData';
 import { VALIDATION_CONSTRAINTS } from '@/config/validation';
-import { Languages } from 'lucide-react';
 
 interface StepOneProps {
   stepNumber: number;
@@ -24,17 +26,81 @@ export function StepOne({ stepNumber }: StepOneProps) {
   const { language } = useLanguage();
   const { isRTL, dir } = useRTL();
   const { control, setValue, watch } = useFormContext<ApplicationData>();
+
+  // Translation state
   const [isTranslatingEnglish, setIsTranslatingEnglish] = useState(false);
   const [isTranslatingArabic, setIsTranslatingArabic] = useState(false);
 
+  // Watch form values
   const fullNameEnglish = watch('fullNameEnglish');
   const fullNameArabic = watch('fullNameArabic');
+  const selectedCountry = watch('country');
+  const selectedRegion = watch('emirate');
 
+  // Get country configuration and derived data
+  const countryConfig = getCountryConfig(selectedCountry);
+  const regions = countryConfig?.regions || [];
+  const cities = selectedCountry && selectedRegion
+    ? getCitiesForRegion(selectedCountry, selectedRegion)
+    : [];
+
+  // Get dynamic labels based on country
+  const regionLabel = countryConfig?.regionLabelKey
+    ? intl.formatMessage({ id: countryConfig.regionLabelKey })
+    : intl.formatMessage({ id: 'form.steps.personal.fields.region' });
+
+  const idLabel = countryConfig?.idLabelKey
+    ? intl.formatMessage({ id: countryConfig.idLabelKey })
+    : intl.formatMessage({ id: 'form.steps.personal.fields.nationalId' });
+
+  // Convert region name to i18n key (e.g., "Abu Dhabi" → "abuDhabi")
+  const toI18nKey = (text: string): string => {
+    return text
+      .split(' ')
+      .map((word, index) =>
+        index === 0
+          ? word.toLowerCase()
+          : word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+      )
+      .join('');
+  };
+
+  const getRegionI18nKey = (region: string): string => {
+    if (selectedCountry === 'UAE') {
+      return `form.steps.personal.fields.emirates.${toI18nKey(region)}`;
+    }
+    return `form.steps.personal.fields.regions.${selectedCountry.toLowerCase()}.${toI18nKey(region)}`;
+  };
+
+  const getTranslatedRegionName = (region: string): string => {
+    try {
+      return intl.formatMessage({ id: getRegionI18nKey(region) });
+    } catch {
+      return region;
+    }
+  };
+
+  // Handler for country change - clears dependent fields ONLY on user interaction
+  const handleCountryChange = (newCountry: string) => {
+    setValue('country', newCountry);
+    // Clear dependent fields when user changes country
+    setValue('emirate', '');
+    setValue('city', '');
+    setValue('phoneNumber', '');
+    setValue('nationalId', '');
+  };
+
+  // Handler for region change - clears city ONLY on user interaction
+  const handleRegionChange = (newRegion: string) => {
+    setValue('emirate', newRegion);
+    // Clear city when user changes region
+    setValue('city', '');
+  };
+
+  // Name translation handlers
   const handleEnglishBlur = async () => {
-    // Prevent concurrent translation calls
     if (isTranslatingEnglish || isTranslatingArabic) return;
 
-    // If English field is empty, clear Arabic field
     if (!fullNameEnglish?.trim()) {
       setValue('fullNameArabic', '', { shouldValidate: false });
       return;
@@ -54,10 +120,8 @@ export function StepOne({ stepNumber }: StepOneProps) {
   };
 
   const handleArabicBlur = async () => {
-    // Prevent concurrent translation calls
     if (isTranslatingEnglish || isTranslatingArabic) return;
 
-    // If Arabic field is empty, clear English field
     if (!fullNameArabic?.trim()) {
       setValue('fullNameEnglish', '', { shouldValidate: false });
       return;
@@ -75,6 +139,17 @@ export function StepOne({ stepNumber }: StepOneProps) {
       setIsTranslatingEnglish(false);
     }
   };
+
+  // Input formatters
+  const handleNationalIdChange = (value: string) => {
+    setValue('nationalId', formatNationalId(value, selectedCountry));
+  };
+
+  const handlePhoneChange = (value: string) => {
+    setValue('phoneNumber', formatGCCPhone(value, selectedCountry));
+  };
+
+  const isTranslating = isTranslatingEnglish || isTranslatingArabic;
 
   return (
     <div className="space-y-8 w-full">
@@ -110,7 +185,7 @@ export function StepOne({ stepNumber }: StepOneProps) {
                       field.onBlur();
                       handleEnglishBlur();
                     }}
-                    disabled={(isTranslatingEnglish || isTranslatingArabic) || language === 'ar'}
+                    disabled={isTranslating || language === 'ar'}
                   />
                 </FormControl>
                 {isTranslatingEnglish && (
@@ -142,7 +217,7 @@ export function StepOne({ stepNumber }: StepOneProps) {
                       field.onBlur();
                       handleArabicBlur();
                     }}
-                    disabled={(isTranslatingEnglish || isTranslatingArabic) || language === 'en'}
+                    disabled={isTranslating || language === 'en'}
                   />
                 </FormControl>
                 {isTranslatingArabic && (
@@ -157,36 +232,102 @@ export function StepOne({ stepNumber }: StepOneProps) {
           />
         </div>
 
-        {/* Emirates ID, Date of Birth & Gender - Side by Side */}
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-4 items-start">
-          <div className="col-span-2">
-            <FormField
-              control={control}
-              name="nationalId"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-xs md:text-sm font-medium">
-                    {intl.formatMessage({ id: 'form.steps.personal.fields.emiratesId' })} <span className="text-red-500">*</span>
-                  </FormLabel>
+        {/* Country & Region Selection */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
+          <FormField
+            control={control}
+            name="country"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-xs md:text-sm font-medium">
+                  {intl.formatMessage({ id: 'form.steps.personal.fields.country' })} <span className="text-red-500">*</span>
+                </FormLabel>
+                <Select
+                  dir={dir}
+                  value={field.value}
+                  onValueChange={handleCountryChange}
+                  onOpenChange={(open) => { if (!open) field.onBlur(); }}
+                >
                   <FormControl>
-                    <Input
-                      {...field}
-                      id="nationalId"
-                      placeholder="784-XXXX-XXXXXXX-X"
-                      className="w-full"
-                      onChange={(e) => {
-                        const formatted = formatEmiratesId(e.target.value);
-                        setValue('nationalId', formatted);
-                      }}
-                      maxLength={VALIDATION_CONSTRAINTS.EMIRATES_ID_MAX_LENGTH}
-                    />
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder={intl.formatMessage({ id: 'form.steps.personal.fields.selectCountry' })} />
+                    </SelectTrigger>
                   </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <div className="col-span-2">
+                  <SelectContent>
+                    {GCC_COUNTRY_CODES.map((code) => (
+                      <SelectItem key={code} value={code}>
+                        {intl.formatMessage({ id: `form.steps.personal.fields.countries.${code.toLowerCase()}` })}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={control}
+            name="emirate"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-xs md:text-sm font-medium">
+                  {regionLabel} <span className="text-red-500">*</span>
+                </FormLabel>
+                <Select
+                  dir={dir}
+                  value={field.value}
+                  onValueChange={handleRegionChange}
+                  onOpenChange={(open) => { if (!open) field.onBlur(); }}
+                  disabled={!selectedCountry}
+                >
+                  <FormControl>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder={intl.formatMessage({ id: 'form.steps.personal.fields.selectRegion' })} />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {regions.map((region) => (
+                      <SelectItem key={region} value={region}>
+                        {getTranslatedRegionName(region)}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+
+        {/* National ID, Date of Birth & Gender */}
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-4 items-start">
+          {selectedCountry && (
+            <div className="col-span-2">
+              <FormField
+                control={control}
+                name="nationalId"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-xs md:text-sm font-medium">
+                      {idLabel} <span className="text-red-500">*</span>
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        id="nationalId"
+                        placeholder={countryConfig?.idFormat || 'Enter ID number'}
+                        className="w-full"
+                        onChange={(e) => handleNationalIdChange(e.target.value)}
+                        maxLength={countryConfig?.idMaxLength || 18}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+          )}
+          <div className={selectedCountry ? 'col-span-2' : 'col-span-3'}>
             <FormField
               control={control}
               name="dateOfBirth"
@@ -210,7 +351,7 @@ export function StepOne({ stepNumber }: StepOneProps) {
               )}
             />
           </div>
-          <div className="md:col-span-1">
+          <div className={selectedCountry ? 'md:col-span-1' : 'col-span-2'}>
             <FormField
               control={control}
               name="gender"
@@ -223,9 +364,7 @@ export function StepOne({ stepNumber }: StepOneProps) {
                     dir={dir}
                     value={field.value}
                     onValueChange={field.onChange}
-                    onOpenChange={(open) => {
-                      if (!open) field.onBlur();
-                    }}
+                    onOpenChange={(open) => { if (!open) field.onBlur(); }}
                   >
                     <FormControl>
                       <SelectTrigger className="w-full">
@@ -248,30 +387,28 @@ export function StepOne({ stepNumber }: StepOneProps) {
         </div>
 
         {/* Street Address */}
-        <div>
-          <FormField
-            control={control}
-            name="street"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-xs md:text-sm font-medium">
-                  {intl.formatMessage({ id: 'form.steps.personal.fields.street' })} <span className="text-red-500">*</span>
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    id="street"
-                    placeholder={intl.formatMessage({ id: 'form.steps.personal.fields.placeholders.street' })}
-                    className="w-full"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
+        <FormField
+          control={control}
+          name="street"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-xs md:text-sm font-medium">
+                {intl.formatMessage({ id: 'form.steps.personal.fields.street' })} <span className="text-red-500">*</span>
+              </FormLabel>
+              <FormControl>
+                <Input
+                  {...field}
+                  id="street"
+                  placeholder={intl.formatMessage({ id: 'form.steps.personal.fields.placeholders.street' })}
+                  className="w-full"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-        {/* City & Emirate - Side by Side */}
+        {/* City & Postal Code */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
           <FormField
             control={control}
@@ -281,82 +418,26 @@ export function StepOne({ stepNumber }: StepOneProps) {
                 <FormLabel className="text-xs md:text-sm font-medium">
                   {intl.formatMessage({ id: 'form.steps.personal.fields.city' })} <span className="text-red-500">*</span>
                 </FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    id="city"
-                    placeholder={intl.formatMessage({ id: 'form.steps.personal.fields.placeholders.city' })}
-                    className="w-full"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={control}
-            name="emirate"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-xs md:text-sm font-medium">
-                  {intl.formatMessage({ id: 'form.steps.personal.fields.emirate' })} <span className="text-red-500">*</span>
-                </FormLabel>
                 <Select
                   dir={dir}
                   value={field.value}
                   onValueChange={field.onChange}
-                  onOpenChange={(open) => {
-                    if (!open) field.onBlur();
-                  }}
+                  onOpenChange={(open) => { if (!open) field.onBlur(); }}
+                  disabled={!selectedRegion || cities.length === 0}
                 >
                   <FormControl>
                     <SelectTrigger className="w-full">
-                      <SelectValue />
+                      <SelectValue placeholder={intl.formatMessage({ id: 'form.steps.personal.fields.selectCity' })} />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {UAE_EMIRATES.map((emirate) => {
-                      // Convert "Abu Dhabi" → "abuDhabi", "Ras Al Khaimah" → "rasAlKhaimah"
-                      const i18nKey = emirate
-                        .split(' ')
-                        .map((word, index) =>
-                          index === 0
-                            ? word.toLowerCase()
-                            : word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-                        )
-                        .join('');
-                      return (
-                        <SelectItem key={emirate} value={emirate}>
-                          {intl.formatMessage({ id: `form.steps.personal.fields.emirates.${i18nKey}` })}
-                        </SelectItem>
-                      );
-                    })}
+                    {cities.map((city) => (
+                      <SelectItem key={city} value={city}>
+                        {city}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-
-        {/* Country & Postal Code - Side by Side */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
-          <FormField
-            control={control}
-            name="country"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-xs md:text-sm font-medium">
-                  {intl.formatMessage({ id: 'form.steps.personal.fields.country' })} <span className="text-red-500">*</span>
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    id="country"
-                    className="w-full bg-gray-50 cursor-not-allowed"
-                    disabled
-                  />
-                </FormControl>
                 <FormMessage />
               </FormItem>
             )}
@@ -383,7 +464,7 @@ export function StepOne({ stepNumber }: StepOneProps) {
           />
         </div>
 
-        {/* Phone & Email - Side by Side */}
+        {/* Phone & Email */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
           <FormField
             control={control}
@@ -398,13 +479,11 @@ export function StepOne({ stepNumber }: StepOneProps) {
                     {...field}
                     id="phoneNumber"
                     type="tel"
-                    placeholder="+971 XX XXX XXXX"
+                    placeholder={countryConfig?.phoneFormat || '+XXX XX XXX XXXX'}
                     className="w-full"
-                    onChange={(e) => {
-                      const formatted = formatUAEPhone(e.target.value);
-                      setValue('phoneNumber', formatted);
-                    }}
-                    maxLength={VALIDATION_CONSTRAINTS.UAE_PHONE_MAX_LENGTH}
+                    onChange={(e) => handlePhoneChange(e.target.value)}
+                    maxLength={countryConfig?.phoneMaxLength || VALIDATION_CONSTRAINTS.GCC_PHONE_MAX_LENGTH}
+                    disabled={!selectedCountry}
                   />
                 </FormControl>
                 <FormMessage />

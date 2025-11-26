@@ -20,7 +20,7 @@ export const STORAGE_KEYS = {
 
 // Default values
 export const DEFAULT_VALUES = {
-  COUNTRY: 'United Arab Emirates',
-  DEFAULT_EMIRATE: 'Abu Dhabi',
+  COUNTRY: 'UAE',
+  DEFAULT_REGION: 'Abu Dhabi',
   LANGUAGE: 'en' as const,
 } as const;

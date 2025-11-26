@@ -24,7 +24,7 @@ const initialApplicationData: ApplicationData = {
   gender: '',
   street: '',
   city: '',
-  emirate: DEFAULT_VALUES.DEFAULT_EMIRATE,
+  emirate: '',
   country: DEFAULT_VALUES.COUNTRY,
   postalCode: '',
   phoneNumber: '',

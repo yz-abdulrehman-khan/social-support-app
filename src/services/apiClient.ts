@@ -141,12 +141,3 @@ export async function translateToEnglish(text: string): Promise<string> {
     return '';
   }
 }
-
-export async function checkAPIHealth(): Promise<boolean> {
-  try {
-    await apiRequest('/health', { method: 'GET' });
-    return true;
-  } catch (error) {
-    return false;
-  }
-}
