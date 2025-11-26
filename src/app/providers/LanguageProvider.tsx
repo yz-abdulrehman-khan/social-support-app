@@ -1,10 +1,9 @@
 import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from 'react';
 import { IntlProvider } from 'react-intl';
 import { flattenMessages } from '@/lib/i18n';
+import { LANGUAGES, SUPPORTED_LANGUAGES, type Language } from '@/features/application-form/types';
 import enMessages from '@/locales/en.json';
 import arMessages from '@/locales/ar.json';
-
-type Language = 'en' | 'ar';
 
 interface LanguageContextValue {
   language: Language;
@@ -13,8 +12,7 @@ interface LanguageContextValue {
 }
 
 const STORAGE_KEY = 'app-language';
-const DEFAULT_LANGUAGE: Language = 'en';
-const SUPPORTED_LANGUAGES: Language[] = ['en', 'ar'];
+const DEFAULT_LANGUAGE: Language = LANGUAGES.EN;
 
 const LanguageContext = createContext<LanguageContextValue | undefined>(undefined);
 
@@ -49,7 +47,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, language);
     document.documentElement.lang = language;
-    document.documentElement.dir = language === 'ar' ? 'rtl' : 'ltr';
+    document.documentElement.dir = language === LANGUAGES.AR ? 'rtl' : 'ltr';
   }, [language]);
 
   const setLanguage = useCallback((lang: Language) => {
@@ -59,7 +57,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const toggleLanguage = useCallback(() => {
-    setLanguageState((prev) => (prev === 'en' ? 'ar' : 'en'));
+    setLanguageState((prev) => (prev === LANGUAGES.EN ? LANGUAGES.AR : LANGUAGES.EN));
   }, []);
 
   return (

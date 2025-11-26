@@ -15,6 +15,7 @@ import { AIService } from '@/services/aiService';
 import { useLanguage } from '@/app/providers';
 import { useRTL } from '@/hooks/useRTL';
 import { GCC_COUNTRY_CODES, GENDER_OPTIONS, getCountryConfig, getCitiesForRegion } from '@/config/formData';
+import { LANGUAGES } from '@/features/application-form/types';
 import { VALIDATION_CONSTRAINTS } from '@/config/validation';
 
 interface StepOneProps {
@@ -201,7 +202,7 @@ export function StepOne({ stepNumber }: StepOneProps) {
                       field.onBlur();
                       handleEnglishBlur();
                     }}
-                    disabled={isTranslating || language === 'ar'}
+                    disabled={isTranslating || language === LANGUAGES.AR}
                   />
                 </FormControl>
                 {isTranslatingEnglish && (
@@ -233,7 +234,7 @@ export function StepOne({ stepNumber }: StepOneProps) {
                       field.onBlur();
                       handleArabicBlur();
                     }}
-                    disabled={isTranslating || language === 'en'}
+                    disabled={isTranslating || language === LANGUAGES.EN}
                   />
                 </FormControl>
                 {isTranslatingArabic && (
@@ -360,7 +361,7 @@ export function StepOne({ stepNumber }: StepOneProps) {
                     onBlur={field.onBlur}
                     className="w-full"
                     language={language}
-                    placeholder={language === 'ar' ? 'اختر تاريخ الميلاد' : 'Select date of birth'}
+                    placeholder={language === LANGUAGES.AR ? 'اختر تاريخ الميلاد' : 'Select date of birth'}
                     hasError={!!fieldState.error}
                   />
                   <FormMessage />

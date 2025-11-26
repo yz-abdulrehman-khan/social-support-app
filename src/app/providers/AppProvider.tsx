@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
-import type { ApplicationData, AppState } from '@/features/application-form/types';
+import { APP_STATES, type ApplicationData, type AppState } from '@/features/application-form/types';
 import { UI_CONSTANTS, STORAGE_KEYS, DEFAULT_VALUES } from '@/config/constants';
 import { removeSecureItem, clearSecureStorage, getSecureItem } from '@/lib/secureStorage';
 
@@ -41,7 +41,7 @@ const initialApplicationData: ApplicationData = {
 };
 
 export function AppProvider({ children }: { children: ReactNode }) {
-  const [appState, setAppState] = useState<AppState>('landing');
+  const [appState, setAppState] = useState<AppState>(APP_STATES.LANDING);
   const [applicationData, setApplicationData] = useState<ApplicationData>(initialApplicationData);
   const [referenceNumber, setReferenceNumber] = useState('');
   const [hasSavedApplication, setHasSavedApplication] = useState(false);
@@ -60,14 +60,14 @@ export function AppProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const startApplication = () => {
-    setAppState('form');
+    setAppState(APP_STATES.FORM);
   };
 
   const submitApplication = (data: ApplicationData) => {
     setApplicationData(data);
     const refNumber = `${UI_CONSTANTS.REFERENCE_NUMBER_PREFIX}${Date.now().toString().slice(UI_CONSTANTS.REFERENCE_NUMBER_TIMESTAMP_SLICE)}`;
     setReferenceNumber(refNumber);
-    setAppState('success');
+    setAppState(APP_STATES.SUCCESS);
   };
 
   const startNewApplication = () => {
@@ -75,7 +75,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setApplicationData(initialApplicationData);
     setReferenceNumber('');
     setHasSavedApplication(false);
-    setAppState('landing');
+    setAppState(APP_STATES.LANDING);
   };
 
   const navigateToLanding = async () => {
@@ -86,14 +86,14 @@ export function AppProvider({ children }: { children: ReactNode }) {
     } catch {
       setHasSavedApplication(false);
     }
-    setAppState('landing');
+    setAppState(APP_STATES.LANDING);
   };
 
   const cancelApplication = () => {
     removeSecureItem(STORAGE_KEYS.FINANCIAL_ASSISTANCE_APPLICATION);
     setApplicationData(initialApplicationData);
     setHasSavedApplication(false);
-    setAppState('landing');
+    setAppState(APP_STATES.LANDING);
   };
 
   return (

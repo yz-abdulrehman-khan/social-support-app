@@ -1,5 +1,6 @@
 import { lazy, Suspense } from 'react';
 import { useApp } from '../providers/AppProvider';
+import { APP_STATES } from '@/features/application-form/types';
 
 const LandingPage = lazy(() => import('@/features/landing').then(m => ({ default: m.LandingPage })));
 const FormWizard = lazy(() => import('@/features/application-form/components').then(m => ({ default: m.FormWizard })));
@@ -27,7 +28,7 @@ export function AppRouter() {
 
   const renderRoute = () => {
     switch (appState) {
-      case 'landing':
+      case APP_STATES.LANDING:
         return (
           <LandingPage
             onStartApplication={startApplication}
@@ -35,7 +36,7 @@ export function AppRouter() {
           />
         );
 
-      case 'form':
+      case APP_STATES.FORM:
         return (
           <FormWizard
             initialData={applicationData}
@@ -44,7 +45,7 @@ export function AppRouter() {
           />
         );
 
-      case 'success':
+      case APP_STATES.SUCCESS:
         return (
           <SuccessConfirmation
             referenceNumber={referenceNumber}

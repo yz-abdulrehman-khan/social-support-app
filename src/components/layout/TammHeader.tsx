@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/app/providers';
 import { useRTL } from '@/hooks/useRTL';
+import { LANGUAGES } from '@/features/application-form/types';
 
 export function TammHeader() {
   const { language, toggleLanguage } = useLanguage();
@@ -34,7 +35,7 @@ export function TammHeader() {
               onClick={toggleLanguage}
               className="language-switcher text-gray-700 font-medium hover:text-accent transition-colors"
             >
-              {language === 'en' ? (
+              {language === LANGUAGES.EN ? (
                 <span className="text-lg">العربية</span>
               ) : (
                 <span className="text-sm">English</span>

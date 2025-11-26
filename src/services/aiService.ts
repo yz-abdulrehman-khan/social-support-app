@@ -4,9 +4,10 @@ import {
   translateToEnglish as apiTranslateToEnglish,
   APIError,
 } from './apiClient';
+import { LANGUAGES, type Language } from '@/features/application-form/types';
 
 export class AIService {
-  static async rephraseText(text: string, language: 'en' | 'ar' = 'en'): Promise<string> {
+  static async rephraseText(text: string, language: Language = LANGUAGES.EN): Promise<string> {
     if (!text || text.trim().length === 0) {
       return '';
     }

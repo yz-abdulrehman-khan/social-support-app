@@ -1,3 +1,5 @@
+import { LANGUAGES, type Language } from '@/features/application-form/types';
+
 /**
  * Convert Western numerals (0-9) to Arabic-Indic numerals (٠-٩)
  */
@@ -12,7 +14,7 @@ export const toArabicNumerals = (str: string): string => {
  */
 export const formatNumericValue = (
   value: string | number,
-  language: 'en' | 'ar',
+  language: Language,
   options?: Intl.NumberFormatOptions
 ): string => {
   // Parse the value to a number
@@ -24,7 +26,7 @@ export const formatNumericValue = (
   }
 
   // Use appropriate locale
-  const locale = language === 'ar' ? 'ar-AE' : 'en-US';
+  const locale = language === LANGUAGES.AR ? 'ar-AE' : 'en-US';
 
   // Format using Intl.NumberFormat
   return new Intl.NumberFormat(locale, {

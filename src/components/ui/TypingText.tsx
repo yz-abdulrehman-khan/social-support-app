@@ -55,10 +55,10 @@ export function TypingText({
     onComplete?.();
   }, [isTyping, displayedText, text, charDelay, isComplete, onComplete]);
 
-  // Cursor blinking - stops when complete
+  // Cursor blinking - continues even after typing completes
   useEffect(() => {
-    if (!showCursor || isComplete) {
-      setCursorVisible(true);
+    if (!showCursor) {
+      setCursorVisible(false);
       return;
     }
 
@@ -67,7 +67,7 @@ export function TypingText({
     }, 530);
 
     return () => clearInterval(blinkInterval);
-  }, [showCursor, isComplete]);
+  }, [showCursor]);
 
   return (
     <span className={className}>

@@ -1,4 +1,5 @@
 import axios, { AxiosError, type AxiosRequestConfig } from 'axios';
+import { LANGUAGES, type Language } from '@/features/application-form/types';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 
@@ -92,7 +93,7 @@ interface TranslateResponse {
 
 export async function rephraseText(
   text: string,
-  language: 'en' | 'ar' = 'en'
+  language: Language = LANGUAGES.EN
 ): Promise<string> {
   if (!text || text.trim().length === 0) {
     return '';

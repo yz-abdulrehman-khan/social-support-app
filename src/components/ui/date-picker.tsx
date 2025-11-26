@@ -5,8 +5,9 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { cn } from '@/lib/utils';
 import { toArabicNumerals } from '@/lib/i18n';
 import { useRTL } from '@/hooks/useRTL';
+import { LANGUAGES, type Language } from '@/features/application-form/types';
 
-registerLocale('ar', arSA);
+registerLocale(LANGUAGES.AR, arSA);
 
 interface DatePickerProps {
   id?: string;
@@ -14,13 +15,13 @@ interface DatePickerProps {
   onChange: (date: string) => void;
   onBlur?: () => void;
   className?: string;
-  language?: 'en' | 'ar';
+  language?: Language;
   placeholder?: string;
   hasError?: boolean;
 }
 
 const CustomInput = forwardRef<HTMLInputElement, any>(({ value, onClick, placeholder, className, language, hasError }, ref) => {
-  const displayValue = language === 'ar' && value ? toArabicNumerals(value) : value;
+  const displayValue = language === LANGUAGES.AR && value ? toArabicNumerals(value) : value;
 
   return (
     <input
@@ -45,7 +46,7 @@ const CustomInput = forwardRef<HTMLInputElement, any>(({ value, onClick, placeho
 
 CustomInput.displayName = 'CustomInput';
 
-export function DatePicker({ id, value, onChange, onBlur, className, language = 'en', placeholder, hasError }: DatePickerProps) {
+export function DatePicker({ id, value, onChange, onBlur, className, language = LANGUAGES.EN, placeholder, hasError }: DatePickerProps) {
   const { isRTL } = useRTL();
   const dateValue = value ? new Date(value) : null;
 
@@ -67,7 +68,7 @@ export function DatePicker({ id, value, onChange, onBlur, className, language = 
   };
 
   const renderDayContents = (day: number) => {
-    return <span>{language === 'ar' ? toArabicNumerals(String(day)) : day}</span>;
+    return <span>{language === LANGUAGES.AR ? toArabicNumerals(String(day)) : day}</span>;
   };
 
   const renderCustomHeader = ({
@@ -79,7 +80,7 @@ export function DatePicker({ id, value, onChange, onBlur, className, language = 
     prevMonthButtonDisabled,
     nextMonthButtonDisabled,
   }: any) => {
-    const months = language === 'ar'
+    const months = language === LANGUAGES.AR
       ? ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر']
       : ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
@@ -118,7 +119,7 @@ export function DatePicker({ id, value, onChange, onBlur, className, language = 
           >
             {years.map((year) => (
               <option key={year} value={year}>
-                {language === 'ar' ? toArabicNumerals(String(year)) : year}
+                {language === LANGUAGES.AR ? toArabicNumerals(String(year)) : year}
               </option>
             ))}
           </select>

@@ -14,19 +14,20 @@ import { useIntl } from 'react-intl';
 import { AIService } from '@/services/aiService';
 import { UI_CONSTANTS } from '@/config/constants';
 import { useRTL } from '@/hooks/useRTL';
+import { LANGUAGES, type Language } from '@/features/application-form/types';
 
 interface AIWritingAssistantProps {
   open: boolean;
   onClose: () => void;
   onAccept: (text: string) => void;
-  language?: 'en' | 'ar';
+  language?: Language;
 }
 
 export function AIWritingAssistant({
   open,
   onClose,
   onAccept,
-  language = 'en',
+  language = LANGUAGES.EN,
 }: AIWritingAssistantProps) {
   const intl = useIntl();
   const { isRTL, dir } = useRTL();
