@@ -42,16 +42,25 @@ A web application where people can apply for financial assistance. It has a 4-st
 # Install stuff
 npm install
 
+AND
+
 # Create env files
 cp .env.example .env
 cp .env.server.example .env.server
 # Add your OpenAI API key to .env.server
+
+AND
 
 # Start the backend (runs on port 3001)
 npm run dev:server
 
 # Start the frontend (runs on port 3000)
 npm run dev
+
+OR 
+
+# Start both the frontend and backend simultaneously
+npm run dev:all
 ```
 
 Open http://localhost:3000 and you're good to go.
