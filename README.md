@@ -86,7 +86,7 @@ FRONTEND_URL=http://localhost:3000
 
 ```mermaid
 flowchart TB
-    subgraph Client["Frontend (React + Vite + TypeScript)"]
+    subgraph Client["Frontend"]
         direction LR
         Landing[Landing Page] --> Form[Form Wizard]
         Form --> Success[Success Page]
