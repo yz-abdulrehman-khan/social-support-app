@@ -123,38 +123,38 @@ flowchart TB
 ```
 src/
 ├── app/
-│   ├── providers/          # App state & language context
-│   │   ├── AppProvider     # Navigation state, form data, app lifecycle
-│   │   └── LanguageProvider# i18n context, RTL, locale switching
-│   └── router/             # State-based routing (no react-router)
+│   ├── providers/            # App state & language context
+│   │   ├── AppProvider       # Navigation state, form data, app lifecycle
+│   │   └── LanguageProvider  # i18n context, RTL, locale switching
+│   └── router/               # State-based routing (no react-router)
 │
-├── features/               # Feature-based vertical slices
-│   ├── landing/            # Landing page with hero, features, CTA
-│   ├── application-form/   # Multi-step form wizard
-│   │   ├── components/     # FormWizard, Steps 1-4
-│   │   ├── hooks/          # useFormWizard (validation, persistence)
-│   │   ├── validation/     # Zod schemas
-│   │   └── types/          # TypeScript types
-│   └── success/            # Success confirmation page
+├── features/                 # Feature-based vertical slices
+│   ├── landing/              # Landing page with hero, features, CTA
+│   ├── application-form/     # Multi-step form wizard
+│   │   ├── components/       # FormWizard, Steps 1-4
+│   │   ├── hooks/            # useFormWizard (validation, persistence)
+│   │   ├── validation/       # Zod schemas
+│   │   └── types/            # TypeScript types
+│   └── success/              # Success confirmation page
 │
 ├── components/
-│   ├── ui/                 # Reusable UI (Button, Input, Select, etc.)
-│   ├── layout/             # Header, Footer
-│   ├── modals/             # AIWritingAssistant
-│   └── error/              # Error fallbacks
+│   ├── ui/                   # Reusable UI (Button, Input, Select, etc.)
+│   ├── layout/               # Header, Footer
+│   ├── modals/               # AIWritingAssistant
+│   └── error/                # Error fallbacks
 │
-├── hooks/                  # Custom hooks (useRTL)
-├── lib/                    # Utilities (i18n, storage, utils)
-├── services/               # API client, AI service
-├── config/                 # Constants, validation, form data
-└── locales/                # en.json, ar.json (287 keys each)
+├── hooks/                    # Custom hooks (useRTL)
+├── lib/                      # Utilities (i18n, storage, utils)
+├── services/                 # API client, AI service
+├── config/                   # Constants, validation, form data
+└── locales/                  # en.json, ar.json (287 keys each)
 
 server/
-├── index.ts                # Express server entry
-├── routes/ai.ts            # AI API routes
-├── controllers/            # Request handlers
-├── middleware/             # Error handler, logger, validation
-└── validators/             # Zod schemas
+├── index.ts                  # Express server entry
+├── routes/ai.ts              # AI API routes
+├── controllers/              # Request handlers
+├── middleware/               # Error handler, logger, validation
+└── validators/               # Zod schemas
 ```
 
 ---
