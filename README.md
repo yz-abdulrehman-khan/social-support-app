@@ -101,7 +101,7 @@ flowchart TB
         i18n[(Locales<br/>EN / AR)]
     end
 
-    subgraph Server["Backend (Express)"]
+    subgraph Server["Backend"]
         Translate["api/ai/translate"]
         Rephrase["api/ai/rephrase"]
     end
