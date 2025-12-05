@@ -67,18 +67,16 @@ const FeatureCard = memo(function FeatureCard({
 // Memoized process step card component
 const ProcessStepCard = memo(function ProcessStepCard({
   step,
-  delay,
   isRTL,
   intl
 }: {
   step: ProcessStep;
-  delay: string;
   isRTL: boolean;
   intl: IntlShape;
 }) {
   const stepNumber = isRTL ? toArabicNumerals(String(step.number)) : step.number;
   return (
-    <div className={`flex gap-4 items-start bg-white rounded-lg p-5 border border-border transition-all duration-200 hover:border-accent hover:shadow-sm animate-fade-in-up ${delay}`}>
+    <div className="flex gap-4 items-start bg-white rounded-lg p-5 border border-border transition-all duration-200 hover:border-accent hover:shadow-sm">
       <div className="w-10 h-10 bg-accent text-white rounded-full flex items-center justify-center shrink-0 font-semibold">
         {stepNumber}
       </div>
@@ -134,9 +132,9 @@ export function LandingPage({ onStartApplication, hasSavedApplication = false }:
             <img
               src="https://www.tamm.abudhabi/assets/ibAvatar-8f660b90.png"
               alt="TAMM Avatar"
-              className="mx-auto mb-4 w-12 h-12 lg:w-16 lg:h-16 animate-fade-in"
+              className="mx-auto mb-4 w-12 h-12 lg:w-16 lg:h-16"
             />
-            <h1 className="text-[20px] md:text-[26px] lg:text-[32px] xl:text-[44px] font-semibold text-white mb-3 md:mb-4 animate-fade-in-up">
+            <h1 className="text-[20px] md:text-[26px] lg:text-[32px] xl:text-[44px] font-semibold text-white mb-3 md:mb-4">
               {intl.formatMessage({ id: 'landing.hero.title' })}
             </h1>
             <p className="text-sm md:text-base lg:text-lg text-white/90 mb-5 md:mb-6 leading-relaxed">
@@ -187,18 +185,17 @@ export function LandingPage({ onStartApplication, hasSavedApplication = false }:
           </div>
 
           <div className="space-y-4">
-            {PROCESS_STEPS.map((step, index) => (
+            {PROCESS_STEPS.map((step) => (
               <ProcessStepCard
                 key={step.number}
                 step={step}
-                delay={index === 0 ? '' : index === 1 ? 'animation-delay-100' : 'animation-delay-200'}
                 isRTL={isRTL}
                 intl={intl}
               />
             ))}
           </div>
 
-          <div className="mt-6 text-center animate-fade-in-up animation-delay-300">
+          <div className="mt-6 text-center">
             {renderCTAButton()}
           </div>
         </div>
@@ -207,7 +204,7 @@ export function LandingPage({ onStartApplication, hasSavedApplication = false }:
       {/* Support Section */}
       <section className="py-10 bg-white">
         <div className="container mx-auto px-6 max-w-4xl">
-          <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg p-5 border border-blue-100 animate-fade-in-up">
+          <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg p-5 border border-blue-100">
             <div className="text-center">
               <h2 className="text-base md:text-lg lg:text-xl font-semibold text-foreground mb-2 md:mb-3">
                 {intl.formatMessage({ id: 'landing.help.title' })}
